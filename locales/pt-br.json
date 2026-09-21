@@ -1,4 +1,24 @@
 {
+  "STMemoryBooks_Progress_Title": "Atualizações de progresso pendentes ({{count}})",
+  "STMemoryBooks_Progress_Blocked": "Aplique ou descarte a atualização de progresso pendente deste chat antes de criar outra memória.",
+  "STMemoryBooks_Progress_PersistenceError": "Memória salva, mas não foi possível salvar sua atualização de progresso pendente nas configurações. Tente novamente antes de recarregar a página ou a atualização poderá ser perdida.",
+  "STMemoryBooks_Progress_Deferred": "Memória salva. Reabra “{{chat}}” para concluir a atualização do marcador da última mensagem processada.",
+  "STMemoryBooks_Progress_Later": "Mais tarde",
+  "STMemoryBooks_Progress_Processing": "Processando…",
+  "STMemoryBooks_Progress_Done": "Concluído.",
+  "STMemoryBooks_Progress_SettingsSaved": "Atualizações pendentes salvas nas configurações. Abra o chat correspondente para concluir a atualização do marcador.",
+  "STMemoryBooks_Progress_CleanupError": "O chat foi atualizado, mas não foi possível salvar a remoção da atualização pendente. Tente novamente para concluir.",
+  "STMemoryBooks_Progress_Conflict": "O chat ou seu marcador da última mensagem processada mudou. Mantenha o marcador atual e descarte esta atualização pendente, ou escolha Mais tarde.",
+  "STMemoryBooks_Progress_RetryError": "A atualização continua pendente. Confira se este chat está carregado e sem processamento em andamento, depois tente novamente.",
+  "STMemoryBooks_Progress_Close": "Fechar",
+  "STMemoryBooks_Progress_Unknown": "Atualização pendente não reconhecida",
+  "STMemoryBooks_Progress_Range": "Última mensagem processada atual: {{current}}. Progresso pendente até: {{target}}.",
+  "STMemoryBooks_Progress_OpenChat": "Abra este chat manualmente para aplicar sua atualização pendente.",
+  "STMemoryBooks_Progress_OK": "OK",
+  "STMemoryBooks_Progress_Discard": "Descartar atualização pendente",
+  "STMemoryBooks_Progress_DiscardConfirm": "Manter o marcador atual da última mensagem processada e descartar esta atualização pendente? As memórias salvas no lorebook serão mantidas.",
+  "STMemoryBooks_Progress_Empty": "Não há atualizações de progresso pendentes.",
+  "STMemoryBooks_Progress_RetrySettings": "Tentar salvar atualizações pendentes novamente",
   "STMemoryBooks_SidePromptRegeneration_Button": "Regenerar Side Prompt",
   "STMemoryBooks_SidePromptRegeneration_InvalidSnapshot": "O snapshot salvo da execução do Side Prompt é inválido. Execute o Side Prompt novamente para substituí-lo.",
   "STMemoryBooks_SidePromptRegeneration_MissingSnapshot": "Execute este Side Prompt uma vez para habilitar a regeneração.",
@@ -110,6 +130,11 @@
   "STMemoryBooks_Compaction_SavePrompt": "Salvar Prompt",
   "STMemoryBooks_Compaction_SelectMemoryBook": "Selecione um Livro de Memória...",
   "STMemoryBooks_Compaction_MemoryBook": "Livro de Memória",
+  "STMemoryBooks_Consolidation_SourceMemoryBook": "Livro de Memória a consolidar",
+  "STMemoryBooks_Consolidation_SelectMemoryBook": "Selecione um Livro de Memória...",
+  "STMemoryBooks_Consolidation_SourceMemoryBookDesc": "Escolha o Livro de Memória cujas entradas elegíveis devem ser consolidadas. Esta escolha se aplica somente a esta execução.",
+  "STMemoryBooks_Consolidation_LoadingMemoryBook": "Carregando Livro de Memória...",
+  "STMemoryBooks_Consolidation_LoadFailed": "Não foi possível carregar o Livro de Memória \"{{name}}\".",
   "STMemoryBooks_Compaction_Profile": "Perfil de Compactação",
   "STMemoryBooks_Compaction_SelectProfile": "Selecione um perfil de Compactação...",
   "STMemoryBooks_Compaction_NoLorebooks": "Nenhum Livro de Memória foi encontrado.",
@@ -342,7 +367,7 @@
   "STMemoryBooks_Error_NoValidLorebookAvailable": "Nenhum lorebook válido disponível.",
   "STMemoryBooks_Clear": "Limpar",
   "STMemoryBooks_GroupCharacterLorebooks": "Lorebooks dos Personagens do Grupo",
-  "STMemoryBooks_GroupCharacterLorebooksDesc": "Selecione um lorebook para cada membro do grupo. O mesmo lorebook de personagem pode ser selecionado mais de uma vez. As seleções adicionam filtros de fala do STLO; limpar uma seleção preserva o filtro do STLO.",
+  "STMemoryBooks_GroupCharacterLorebooksDesc": "Selecione um lorebook para cada membro do grupo. O mesmo lorebook de personagem pode ser selecionado mais de uma vez. Se o STLO estiver disponível, lorebooks de personagem separados também recebem filtros de fala; limpar uma seleção preserva qualquer filtro existente do STLO.",
   "STMemoryBooks_GroupCharacterLorebooksRequiresSTLO": "A designação individual de lorebooks exige o SillyTavern-LorebookOrdering.",
   "STMemoryBooks_GroupLorebooksNoMembers": "Nenhum membro do grupo está disponível para configurar lorebooks manualmente.",
   "STMemoryBooks_GroupManualLorebooksIncomplete": "Os lorebooks manuais do grupo estão incompletos: {{details}}",
@@ -444,7 +469,7 @@
   "STMemoryBooks_TitleFormat": "Formato do Título da Memória:",
   "STMemoryBooks_CustomTitleFormat": "Formato de Título Personalizado...",
   "STMemoryBooks_EnterCustomFormat": "Digite o formato personalizado",
-  "STMemoryBooks_TitleFormatDesc": "Use [0], [00] ou [000] para numeração automática. Disponíveis: {{title}}, {{scene}}, {{char}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
+  "STMemoryBooks_TitleFormatDesc": "Use [0], [00] ou [000] para numeração automática. Disponíveis: {{title}}, {{scene}}, {{char}}, {{groupname}}, {{present}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
   "STMemoryBooks_Profiles": "Perfis de Memória:",
   "STMemoryBooks_Profile_CurrentST": "Configurações Atuais do SillyTavern",
   "STMemoryBooks_Default": "(Padrão)",
@@ -803,6 +828,7 @@
   "STMemoryBooks_InsertionOrder": "Ordem de Inserção:",
   "STMemoryBooks_AutoOrder": "Automática (usa o nº da memória)",
   "STMemoryBooks_ReverseOrder": "Inversa (use somente com Outlets)",
+  "STMemoryBooks_Reverse": "Inversa",
   "STMemoryBooks_ManualOrder": "Manual",
   "STMemoryBooks_RecursionSettings": "Configurações de Recursão:",
   "STMemoryBooks_PreventRecursion": "Impedir Recursão",
@@ -1090,6 +1116,7 @@
   "autosummary.log.sinceLast": "STMemoryBooks: mensagens desde a última memória ({{highestProcessed}}): {{count}}",
   "autosummary.log.triggerCheck": "STMemoryBooks: verificação do gatilho do resumo automático: {{count}} >= {{required}}?",
   "autosummary.log.notTriggered": "STMemoryBooks: resumo automático não acionado — faltam {{needed}} mensagens",
+  "autosummary.log.notTriggeredTokens": "STMemoryBooks: resumo automático não acionado — faltam {{needed}} tokens",
   "autosummary.log.postponedUntil": "STMemoryBooks: resumo automático adiado até a mensagem {{until}}",
   "autosummary.log.blocked": "STMemoryBooks: resumo automático bloqueado — falha na validação do lorebook: {{error}}",
   "autosummary.log.clearedPostpone": "STMemoryBooks: sinalizador de adiamento do resumo automático limpo",
@@ -1429,4 +1456,40 @@
   ,"STMemoryBooks_TopicalClip_MessageCompileFailed": "Falha ao compilar as mensagens selecionadas."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 atualização de Clip Temático aguarda aprovação."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} atualizações de Clips Temáticos aguardam aprovação."
+  ,"STMemoryBooks_AutoRollbackEnabled": "Reversão automática após excluir mensagens"
+  ,"STMemoryBooks_AutoRollbackDesc": "Quando mensagens excluídas invalidarem Memórias já processadas, aplique as ações de reversão selecionadas. A exclusão de Memórias ou consolidações é irreversível."
+  ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "Atualizar o ID da última mensagem processada"
+  ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "Excluir a última Memória"
+  ,"STMemoryBooks_AutoRollbackRestoreSidePrompts": "Restaurar Side Prompts anteriores"
+  ,"STMemoryBooks_AutoRollbackSidePromptLimit": "Os Side Prompts só podem ser revertidos uma vez, para o estado exato salvo mais recente. Camadas de reversão anteriores não são mantidas."
+  ,"STMemoryBooks_AutoRollback_LoadFailed": "A reversão de Memória não conseguiu carregar com segurança o Memory Book {{name}}. Repare ou remova o livro indisponível e tente novamente."
+  ,"STMemoryBooks_AutoRollback_ScopeTitle": "Escolher o escopo da reversão de Memória"
+  ,"STMemoryBooks_AutoRollback_ScopeBody": "Excluir {{count}} mensagem(ns) do meio do chat afeta {{memories}} entrada(s) de Memória."
+  ,"STMemoryBooks_AutoRollback_Full": "Reversão completa"
+  ,"STMemoryBooks_AutoRollback_FullDesc": "Excluir as Memórias afetadas e todas as mais recentes."
+  ,"STMemoryBooks_AutoRollback_Affected": "Somente afetadas"
+  ,"STMemoryBooks_AutoRollback_AffectedDesc": "Excluir somente as Memórias sobrepostas e deslocar os intervalos mais recentes. Isso deixa uma lacuna permanente na Memória."
+  ,"STMemoryBooks_AutoRollback_Tier": "nível {{tier}}"
+  ,"STMemoryBooks_AutoRollback_ConsolidationTitle": "Excluir consolidações dependentes?"
+  ,"STMemoryBooks_AutoRollback_ConsolidationBody": "A reversão exige excluir as consolidações a seguir e reativar suas fontes diretas existentes. A exclusão de Memórias é irreversível."
+  ,"STMemoryBooks_AutoRollback_ConfirmDelete": "Excluir e reverter"
+  ,"STMemoryBooks_AutoRollback_Conflict": "O Memory Book {{name}} mudou enquanto a reversão era preparada. Nenhuma outra alteração foi feita."
+  ,"STMemoryBooks_AutoRollback_CompensationFailed": "A recuperação da reversão também falhou para: {{books}}. Restaure esses Memory Books de um backup antes de continuar."
+  ,"STMemoryBooks_AutoRollback_Ambiguous": "A reversão encontrou Memórias sem metadados suficientes de chat/intervalo: {{entries}}. Repare os metadados STMB_chatId, STMB_start e STMB_end antes de tentar novamente."
+  ,"STMemoryBooks_AutoRollback_LinkedIncomplete": "A reversão encontrou cópias de Memória vinculadas incompletas: {{details}}. Repare os metadados canônicos/de vínculo antes de tentar novamente."
+  ,"STMemoryBooks_AutoRollback_NoMemories": "Nenhuma entrada exata de Memória foi encontrada para o intervalo processado. Repare metadados antigos ou ausentes de Memória antes de tentar novamente."
+  ,"STMemoryBooks_AutoRollback_ConsolidationIncomplete": "A reversão encontrou dependências de consolidação incompletas: {{details}}. Repare-as antes de tentar novamente."
+  ,"STMemoryBooks_AutoRollback_LegacySidePrompts": "Snapshots antigos de Side Prompt não podem ser revertidos e foram ignorados."
+  ,"STMemoryBooks_AutoRollback_ChangedSidePrompts": "Alguns Side Prompts mudaram depois da criação da Memória e foram mantidos inalterados."
+  ,"STMemoryBooks_AutoRollback_MultipleSidePrompts": "Somente o estado anterior disponível mais recente foi restaurado para cada Side Prompt; informações revertidas mais antigas podem permanecer."
+  ,"STMemoryBooks_AutoRollback_Complete": "Reversão de Memória concluída para {{count}} entrada(s) de Memória."
+  ,"STMemoryBooks_AutoRollback_Failed": "Falha na reversão de Memória"
+  ,"STMemoryBooks_Toast_SceneMarkerCleared": "Marcador de cena apagado devido à exclusão de mensagens."
+  ,"STMemoryBooks_GroupChatSettings": "Chat em Grupo"
+  ,"STMemoryBooks_CharacterAwareMemories": "Memórias por personagem"
+  ,"STMemoryBooks_CharacterAwareMemoriesTooltip": "Filtra as memórias do chat em grupo pelos personagens participantes. Quando desmarcado, usa o processamento comum em um único Livro de Memória, sem filtros de personagem, seleção de participantes, cópias por personagem ou prompts separados de grupo/personagem. As entradas existentes mantêm seus filtros até serem reescritas."
+  ,"STMemoryBooks_SeparateGroupSidePrompts": "Usar prompts laterais de grupo separados"
+  ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "Usa o padrão de prompts laterais de grupo nas execuções automáticas. Quando desmarcado, herda o padrão de chats individuais. Seleções explícitas por chat continuam valendo. Independente das memórias por personagem."
+  ,"STMemoryBooks_CharacterAwareDisabled": "Desativado e não aplicado porque “Memórias por personagem” está desmarcado nas Configurações Gerais."
+  ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "Desativado e não aplicado porque “Usar prompts laterais de grupo separados” está desmarcado nas Configurações Gerais."
 }

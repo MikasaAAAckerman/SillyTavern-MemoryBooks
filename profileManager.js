@@ -9,6 +9,7 @@ import {
     validateProfile,
     generateSafeProfileName,
     getCurrentApiInfo,
+    getCurrentMemoryBooksContext,
     createProfileObject,
     clampInt,
     readIntInput,
@@ -25,6 +26,7 @@ import { getPresetManager } from '../../../preset-manager.js';
 import { loadWorldInfo, world_names } from '../../../world-info.js';
 import { escapeHtml, getSortableDelay } from '../../../utils.js';
 import { listCustomConnectionProfiles } from './customConnectionProfiles.js';
+import { setGroupSettingDisabled } from './groupChatSettingsUi.js';
 
 const MODULE_NAME = 'STMemoryBooks-ProfileManager';
 const BUILTIN_CURRENT_ST_NAME = 'Current SillyTavern Settings';
@@ -268,7 +270,7 @@ const profileEditTemplate = Handlebars.compile(`
 
     <div class="world_entry_form_control marginTop5">
         <h4 data-i18n="STMemoryBooks_TitleFormat">Memory Title Format:</h4>
-        <small class="opacity50p" data-i18n="STMemoryBooks_TitleFormatDesc">Use [0], [00], etc. for numbering. Available tags: \{{title}}, \{{scene}}, \{{char}}, \{{user}}, \{{messages}}, \{{profile}}, \{{date}}, \{{time}}</small>
+        <small class="opacity50p" data-i18n="STMemoryBooks_TitleFormatDesc">Use [0], [00], etc. for numbering. Available tags: \{{title}}, \{{scene}}, \{{char}}, \{{groupname}}, \{{present}}, \{{user}}, \{{messages}}, \{{profile}}, \{{date}}, \{{time}}</small>
         <select id="stmb-profile-title-format-select" class="text_pole">
             {{#each titleFormats}}
             <option value="{{value}}" {{#if isSelected}}selected{{/if}}>{{value}}</option>
@@ -1001,8 +1003,16 @@ function setupProfileEditEventHandlers(popupInstance, settings, options = {}) {
     }
 
     function syncGroupSpecificPromptFields() {
+        const disabled = extension_settings?.STMemoryBooks?.moduleSettings?.characterAwareMemories === false
+            && !getCurrentMemoryBooksContext().isNarratorMode;
         const enabled = !!popupElement.querySelector('#stmb-profile-use-group-specific-prompts')?.checked;
-        popupElement.querySelector('#stmb-profile-group-specific-prompts')?.classList.toggle('displayNone', !enabled);
+        const fields = popupElement.querySelector('#stmb-profile-group-specific-prompts');
+        fields?.classList.toggle('displayNone', !enabled && !disabled);
+        const reason = translate("Disabled and not applied because ‘character-aware memories’ is unchecked in General Settings.", 'STMemoryBooks_CharacterAwareDisabled');
+        setGroupSettingDisabled(popupElement.querySelector('#stmb-profile-use-group-specific-prompts')?.closest('label'), disabled, reason);
+        for (const label of fields?.querySelectorAll('label') || []) {
+            setGroupSettingDisabled(label, disabled, reason);
+        }
     }
 
     async function refreshSummaryPresetSelects(showToast = false) {

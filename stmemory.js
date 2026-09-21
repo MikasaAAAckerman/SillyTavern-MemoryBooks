@@ -10,6 +10,7 @@ import { groups } from '../../../group-chats.js';
 import { extension_settings, getContext } from '../../../extensions.js';
 import { translate } from '../../../i18n.js';
 import dirtyJson from 'dirty-json';
+import { applyGroupMemoryPolicy, getGroupMemoryProfile } from './groupChatPolicy.js';
 import { getSceneMarkers } from './sceneManager.js';
 import {
     CONTEXT_NONE_KEY,
@@ -1133,7 +1134,7 @@ function shouldFallbackFromStructuredOutput(error) {
         || combinedText.includes('structured output');
 }
 
-function assertProviderDidNotTruncate(providerResponse, rawText) {
+export function assertProviderDidNotTruncate(providerResponse, rawText) {
     const finishReason = providerResponse?.choices?.[0]?.finish_reason || providerResponse?.finish_reason || providerResponse?.stop_reason;
     const fr = typeof finishReason === 'string' ? finishReason.toLowerCase() : '';
     if (fr.includes('length') || fr.includes('max')) {
@@ -1285,6 +1286,8 @@ async function generateMemoryWithAI(promptString, profile, options = {}) {
  * @throws {Error} For other general failures
  */
 export async function createMemory(compiledScene, profile, options = {}) {
+    if (compiledScene?.metadata) applyGroupMemoryPolicy(compiledScene, {}, compiledScene.metadata);
+    profile = getGroupMemoryProfile(profile, {}, compiledScene?.metadata);
     
     try {
         validateInputs(compiledScene, profile);
@@ -1308,10 +1311,15 @@ export async function createMemory(compiledScene, profile, options = {}) {
                 sceneRange: `${compiledScene.metadata.sceneStart}-${compiledScene.metadata.sceneEnd}`,
                 messageCount: compiledScene.metadata.messageCount,
                 characterName: compiledScene.metadata.characterName,
+                groupName: compiledScene.metadata.groupName,
                 userName: compiledScene.metadata.userName,
                 chatId: compiledScene.metadata.chatId,
+                groupChatPolicy: compiledScene.metadata.groupChatPolicy,
                 characterFilterNames: Array.isArray(compiledScene.metadata.characterFilterNames)
                     ? [...compiledScene.metadata.characterFilterNames]
+                    : undefined,
+                presentCharacterNames: Array.isArray(compiledScene.metadata.presentCharacterNames)
+                    ? [...compiledScene.metadata.presentCharacterNames]
                     : undefined,
                 narratorParticipantIds: Array.isArray(compiledScene.metadata.narratorParticipantIds)
                     ? [...compiledScene.metadata.narratorParticipantIds]
@@ -1589,7 +1597,7 @@ async function buildPrompt(compiledScene, profile) {
     
     // Use utils.js to get the effective prompt (now designed for JSON output)
     const promptProfile = {
-        ...(profile || {}),
+        ...getGroupMemoryProfile(profile || {}, {}, metadata),
         stmbPromptTarget: metadata?.stmbPromptTarget || profile?.stmbPromptTarget || '',
     };
     const systemPrompt = await getEffectivePrompt(promptProfile);

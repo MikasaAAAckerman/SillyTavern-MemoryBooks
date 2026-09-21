@@ -104,6 +104,32 @@ export function setNarratorActiveCast(config, memberIds) {
     return true;
 }
 
+export function setNarratorMemberLorebook(config, memberId, lorebookName) {
+    const id = cleanString(memberId);
+    const book = cleanString(lorebookName);
+    if (!id || !book) return false;
+
+    const member = (config?.members || []).find(item => item?.id === id);
+    if (!member || member.lorebookName === book) return false;
+
+    member.lorebookName = book;
+    return true;
+}
+
+export function setNarratorMemberName(config, memberId, name) {
+    const id = cleanString(memberId);
+    const nextName = cleanString(name);
+    if (!id || !nextName) return false;
+
+    const members = config?.members || [];
+    const member = members.find(item => item?.id === id);
+    if (!member || member.name === nextName) return false;
+    if (members.some(item => item?.id !== id && cleanString(item?.name).localeCompare(nextName, undefined, { sensitivity: 'base' }) === 0)) return false;
+
+    member.name = nextName;
+    return true;
+}
+
 export function validateNarratorBindings(config, canonicalLorebookName, availableLorebooks = []) {
     const canonical = cleanString(canonicalLorebookName);
     const available = new Set((availableLorebooks || []).map(cleanString).filter(Boolean));
@@ -168,6 +194,15 @@ export function getNarratorSceneParticipants(messages) {
     const continuityMessages = hasUntaggedMessages ? source : authoritative;
     const memberIds = uniqueStrings(continuityMessages.flatMap(getNarratorCastFromMessage));
     return { memberIds, hasUntaggedMessages };
+}
+
+export function getNarratorParticipantNames(config, participantIds) {
+    const membersById = new Map(
+        (Array.isArray(config?.members) ? config.members : []).map(member => [member?.id, member]),
+    );
+    return uniqueStrings(participantIds)
+        .map(id => cleanString(membersById.get(id)?.name))
+        .filter(Boolean);
 }
 
 export function buildNarratorCopyTargets(config, participantIds) {

@@ -7,6 +7,44 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ← [Back to README](readme.md)
 
+## v9.2.3 (September 16, 2026)
+- Fix Topical Clip keyword fill.
+
+## v9.2.2 (September 16, 2026)
+- Automatic summary settings move to correct tab.
+
+## v9.2.1 (September 15, 2026)
+- Pending queue popup bugfix.
+
+## v9.2.0 (September 14, 2026)
+- Add automatic summaries by tokens. 
+
+## v9.1.0 (September 14, 2026)
+- Add ability to disable character-aware memories and side prompts.
+- Add Topical Clips position/order overrides.
+
+## v9.0.3 (September 13, 2026)
+- Slight rewrite to stale-chat handling.
+
+## v9.0.2 (September 3, 2026)
+- Fix formatting.
+
+## v9.0.1 (September 3, 2026)
+- Fix narrator mode lorebook edit bug.
+
+## v9.0.0 (August 29, 2026)
+- **Breaking:** Added opt-in Memory Auto-Rollback for deleted or truncated messages, covering checkpoints, Memories and consolidations, linked copies, and Side Prompts. Side Prompt rollback snapshots now use v2; legacy snapshots remain regeneration-only.
+- Tweak: Non-narrator group chats now allow reselecting a lorebook for character use.
+
+## v8.6.10 (August 27, 2026)
+- Add {{groupname}} and {{present}} title macros.
+
+## v8.6.9 (August 26, 2026)
+- Truncation guard for side prompts.
+
+## v8.6.8 (August 25, 2026)
+- Consolidation UI lorebook info display/enhancements
+
 ## v8.6.7 (August 24, 2026)
 - change auto-summary minimum interval to 5.
 

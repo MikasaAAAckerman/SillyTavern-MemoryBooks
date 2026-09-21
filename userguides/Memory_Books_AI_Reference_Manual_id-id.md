@@ -35,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 - [20. Context untuk Generasi](#20-context-untuk-generasi)
 - [21. Arsitektur Prompt, Summary Prompt Bawaan, dan Aturan Penulisan](#21-arsitektur-prompt-summary-prompt-bawaan-dan-aturan-penulisan)
 - [22. Summary Prompt Manager dan Consolidation Prompt Manager](#22-summary-prompt-manager-dan-consolidation-prompt-manager)
-- [23. Integrasi Regex](#23-integrasi-regex)
+- [23. STMB dan Ekstensi Lain](#23-stmb-dan-ekstensi-lain)
 - [24. Judul Entri Lorebook dan Kebijakan Karakter](#24-judul-entri-lorebook-dan-kebijakan-karakter)
 - [25. Job Queue dan Kontrol Retry](#25-job-queue-dan-kontrol-retry)
 - [26. Umpan Balik Visual dan Aksesibilitas](#26-umpan-balik-visual-dan-aksesibilitas)
@@ -567,6 +567,8 @@ Hidden messages tetap berada di chat file. Mereka hanya dikeluarkan dari active 
 - Auto-hide only messages in the last Memory.
 
 **Messages to leave unhidden** mempertahankan sedikit overlap terbaru dekat boundary.
+
+> **Saat menggunakan ekstensi Presence:** Presence dapat menampilkan kembali pesan yang disembunyikan STMB karena kedua ekstensi mengubah status visibilitas pesan bersama milik SillyTavern. Lihat [STMB dan Ekstensi Lain](#23-stmb-dan-ekstensi-lain) untuk panduan konfigurasi.
 
 ### 9.3 Unhide sebelum generation
 
@@ -1375,16 +1377,18 @@ Side Prompt dapat mewarisi normal Memory Books connection resolution atau bind s
 
 ### 16.16 Side Prompt regeneration
 
-Compatible saves menyimpan compact snapshot berisi:
+Compatible saves kini menyimpan version-2 snapshot berisi:
 
 - Side Prompt template key;
-- prior entry content;
+- prior entry content untuk regeneration;
+- apakah entry sudah ada sebelum run dan exact prior entry state-nya, tanpa rollback snapshot yang lebih lama;
 - source chat dan inclusive range;
-- runtime macro values.
+- runtime macro values;
+- fingerprint dari exact entry state yang ditulis STMB.
 
 Untuk regenerate, buka lorebook editor dan klik **Regenerate side prompt**. Replacement memakai saved snapshot dengan current template dan current profile/context settings.
 
-Regeneration tidak dapat selesai jika template dihapus, source chat/range tidak tersedia, atau target/source berubah selama generation. Hanya content yang diganti; existing title, keywords, dan entry settings tetap.
+Regeneration tidak dapat selesai jika template dihapus, source chat/range tidak tersedia, atau target/source berubah selama generation. Hanya content yang diganti; existing title, keywords, dan entry settings tetap. Legacy version-1 snapshots masih mendukung regeneration, tetapi tidak dapat dipakai oleh Memory Auto-Rollback.
 
 ### 16.17 Menulis Side Prompt yang baik
 
@@ -1466,12 +1470,13 @@ Consolidated entries harus menekankan lasting changes, turning points, goals, co
 ### 17.3 Manual workflow
 
 1. Buka **Consolidate Memories**.
-2. Pilih target tier.
-3. Pilih eligible source entries.
-4. Pilih consolidation prompt/profile settings.
-5. Tentukan apakah source entries akan disabled setelah consolidation berhasil.
-6. Run dan review candidates.
-7. Approve summaries yang diinginkan.
+2. Konfirmasi Source Memory Book yang ditampilkan. Pilih book lain jika configured manual atau chat-bound book bukan consolidation source yang diinginkan. Pilihan ini hanya berlaku untuk current run dan tidak mengubah configured Memory Book chat.
+3. Pilih target tier.
+4. Pilih eligible source entries.
+5. Pilih consolidation prompt/profile settings.
+6. Tentukan apakah source entries akan disabled setelah consolidation berhasil.
+7. Run dan review candidates.
+8. Approve summaries yang diinginkan.
 
 ### 17.4 Readiness prompts bukan automatic consolidation
 
@@ -1851,7 +1856,25 @@ Built-in prompts dapat dibuat ulang dalam current app locale. Backup locally mod
 
 ---
 
-## 23. Integrasi Regex
+## 23. STMB dan Ekstensi Lain
+
+Ekstensi SillyTavern berjalan berdampingan dan dapat membaca atau mengubah data SillyTavern yang sama. STMB tidak mengesampingkan atau menonaktifkan ekstensi lain, dan tidak menetapkan prioritas atas ekstensi tersebut. Jika perilaku ekstensi saling tumpang tindih, hasil akhirnya bergantung pada pengaturan dan waktu tindakan setiap ekstensi yang terlibat.
+
+### 23.1 Visibilitas pesan bersama
+
+Status tersembunyi suatu pesan chat merupakan bagian dari status pesan bersama milik SillyTavern. Status tersebut bukan milik STMB secara eksklusif.
+
+Pengaturan **Token Saving** STMB dapat menyembunyikan pesan yang sudah diproses setelah sebuah Memory disimpan. Ekstensi lain dapat menampilkan kembali pesan tersebut, dan STMB tidak akan mencegahnya. Demikian pula, **Unhide hidden messages for memory generation** dapat menampilkan pesan saat STMB memproses atau meregenerasi selected range.
+
+### 23.2 Presence
+
+Ekstensi Presence dan STMB sama-sama dapat mengubah status tersembunyi atau terlihat dari pesan chat. Jika Presence menampilkan pesan yang disembunyikan STMB, pengaturan Token Saving STMB tidak dihapus atau diabaikan; tindakan Presence yang terjadi kemudian telah mengubah status pesan SillyTavern yang sama.
+
+Jika Anda menggunakan Presence dan ingin pesan yang disembunyikan STMB tetap tersembunyi, gunakan fitur penguncian pesan tersembunyi milik Presence. Saat ini Presence menyediakan perintah `/presenceLockHiddenMessages` untuk tujuan tersebut. Jalankan perintah itu untuk range pesan yang berlaku dan ulangi saat range tersebut bertambah. Lihat dokumentasi Presence untuk perilaku perintah terbaru.
+
+STMB tidak mengonfigurasi atau menjalankan Presence secara otomatis, dan pengelolaan peserta group chat oleh STMB tidak terkait dengan Token Saving.
+
+### 23.3 Integrasi Regex
 
 STMB terintegrasi dengan Regex extension SillyTavern pada dua tahap:
 
@@ -1875,6 +1898,8 @@ Format title profile dapat memakai:
 - `{{title}}` — title buatan AI;
 - `{{scene}}` — source range;
 - `{{char}}` — nama character/group;
+- `{{groupname}}` — display name group saat ini; menjadi `Unknown` di luar group chat;
+- `{{present}}` — comma-separated characters yang hadir dalam scene: individual speakers di group chat, selected Active Cast scene di Narrator Mode, atau current character di regular character chat;
 - `{{user}}` — nama user;
 - `{{messages}}` — jumlah message dalam scene;
 - `{{profile}}` — nama profile;
@@ -1993,6 +2018,10 @@ Buka **Settings → General Settings** di main panel.
 | **Allow scene overlap** | Global | Mengizinkan selected scene range overlap dengan message IDs yang sudah diwakili existing Memory. |
 | **Refresh lorebook editor after adding memories** | Global | Refresh lorebook editor terbuka setelah STMB menulis entries agar content baru langsung terlihat. |
 | **Copy Memory Books when branching** | Global | Memberi native chat branch independent copies dari active unlocked chat-bound atau manual Memory Books. Character-locked books tetap shared sesuai desain. |
+| **Auto-rollback after message deletion** | Global | Mengaktifkan coordinated rollback bila message deletion atau truncation mengenai chat material yang sudah processed. Disabled secara default. Ordinary message edits dan swipes tidak memicunya. |
+| **Update last message ID processed** | Global; Auto-Rollback action | Memindahkan processed checkpoint ke akhir Memory terbaru yang masih bertahan, atau membersihkannya bila tidak ada yang tersisa. |
+| **Delete last Memory** | Global; Auto-Rollback action | Menghapus semua Memory yang invalid dalam rollback scope beserta linked copies-nya. Penghapusan Memory dan consolidation irreversible. |
+| **Restore previous Side Prompts** | Global; Auto-Rollback action | Mengembalikan setiap affected Side Prompt yang tidak berubah ke latest exact before-state. Hanya satu rollback level yang disimpan. |
 | **Default for solo chats** | Global | Memilih Side Prompt Set yang diwarisi solo chats setelah Memory. Empty selection memakai individually enabled after-Memory Side Prompts. |
 | **Default for group chats** | Global | Memilih Side Prompt Set yang diwarisi real group chats setelah Memory. Empty selection memakai individually enabled after-Memory Side Prompts. |
 | **Max Response Tokens** | Global | Mengoverride maximum output length untuk STMB generation. Naikkan jika JSON valid terpotong; `0` membiarkan normal provider/SillyTavern behavior tersedia sebagai fallback. |
@@ -2001,6 +2030,26 @@ Buka **Settings → General Settings** di main panel.
 | **Use regex (advanced)** | Global | Mengaktifkan regex-processing selection milik STMB. Selection ini terpisah dari apakah underlying SillyTavern regex script enabled di interface normal. |
 | **Configure regex… → Outgoing scripts** | Global | Memilih scripts yang dijalankan STMB pada material sebelum dikirim ke generation provider. |
 | **Configure regex… → Incoming scripts** | Global | Memilih scripts yang dijalankan STMB pada returned material sebelum parsing dan saving. |
+
+#### Memory Auto-Rollback di General Settings
+
+**Auto-rollback after message deletion** adalah master preference. Tiga action checkboxes dapat dipilih independen, enabled secara default, dan secara visual disabled ketika master switch off. Karena itu existing installation tidak langsung mulai menghapus apa pun hanya karena upgrade.
+
+Auto-Rollback hanya bereaksi pada message deletion atau truncation, termasuk deletion phase saat response regeneration. Ordinary edit atau swipe tidak memicu. STMB melacak actual message identities dalam setiap chat karena deletion event value SillyTavern tidak dapat secara andal mengidentifikasi middle deletion.
+
+Untuk tail deletion, setiap Memory dengan stored source range yang beririsan dengan removed suffix akan affected. Untuk deletion di tengah chat, STMB meminta salah satu dari tiga pilihan:
+
+- **Full rollback** menghapus affected Memory dan semua Memory yang lebih baru.
+- **Affected only** hanya menghapus overlapping Memories, mempertahankan newer Memories, lalu menggeser stored ranges, relevant Side Prompt checkpoints, dan processed checkpoint sebesar deletion count. Ini sengaja meninggalkan permanent gap dalam Memory coverage.
+- **Cancel** tidak membuat perubahan Memory Books.
+
+Rollback memakai exact `STMB_chatId`, source-range, dan canonical/link metadata di available Memory Books. Canonical group atau Narrator Memory dan semua discoverable linked copies adalah satu deletion unit. Missing canonical copies, ambiguous legacy entries tanpa chat identity yang cukup, malformed ranges, atau incomplete consolidation dependencies menghentikan seluruh rollback dan memberi repair guidance; STMB tidak menebak ownership.
+
+Jika **Delete last Memory** dipilih, STMB melakukan preflight pada setiap direct dan transitive consolidation parent di tiap affected Memory Book. Satu combined confirmation mencantumkan consolidations yang harus dihapus. Membatalkan confirmation itu juga membatalkan checkpoint, Memory, dan Side Prompt changes. Approval menghapus consolidation ancestors, re-enable setiap existing direct source yang disabled oleh deleted consolidation dan membersihkan backlink `disabledBySummaryId`, lalu menghapus selected base Memories. Entries yang disabled secara independen oleh user tidak di-enable.
+
+Sebelum save, STMB memeriksa ulang complete lorebook fingerprints. Lorebooks ditulis melalui normal serialized write lanes dalam sorted order, dan unchanged pre-write clones disimpan untuk compensating saves bila book berikutnya gagal. Chat checkpoint metadata baru diubah setelah semua lorebook writes berhasil. Queued work untuk chat dibatalkan sebelum preflight; active non-queued Memory creation diizinkan selesai sebelum rollback lanjut.
+
+Side Prompt rollback memakai version-2 regeneration snapshots. Setiap snapshot mencatat apakah entry existed, exact prior state tanpa older rollback snapshot, source chat/range, dan fingerprint dari state yang ditulis STMB. Jika rolled-back run membuat entry, rollback menghapusnya. Jika current entry tidak lagi cocok dengan saved fingerprint, STMB menganggap user atau later run sudah mengubahnya dan membiarkannya. Version-1 snapshots tetap mendukung regeneration tetapi tidak cukup aman untuk rollback dan dilewati dengan warning. Successful restore mengonsumsi snapshot, jadi Side Prompt itu tidak bisa di-rollback lagi sampai run berikutnya. Jika beberapa Memories di-rollback bersama, hanya latest available before-state untuk setiap Side Prompt yang dapat dipulihkan; informasi dari older rolled-back runs mungkin tetap ada.
 
 #### Token Saving di dalam General Settings
 
@@ -2119,6 +2168,7 @@ Buka **Consolidate Memories** dari tombol di bagian bawah main panel. Interface 
 
 | Setting | Scope | Fungsi |
 |---|---|---|
+| **Source Memory Book** | Per run | Menampilkan Memory Book yang sedang di-consolidate dan memungkinkan memilih available book lain. Mengubahnya reload eligible-entry list tanpa mengubah configured manual atau chat-bound Memory Book chat. |
 | **Target tier** | Per run | Memilih higher tier yang dibuat dan karena itu immediately lower eligible source tier. |
 | **Consolidation Prompt** | Per run | Memilih prompt untuk consolidation ini; awalnya memakai default dari Consolidation Prompt Manager. |
 | **Maximum entries per pass** | Per run | Membatasi berapa lower-tier entries dikirim dalam satu analysis pass. |

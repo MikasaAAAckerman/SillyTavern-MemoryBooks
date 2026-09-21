@@ -1,4 +1,24 @@
 {
+  "STMemoryBooks_Progress_Title": "保留中の進捗更新（{{count}}）",
+  "STMemoryBooks_Progress_Blocked": "別のメモリを作成する前に、このチャットの保留中の進捗更新を適用するか破棄してください。",
+  "STMemoryBooks_Progress_PersistenceError": "メモリは保存されましたが、保留中の進捗更新を設定に保存できませんでした。ページを再読み込みする前に再試行してください。更新が失われる可能性があります。",
+  "STMemoryBooks_Progress_Deferred": "メモリは保存されました。「{{chat}}」をもう一度開き、最後に処理されたメッセージのマーカー更新を完了してください。",
+  "STMemoryBooks_Progress_Later": "後で",
+  "STMemoryBooks_Progress_Processing": "処理中…",
+  "STMemoryBooks_Progress_Done": "完了。",
+  "STMemoryBooks_Progress_SettingsSaved": "保留中の更新を設定に保存しました。対象のチャットを開いてマーカーの更新を完了してください。",
+  "STMemoryBooks_Progress_CleanupError": "チャットは更新されましたが、保留中の更新の削除を保存できませんでした。再試行して完了してください。",
+  "STMemoryBooks_Progress_Conflict": "チャットまたは最後に処理されたメッセージのマーカーが変更されました。現在のマーカーを保持してこの保留中の更新を破棄するか、「後で」を選択してください。",
+  "STMemoryBooks_Progress_RetryError": "更新は保留中です。このチャットの読み込みが完了し、処理が行われていないことを確認してから再試行してください。",
+  "STMemoryBooks_Progress_Close": "閉じる",
+  "STMemoryBooks_Progress_Unknown": "認識できない保留中の更新",
+  "STMemoryBooks_Progress_Range": "現在の最後に処理されたメッセージ：{{current}}。保留中の進捗の終点：{{target}}。",
+  "STMemoryBooks_Progress_OpenChat": "このチャットを手動で開き、保留中の更新を適用してください。",
+  "STMemoryBooks_Progress_OK": "OK",
+  "STMemoryBooks_Progress_Discard": "保留中の更新を破棄",
+  "STMemoryBooks_Progress_DiscardConfirm": "最後に処理されたメッセージの現在のマーカーを保持し、この保留中の更新を破棄しますか？ロアブックに保存されたメモリは保持されます。",
+  "STMemoryBooks_Progress_Empty": "保留中の進捗更新はありません。",
+  "STMemoryBooks_Progress_RetrySettings": "保留中の更新の保存を再試行",
   "STMemoryBooks_SidePromptRegeneration_Button": "サイドプロンプトを再生成",
   "STMemoryBooks_SidePromptRegeneration_InvalidSnapshot": "保存されたサイドプロンプト実行スナップショットが無効です。サイドプロンプトをもう一度実行して置き換えてください。",
   "STMemoryBooks_SidePromptRegeneration_MissingSnapshot": "再生成を有効にするには、このサイドプロンプトを一度実行してください。",
@@ -110,6 +130,11 @@
   "STMemoryBooks_Compaction_SavePrompt": "プロンプトを保存",
   "STMemoryBooks_Compaction_SelectMemoryBook": "メモリーブックを選択...",
   "STMemoryBooks_Compaction_MemoryBook": "メモリーブック",
+  "STMemoryBooks_Consolidation_SourceMemoryBook": "統合するメモリーブック",
+  "STMemoryBooks_Consolidation_SelectMemoryBook": "メモリーブックを選択...",
+  "STMemoryBooks_Consolidation_SourceMemoryBookDesc": "統合対象となる適格なエントリを含むメモリーブックを選択します。この選択は今回の実行にのみ適用されます。",
+  "STMemoryBooks_Consolidation_LoadingMemoryBook": "メモリーブックを読み込み中...",
+  "STMemoryBooks_Consolidation_LoadFailed": "メモリーブック「{{name}}」を読み込めませんでした。",
   "STMemoryBooks_Compaction_Profile": "圧縮プロファイル",
   "STMemoryBooks_Compaction_SelectProfile": "圧縮プロファイルを選択...",
   "STMemoryBooks_Compaction_NoLorebooks": "メモリーブックが見つかりませんでした。",
@@ -281,7 +306,7 @@
   "STMemoryBooks_NoChatBound": "チャットにバインドされたロアブックがありません。メモリにはロアブックの選択が必要です。",
   "STMemoryBooks_Clear": "クリア",
   "STMemoryBooks_GroupCharacterLorebooks": "グループキャラクターのロアブック",
-  "STMemoryBooks_GroupCharacterLorebooksDesc": "各グループメンバーのロアブックを選択します。同じキャラクターロアブックを複数回選択できます。選択すると STLO の話者フィルターが追加され、選択をクリアしても STLO フィルターは保持されます。",
+  "STMemoryBooks_GroupCharacterLorebooksDesc": "各グループメンバーのロアブックを選択します。同じキャラクターロアブックを複数回選択できます。STLO が利用可能な場合、個別のキャラクターロアブックにも話者フィルターが追加されます。選択をクリアしても既存の STLO フィルターは保持されます。",
   "STMemoryBooks_GroupCharacterLorebooksRequiresSTLO": "個別のロアブック指定には STLO が必要です。",
   "STMemoryBooks_GroupLorebooksNoMembers": "手動ロアブック設定に使用できるグループメンバーがいません。",
   "STMemoryBooks_GroupManualLorebooksIncomplete": "グループの手動ロアブックが未完了です: {{details}}",
@@ -369,7 +394,7 @@
   "STMemoryBooks_TitleFormat": "メモリタイトル形式:",
   "STMemoryBooks_CustomTitleFormat": "カスタムタイトル形式...",
   "STMemoryBooks_EnterCustomFormat": "カスタム形式を入力",
-  "STMemoryBooks_TitleFormatDesc": "自動採番には[0]、[00]、[000]を使用します。利用可能: {{title}}、{{scene}}、{{char}}、{{user}}、{{messages}}、{{profile}}、{{date}}、{{time}}",
+  "STMemoryBooks_TitleFormatDesc": "自動採番には[0]、[00]、[000]を使用します。利用可能: {{title}}、{{scene}}、{{char}}、{{groupname}}、{{present}}、{{user}}、{{messages}}、{{profile}}、{{date}}、{{time}}",
   "STMemoryBooks_Profiles": "メモリプロファイル:",
   "STMemoryBooks_Profile_CurrentST": "現在のSillyTavern設定",
   "STMemoryBooks_Default": "（デフォルト）",
@@ -960,6 +985,7 @@
   "autosummary.log.sinceLast": "STMemoryBooks: 最後のメモリ（{{highestProcessed}}）からのメッセージ: {{count}}",
   "autosummary.log.triggerCheck": "STMemoryBooks: 自動要約トリガーチェック: {{count}} >= {{required}}?",
   "autosummary.log.notTriggered": "STMemoryBooks: 自動要約はトリガーされませんでした - さらに{{needed}}メッセージが必要です",
+  "autosummary.log.notTriggeredTokens": "STMemoryBooks: 自動要約はトリガーされませんでした - さらに{{needed}}トークンが必要です",
   "autosummary.log.postponedUntil": "STMemoryBooks: 自動要約はメッセージ{{until}}まで延期されました",
   "autosummary.log.blocked": "STMemoryBooks: 自動要約はブロックされました - ロアブックの検証に失敗しました: {{error}}",
   "autosummary.log.clearedPostpone": "STMemoryBooks: 自動要約延期フラグをクリアしました",
@@ -1140,6 +1166,7 @@
   "STMemoryBooks_SetHighest_SetTo": "最後に手動で処理されたメッセージは#{{value}}に設定されました。",
   "addlore.toast.orderClamped": "入力範囲は0～9999に制限されています。現在の{{source}}は{{requested}}ですが、{{clamped}}に制限されました。",
   "STMemoryBooks_ReverseOrder": "逆順（アウトレットでのみ使用）",
+  "STMemoryBooks_Reverse": "逆順",
   "STMemoryBooks_SummaryTier_Label": "要約階層",
   "STMemoryBooks_ArcAnalysis_NoUsableArcs": "利用可能な統合要約が生成されませんでした",
   "STMemoryBooks_ReviewFailedArc_Title": "要約応答の確認に失敗",
@@ -1432,4 +1459,40 @@
   ,"STMemoryBooks_TopicalClip_MessageCompileFailed": "選択したメッセージをコンパイルできませんでした。"
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1件のトピッククリップ更新が承認待ちです。"
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}}件のトピッククリップ更新が承認待ちです。"
+  ,"STMemoryBooks_AutoRollbackEnabled": "メッセージ削除後に自動ロールバック"
+  ,"STMemoryBooks_AutoRollbackDesc": "削除したメッセージによって処理済みメモリが無効になった場合、選択したロールバック操作を適用します。メモリや統合の削除は元に戻せません。"
+  ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "最後に処理したメッセージIDを更新"
+  ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "最後のメモリを削除"
+  ,"STMemoryBooks_AutoRollbackRestoreSidePrompts": "以前のSide Promptを復元"
+  ,"STMemoryBooks_AutoRollbackSidePromptLimit": "Side Promptは、最後に正確に保存された状態へ1回だけロールバックできます。それ以前のロールバック階層は保持されません。"
+  ,"STMemoryBooks_AutoRollback_LoadFailed": "メモリのロールバックでMemory Book「{{name}}」を安全に読み込めませんでした。利用できないブックを修復または削除してから、もう一度お試しください。"
+  ,"STMemoryBooks_AutoRollback_ScopeTitle": "メモリのロールバック範囲を選択"
+  ,"STMemoryBooks_AutoRollback_ScopeBody": "チャットの途中から{{count}}件のメッセージを削除すると、{{memories}}件のメモリエントリに影響します。"
+  ,"STMemoryBooks_AutoRollback_Full": "完全ロールバック"
+  ,"STMemoryBooks_AutoRollback_FullDesc": "影響を受けたメモリと、それ以降のすべてのメモリを削除します。"
+  ,"STMemoryBooks_AutoRollback_Affected": "影響分のみ"
+  ,"STMemoryBooks_AutoRollback_AffectedDesc": "重複するメモリだけを削除し、新しい範囲をずらします。メモリには恒久的な空白が残ります。"
+  ,"STMemoryBooks_AutoRollback_Tier": "ティア{{tier}}"
+  ,"STMemoryBooks_AutoRollback_ConsolidationTitle": "依存する統合を削除しますか？"
+  ,"STMemoryBooks_AutoRollback_ConsolidationBody": "ロールバックには、次の統合の削除と、既存の直接ソースの再有効化が必要です。メモリの削除は元に戻せません。"
+  ,"STMemoryBooks_AutoRollback_ConfirmDelete": "削除してロールバック"
+  ,"STMemoryBooks_AutoRollback_Conflict": "ロールバックの準備中にMemory Book「{{name}}」が変更されました。それ以外は変更されていません。"
+  ,"STMemoryBooks_AutoRollback_CompensationFailed": "ロールバックの復旧も次のブックで失敗しました：{{books}}。続行する前に、これらのMemory Bookをバックアップから復元してください。"
+  ,"STMemoryBooks_AutoRollback_Ambiguous": "十分なチャット/範囲メタデータがないメモリが見つかりました：{{entries}}。STMB_chatId、STMB_start、STMB_endメタデータを修復してから再試行してください。"
+  ,"STMemoryBooks_AutoRollback_LinkedIncomplete": "不完全なリンク済みメモリコピーが見つかりました：{{details}}。正規/リンクメタデータを修復してから再試行してください。"
+  ,"STMemoryBooks_AutoRollback_NoMemories": "処理済み範囲に一致するメモリエントリが見つかりませんでした。旧形式または欠落したメモリメタデータを修復してから再試行してください。"
+  ,"STMemoryBooks_AutoRollback_ConsolidationIncomplete": "不完全な統合依存関係が見つかりました：{{details}}。修復してから再試行してください。"
+  ,"STMemoryBooks_AutoRollback_LegacySidePrompts": "旧バージョンのSide Promptスナップショットはロールバックできないため、スキップしました。"
+  ,"STMemoryBooks_AutoRollback_ChangedSidePrompts": "一部のSide Promptはメモリ作成後に変更されていたため、そのまま維持しました。"
+  ,"STMemoryBooks_AutoRollback_MultipleSidePrompts": "各Side Promptでは利用可能な最新の直前状態のみを復元しました。古いロールバック対象の情報が残っている場合があります。"
+  ,"STMemoryBooks_AutoRollback_Complete": "{{count}}件のメモリエントリのロールバックが完了しました。"
+  ,"STMemoryBooks_AutoRollback_Failed": "メモリのロールバックに失敗しました"
+  ,"STMemoryBooks_Toast_SceneMarkerCleared": "メッセージの削除によりシーンマーカーがクリアされました。"
+  ,"STMemoryBooks_GroupChatSettings": "グループチャット"
+  ,"STMemoryBooks_CharacterAwareMemories": "キャラクター別メモリ"
+  ,"STMemoryBooks_CharacterAwareMemoriesTooltip": "グループチャットのメモリを参加キャラクターでフィルタリングします。オフの場合、通常の単一メモリーブック処理を使用し、キャラクターフィルター、参加者選択、キャラクター別コピー、グループ用・キャラクター用の個別プロンプトは使用しません。既存のエントリは書き直されるまでフィルターを保持します。"
+  ,"STMemoryBooks_SeparateGroupSidePrompts": "グループ用サイドプロンプトを分ける"
+  ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "自動実行時にグループ用サイドプロンプトのデフォルトを使用します。オフの場合はソロ用のデフォルトを継承します。チャットごとの明示的な選択は引き続き適用されます。キャラクター別メモリとは独立した設定です。"
+  ,"STMemoryBooks_CharacterAwareDisabled": "一般設定の「キャラクター別メモリ」がオフのため、無効になっており適用されません。"
+  ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "一般設定の「グループ用サイドプロンプトを分ける」がオフのため、無効になっており適用されません。"
 }

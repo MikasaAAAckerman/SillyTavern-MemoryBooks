@@ -7,11 +7,14 @@ import {
     collectNarratorSourceMetadata,
     createNarratorMember,
     getNarratorCastFromMessage,
+    getNarratorParticipantNames,
     getNarratorSceneParticipants,
     isNarratorModeActive,
     mergeNarratorLorebookEntries,
     normalizeNarratorConfig,
     setNarratorActiveCast,
+    setNarratorMemberLorebook,
+    setNarratorMemberName,
     stampNarratorCast,
     validateNarratorBindings,
 } from './narratorMode.js';
@@ -68,6 +71,31 @@ test('retirement preserves identity and does not permit lorebook reuse', () => {
     assert.equal(validateNarratorBindings({ members: [retired, replacement] }, 'Canonical', ['Old Book']).issues[0].type, 'duplicate');
 });
 
+test('changes a narrator member book without replacing its identity or retirement state', () => {
+    const member = { id: 'alice-id', name: 'Alice', lorebookName: 'Wrong Book', retired: true };
+    const config = { members: [member], activeCastIds: [] };
+
+    assert.equal(setNarratorMemberLorebook(config, 'alice-id', ' Correct Book '), true);
+    assert.deepEqual(member, { id: 'alice-id', name: 'Alice', lorebookName: 'Correct Book', retired: true });
+    assert.equal(setNarratorMemberLorebook(config, 'alice-id', 'Correct Book'), false);
+    assert.equal(setNarratorMemberLorebook(config, 'missing-id', 'Other Book'), false);
+});
+
+test('changes a narrator member name without replacing its identity or retirement state', () => {
+    const member = { id: 'alice-id', name: 'Alcie', lorebookName: 'Alice Book', retired: true };
+    const config = {
+        members: [member, { id: 'bob-id', name: 'Bob', lorebookName: 'Bob Book', retired: false }],
+        activeCastIds: [],
+    };
+
+    assert.equal(setNarratorMemberName(config, 'alice-id', ' Alice '), true);
+    assert.deepEqual(member, { id: 'alice-id', name: 'Alice', lorebookName: 'Alice Book', retired: true });
+    assert.equal(setNarratorMemberName(config, 'alice-id', 'Alice'), false);
+    assert.equal(setNarratorMemberName(config, 'alice-id', 'bob'), false);
+    assert.equal(setNarratorMemberName(config, 'alice-id', '  '), false);
+    assert.equal(setNarratorMemberName(config, 'missing-id', 'Other'), false);
+});
+
 test('accepts write-in characters without character-card avatars', () => {
     const source = {
         version: 1,
@@ -111,6 +139,15 @@ test('uses user snapshots as continuity when a narrator message is untagged', ()
         memberIds: ['a'],
         hasUntaggedMessages: true,
     });
+});
+
+test('maps the selected Narrator cast to display names in selection order', () => {
+    const config = { members: [
+        { id: 'alice', name: 'Alice' },
+        { id: 'bob', name: 'Bob' },
+    ] };
+    assert.deepEqual(getNarratorParticipantNames(config, ['bob', 'missing', 'alice', 'bob']), ['Bob', 'Alice']);
+    assert.deepEqual(getNarratorParticipantNames(config, []), []);
 });
 
 test('builds copy targets only for selected members', () => {

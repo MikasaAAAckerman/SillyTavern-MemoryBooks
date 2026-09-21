@@ -1,4 +1,24 @@
 {
+  "STMemoryBooks_Progress_Title": "Ausstehende Fortschrittsaktualisierungen ({{count}})",
+  "STMemoryBooks_Progress_Blocked": "Wende die ausstehende Fortschrittsaktualisierung für diesen Chat an oder verwirf sie, bevor du eine weitere Erinnerung erstellst.",
+  "STMemoryBooks_Progress_PersistenceError": "Erinnerung gespeichert, aber die ausstehende Fortschrittsaktualisierung konnte nicht in den Einstellungen gespeichert werden. Versuche es vor dem Neuladen erneut, sonst kann die Aktualisierung verloren gehen.",
+  "STMemoryBooks_Progress_Deferred": "Erinnerung gespeichert. Öffne „{{chat}}“ erneut, um die Markierung der zuletzt verarbeiteten Nachricht zu aktualisieren.",
+  "STMemoryBooks_Progress_Later": "Später",
+  "STMemoryBooks_Progress_Processing": "Wird verarbeitet…",
+  "STMemoryBooks_Progress_Done": "Fertig.",
+  "STMemoryBooks_Progress_SettingsSaved": "Ausstehende Aktualisierungen in den Einstellungen gespeichert. Öffne den betreffenden Chat, um seine Markierung zu aktualisieren.",
+  "STMemoryBooks_Progress_CleanupError": "Der Chat wurde aktualisiert, aber das Entfernen der ausstehenden Aktualisierung konnte nicht gespeichert werden. Versuche es erneut.",
+  "STMemoryBooks_Progress_Conflict": "Der Chat oder seine Markierung der zuletzt verarbeiteten Nachricht wurde geändert. Behalte die aktuelle Markierung bei und verwirf diese ausstehende Aktualisierung oder wähle „Später“.",
+  "STMemoryBooks_Progress_RetryError": "Aktualisierung weiterhin ausstehend. Stelle sicher, dass dieser Chat geladen ist und keine Verarbeitung läuft, und versuche es erneut.",
+  "STMemoryBooks_Progress_Close": "Schließen",
+  "STMemoryBooks_Progress_Unknown": "Unbekannte ausstehende Aktualisierung",
+  "STMemoryBooks_Progress_Range": "Aktuell zuletzt verarbeitete Nachricht: {{current}}. Ausstehender Fortschritt bis: {{target}}.",
+  "STMemoryBooks_Progress_OpenChat": "Öffne diesen Chat manuell, um seine ausstehende Aktualisierung anzuwenden.",
+  "STMemoryBooks_Progress_OK": "OK",
+  "STMemoryBooks_Progress_Discard": "Ausstehende Aktualisierung verwerfen",
+  "STMemoryBooks_Progress_DiscardConfirm": "Aktuelle Markierung der zuletzt verarbeiteten Nachricht beibehalten und diese ausstehende Aktualisierung verwerfen? Gespeicherte Erinnerungen im Lorebook bleiben erhalten.",
+  "STMemoryBooks_Progress_Empty": "Keine ausstehenden Fortschrittsaktualisierungen.",
+  "STMemoryBooks_Progress_RetrySettings": "Ausstehende Aktualisierungen erneut speichern",
   "STMemoryBooks_SidePromptRegeneration_Button": "Side-Prompt neu generieren",
   "STMemoryBooks_SidePromptRegeneration_InvalidSnapshot": "Der gespeicherte Lauf-Snapshot des Side-Prompts ist ungültig. Führen Sie den Side-Prompt erneut aus, um ihn zu ersetzen.",
   "STMemoryBooks_SidePromptRegeneration_MissingSnapshot": "Führen Sie diesen Side-Prompt einmal aus, um die Neugenerierung zu aktivieren.",
@@ -110,6 +130,11 @@
   "STMemoryBooks_Compaction_SavePrompt": "Prompt speichern",
   "STMemoryBooks_Compaction_SelectMemoryBook": "Memory Book auswählen...",
   "STMemoryBooks_Compaction_MemoryBook": "Memory Book",
+  "STMemoryBooks_Consolidation_SourceMemoryBook": "Memory Book zum Konsolidieren",
+  "STMemoryBooks_Consolidation_SelectMemoryBook": "Memory Book auswählen...",
+  "STMemoryBooks_Consolidation_SourceMemoryBookDesc": "Wähle das Memory Book aus, dessen geeignete Einträge konsolidiert werden sollen. Diese Auswahl gilt nur für diesen Durchlauf.",
+  "STMemoryBooks_Consolidation_LoadingMemoryBook": "Memory Book wird geladen...",
+  "STMemoryBooks_Consolidation_LoadFailed": "Memory Book „{{name}}“ konnte nicht geladen werden.",
   "STMemoryBooks_Compaction_Profile": "Kompaktierungsprofil",
   "STMemoryBooks_Compaction_SelectProfile": "Kompaktierungsprofil auswählen...",
   "STMemoryBooks_Compaction_NoLorebooks": "Keine Memory-Books gefunden.",
@@ -281,7 +306,7 @@
   "STMemoryBooks_NoChatBound": "Kein chat-gebundenes Lorebook. Erinnerungen erfordern eine Lorebook-Auswahl.",
   "STMemoryBooks_Clear": "Löschen",
   "STMemoryBooks_GroupCharacterLorebooks": "Gruppen-Charakter-Lorebooks",
-  "STMemoryBooks_GroupCharacterLorebooksDesc": "Wähle für jedes Gruppenmitglied ein Lorebook aus. Dasselbe Charakter-Lorebook kann mehrfach ausgewählt werden. Auswahlen fügen STLO-Sprecherfilter hinzu; beim Löschen einer Auswahl bleibt der STLO-Filter erhalten.",
+  "STMemoryBooks_GroupCharacterLorebooksDesc": "Wähle für jedes Gruppenmitglied ein Lorebook aus. Dasselbe Charakter-Lorebook kann mehrfach ausgewählt werden. Wenn STLO verfügbar ist, erhalten separate Charakter-Lorebooks zusätzlich Sprecherfilter; beim Löschen einer Auswahl bleiben vorhandene STLO-Filter erhalten.",
   "STMemoryBooks_GroupCharacterLorebooksRequiresSTLO": "Individuelle Lorebook-Zuweisung erfordert STLO.",
   "STMemoryBooks_GroupLorebooksNoMembers": "Keine Gruppenmitglieder für die manuelle Lorebook-Einrichtung verfügbar.",
   "STMemoryBooks_GroupManualLorebooksIncomplete": "Manuelle Gruppen-Lorebooks sind unvollständig: {{details}}",
@@ -369,7 +394,7 @@
   "STMemoryBooks_TitleFormat": "Format des Erinnerungstitels:",
   "STMemoryBooks_CustomTitleFormat": "Benutzerdefiniertes Titelformat...",
   "STMemoryBooks_EnterCustomFormat": "Benutzerdefiniertes Format eingeben",
-  "STMemoryBooks_TitleFormatDesc": "Nutze [0], [00], [000] für automatische Nummerierung. Verfügbar: {{title}}, {{scene}}, {{char}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
+  "STMemoryBooks_TitleFormatDesc": "Nutze [0], [00], [000] für automatische Nummerierung. Verfügbar: {{title}}, {{scene}}, {{char}}, {{groupname}}, {{present}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
   "STMemoryBooks_Profiles": "Erinnerungsprofile:",
   "STMemoryBooks_Profile_CurrentST": "Aktuelle SillyTavern Einstellungen",
   "STMemoryBooks_Default": "(Standard)",
@@ -961,6 +986,7 @@
   "autosummary.log.sinceLast": "STMemoryBooks: Nachrichten seit letzter Erinnerung ({{highestProcessed}}): {{count}}",
   "autosummary.log.triggerCheck": "STMemoryBooks: Trigger-Check: {{count}} >= {{required}}?",
   "autosummary.log.notTriggered": "STMemoryBooks: Trigger nicht ausgelöst - {{needed}} weitere Nachrichten benötigt",
+  "autosummary.log.notTriggeredTokens": "STMemoryBooks: Trigger nicht ausgelöst - {{needed}} weitere Tokens benötigt",
   "autosummary.log.postponedUntil": "STMemoryBooks: Auto-Zusammenfassung verschoben bis Nachricht {{until}}",
   "autosummary.log.blocked": "STMemoryBooks: Auto-Zusammenfassung blockiert - Lorebook Validierung fehlgeschlagen: {{error}}",
   "autosummary.log.clearedPostpone": "STMemoryBooks: Postpone-Flag gelöscht",
@@ -1155,6 +1181,7 @@
   "STMemoryBooks_SetHighest_SetTo": "Zuletzt verarbeitete Nachricht manuell auf #{{value}} festgelegt.",
   "addlore.toast.orderClamped": "Der Eingabebereich ist auf 0–9999 begrenzt. Der aktuelle Wert {{source}} ist {{requested}}; er wurde auf {{clamped}} begrenzt.",
   "STMemoryBooks_ReverseOrder": "Umgekehrte Reihenfolge (nur in Verbindung mit Ausgängen verwenden)",
+  "STMemoryBooks_Reverse": "Umgekehrt",
   "STMemoryBooks_ArcManualFix_EmptyJson": "Korrigiertes JSON ist leer.",
   "STMemoryBooks_ArcManualFix_InProgress": "Zusammenfassungskonsolidierung läuft bereits.",
   "STMemoryBooks_ArcManualFix_MissingArcs": "Korrigiertes JSON enthält keine Zusammenfassungen.",
@@ -1432,4 +1459,40 @@
   ,"STMemoryBooks_TopicalClip_MessageCompileFailed": "Die ausgewählten Nachrichten konnten nicht zusammengestellt werden."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 Themen-Clip-Aktualisierung wartet auf Genehmigung."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} Themen-Clip-Aktualisierungen warten auf Genehmigung."
+  ,"STMemoryBooks_AutoRollbackEnabled": "Automatisches Rollback nach Nachrichtenlöschung"
+  ,"STMemoryBooks_AutoRollbackDesc": "Wenn gelöschte Nachrichten bereits verarbeitete Memories ungültig machen, werden die ausgewählten Rollback-Aktionen ausgeführt. Das Löschen von Memories oder Konsolidierungen kann nicht rückgängig gemacht werden."
+  ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "ID der zuletzt verarbeiteten Nachricht aktualisieren"
+  ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "Letzte Memory löschen"
+  ,"STMemoryBooks_AutoRollbackRestoreSidePrompts": "Vorherige Side Prompts wiederherstellen"
+  ,"STMemoryBooks_AutoRollbackSidePromptLimit": "Side Prompts können nur einmal auf ihren letzten exakt gespeicherten Zustand zurückgesetzt werden. Ältere Rollback-Stufen werden nicht gespeichert."
+  ,"STMemoryBooks_AutoRollback_LoadFailed": "Memory-Rollback konnte Memory Book {{name}} nicht sicher laden. Repariere oder entferne das nicht verfügbare Buch und versuche es erneut."
+  ,"STMemoryBooks_AutoRollback_ScopeTitle": "Umfang des Memory-Rollbacks wählen"
+  ,"STMemoryBooks_AutoRollback_ScopeBody": "Das Löschen von {{count}} Nachricht(en) aus der Mitte des Chats betrifft {{memories}} Memory-Eintrag bzw. -Einträge."
+  ,"STMemoryBooks_AutoRollback_Full": "Vollständiges Rollback"
+  ,"STMemoryBooks_AutoRollback_FullDesc": "Betroffene und neuere Memories löschen."
+  ,"STMemoryBooks_AutoRollback_Affected": "Nur betroffene"
+  ,"STMemoryBooks_AutoRollback_AffectedDesc": "Nur überlappende Memories löschen und neuere Bereiche verschieben. Dadurch bleibt dauerhaft eine Memory-Lücke."
+  ,"STMemoryBooks_AutoRollback_Tier": "Stufe {{tier}}"
+  ,"STMemoryBooks_AutoRollback_ConsolidationTitle": "Abhängige Konsolidierungen löschen?"
+  ,"STMemoryBooks_AutoRollback_ConsolidationBody": "Das Rollback erfordert das Löschen der folgenden Konsolidierungen und die Reaktivierung ihrer vorhandenen direkten Quellen. Das Löschen von Memories kann nicht rückgängig gemacht werden."
+  ,"STMemoryBooks_AutoRollback_ConfirmDelete": "Löschen und zurücksetzen"
+  ,"STMemoryBooks_AutoRollback_Conflict": "Memory Book {{name}} wurde während der Rollback-Vorbereitung geändert. Es wurden keine weiteren Änderungen vorgenommen."
+  ,"STMemoryBooks_AutoRollback_CompensationFailed": "Die Rollback-Wiederherstellung ist auch für folgende Bücher fehlgeschlagen: {{books}}. Stelle diese Memory Books aus einer Sicherung wieder her, bevor du fortfährst."
+  ,"STMemoryBooks_AutoRollback_Ambiguous": "Das Rollback hat Memories ohne ausreichende Chat-/Bereichsmetadaten gefunden: {{entries}}. Repariere deren STMB_chatId-, STMB_start- und STMB_end-Metadaten und versuche es erneut."
+  ,"STMemoryBooks_AutoRollback_LinkedIncomplete": "Das Rollback hat unvollständige verknüpfte Memory-Kopien gefunden: {{details}}. Repariere die kanonischen/Verknüpfungsmetadaten und versuche es erneut."
+  ,"STMemoryBooks_AutoRollback_NoMemories": "Für den verarbeiteten Bereich wurden keine eindeutigen Memory-Einträge gefunden. Repariere ältere oder fehlende Memory-Metadaten und versuche es erneut."
+  ,"STMemoryBooks_AutoRollback_ConsolidationIncomplete": "Das Rollback hat unvollständige Konsolidierungsabhängigkeiten gefunden: {{details}}. Repariere sie und versuche es erneut."
+  ,"STMemoryBooks_AutoRollback_LegacySidePrompts": "Ältere Side-Prompt-Snapshots können nicht zurückgesetzt werden und wurden übersprungen."
+  ,"STMemoryBooks_AutoRollback_ChangedSidePrompts": "Einige Side Prompts wurden nach der Memory-Erstellung geändert und blieben unverändert."
+  ,"STMemoryBooks_AutoRollback_MultipleSidePrompts": "Für jeden Side Prompt wurde nur der neueste verfügbare vorherige Zustand wiederhergestellt; ältere zurückgesetzte Informationen können verbleiben."
+  ,"STMemoryBooks_AutoRollback_Complete": "Memory-Rollback für {{count}} Memory-Eintrag bzw. -Einträge abgeschlossen."
+  ,"STMemoryBooks_AutoRollback_Failed": "Memory-Rollback fehlgeschlagen"
+  ,"STMemoryBooks_Toast_SceneMarkerCleared": "Szenenmarkierung aufgrund der Nachrichtenlöschung gelöscht."
+  ,"STMemoryBooks_GroupChatSettings": "Gruppenchat"
+  ,"STMemoryBooks_CharacterAwareMemories": "Charakterbezogene Erinnerungen"
+  ,"STMemoryBooks_CharacterAwareMemoriesTooltip": "Filtert Erinnerungen aus Gruppenchats nach den beteiligten Charakteren. Ohne Häkchen erfolgt die normale Verarbeitung in einem einzigen Memory Book, ohne Charakterfilter, Teilnehmerauswahl, Charakterkopien oder separate Gruppen-/Charakter-Prompts. Bestehende Einträge behalten ihre Filter, bis sie neu geschrieben werden."
+  ,"STMemoryBooks_SeparateGroupSidePrompts": "Separate Gruppen-Side-Prompts verwenden"
+  ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "Verwendet bei automatischen Ausführungen den Side-Prompt-Standard für Gruppen. Ohne Häkchen gilt der Solo-Standard. Explizite Auswahlen pro Chat gelten weiterhin. Unabhängig von charakterbezogenen Erinnerungen."
+  ,"STMemoryBooks_CharacterAwareDisabled": "Deaktiviert und nicht angewendet, weil „Charakterbezogene Erinnerungen“ in den Allgemeinen Einstellungen nicht angehakt ist."
+  ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "Deaktiviert und nicht angewendet, weil „Separate Gruppen-Side-Prompts verwenden“ in den Allgemeinen Einstellungen nicht angehakt ist."
 }

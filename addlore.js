@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { getContext } from '../../../extensions.js';
+import { isCharacterAwarenessDisabled } from './groupChatPolicy.js';
 import {
     METADATA_KEY,
     loadWorldInfo,
@@ -551,6 +552,9 @@ export async function addMemoryToLorebook(memoryResult, lorebookValidation, opti
                 newEntry[key] = value;
             }
         }
+        if (options.applyCharacterFilters === false || isCharacterAwarenessDisabled({}, effectiveMemoryResult.metadata)) {
+            delete newEntry.characterFilter;
+        }
         await saveWorldInfo(lorebookValidation.name, lorebookValidation.data, true);
 
         if (options.showNotification !== false && settings.moduleSettings?.showNotifications !== false) {
@@ -659,6 +663,10 @@ function populateLorebookEntry(entry, memoryResult, entryTitle, lorebookSettings
 }
 
 function applyMemoryCharacterFilter(entry, memoryResult) {
+    if (isCharacterAwarenessDisabled({}, memoryResult?.metadata)) {
+        delete entry.characterFilter;
+        return;
+    }
     const names = normalizeCharacterFilterNames(memoryResult?.metadata?.characterFilterNames);
     if (names.length === 0) {
         return;
@@ -740,6 +748,10 @@ export function generateEntryTitleAtNumber(titleFormat, memoryResult, sequenceNu
         '{{title}}': memoryResult.extractedTitle || i18n('addlore.defaults.title', 'Memory'),
         '{{scene}}': i18n('addlore.defaults.scene', 'Scene {{range}}', { range: metadata.sceneRange || i18n('common.unknown', 'Unknown') }),
         '{{char}}': metadata.characterName || i18n('common.unknown', 'Unknown'),
+        '{{groupname}}': metadata.groupName || i18n('common.unknown', 'Unknown'),
+        '{{present}}': Array.isArray(metadata.presentCharacterNames)
+            ? metadata.presentCharacterNames.join(', ')
+            : (metadata.characterName || i18n('common.unknown', 'Unknown')),
         '{{user}}': metadata.userName || i18n('addlore.defaults.user', 'User'),
         '{{messages}}': metadata.messageCount || 0,
         '{{profile}}': metadata.profileUsed || i18n('common.unknown', 'Unknown'),
@@ -1038,7 +1050,7 @@ export function validateTitleFormat(format) {
     
     // Check for valid placeholder syntax
     const invalidPlaceholders = format.match(/\{\{[^}]*\}\}/g)?.filter(placeholder => {
-        const validPlaceholders = ['{{title}}', '{{scene}}', '{{char}}', '{{user}}', '{{messages}}', '{{profile}}', '{{date}}', '{{time}}'];
+        const validPlaceholders = ['{{title}}', '{{scene}}', '{{char}}', '{{groupname}}', '{{present}}', '{{user}}', '{{messages}}', '{{profile}}', '{{date}}', '{{time}}'];
         return !validPlaceholders.includes(placeholder);
     });
     
@@ -1088,6 +1100,8 @@ export function previewTitle(titleFormat, sampleData = {}) {
         metadata: {
             sceneRange: '15-23',
             characterName: 'Alice',
+            groupName: 'Example Group',
+            presentCharacterNames: ['Alice', 'Clara'],
             userName: 'Bob',
             messageCount: 9,
             profileUsed: i18n('addlore.preview.sampleProfile', 'Summary')
@@ -1238,7 +1252,7 @@ export function getEntryByTitle(lorebookData, title) {
  *
  * @param {string} lorebookName
  * @param {Object} lorebookData
- * @param {Array<{title: string, content: string, defaults?: Object, metadataUpdates?: Object, entryOverrides?: Object}>} items
+ * @param {Array<{title: string, content: string, defaults?: Object, metadataUpdates?: Object, entryOverrides?: Object, metadataFactory?: Function}>} items
  * @param {Object} [options]
  * @param {boolean} [options.refreshEditor=true]
  * @returns {Promise<Array<{title:string, uid:number, created:boolean}>>}
@@ -1264,6 +1278,7 @@ export async function upsertLorebookEntriesBatch(lorebookName, lorebookData, ite
         const entryOverrides = it.entryOverrides || {};
 
         let entry = getEntryByTitle(lorebookData, title);
+        const priorEntry = entry ? structuredClone(entry) : null;
         let created = false;
 
         if (!entry) {
@@ -1300,6 +1315,13 @@ export async function upsertLorebookEntriesBatch(lorebookName, lorebookData, ite
             entry[k] = v;
         }
 
+        if (typeof it.metadataFactory === 'function') {
+            const generatedMetadata = it.metadataFactory({ entry, priorEntry, created }) || {};
+            for (const [k, v] of Object.entries(generatedMetadata)) {
+                entry[k] = v;
+            }
+        }
+
         results.push({ title, uid: entry.uid, created });
     }
 
@@ -1326,6 +1348,7 @@ export async function upsertLorebookEntriesBatch(lorebookName, lorebookData, ite
  * @param {Object} [options.defaults]  Defaults for new entries (vectorized, selective, order, position, etc.)
  * @param {Object} [options.metadataUpdates]  Key/value pairs to set on entry (e.g., STMB_tracker_lastMsgId)
  * @param {Object} [options.entryOverrides]  Fields to set/update on the entry for both create and update (e.g., constant, vectorized, preventRecursion, delayUntilRecursion, order)
+ * @param {Function} [options.metadataFactory] Called after core updates with {entry, priorEntry, created}.
  * @param {boolean} [options.refreshEditor=true]
  * @returns {Promise<{uid:number, created:boolean}>}
  */
@@ -1340,6 +1363,7 @@ export async function upsertLorebookEntryByTitle(lorebookName, lorebookData, tit
         metadataUpdates = {},
         refreshEditor = true,
         entryOverrides = {},
+        metadataFactory = null,
     } = options;
 
     if (!lorebookName || !lorebookData || !title) {
@@ -1347,6 +1371,7 @@ export async function upsertLorebookEntryByTitle(lorebookName, lorebookData, tit
     }
 
     let entry = getEntryByTitle(lorebookData, title);
+    const priorEntry = entry ? structuredClone(entry) : null;
     let created = false;
 
     if (!entry) {
@@ -1379,6 +1404,13 @@ export async function upsertLorebookEntryByTitle(lorebookName, lorebookData, tit
     // Apply entry overrides (both on create and update)
     for (const [k, v] of Object.entries(entryOverrides || {})) {
         entry[k] = v;
+    }
+
+    if (typeof metadataFactory === 'function') {
+        const generatedMetadata = metadataFactory({ entry, priorEntry, created }) || {};
+        for (const [k, v] of Object.entries(generatedMetadata)) {
+            entry[k] = v;
+        }
     }
 
     await saveWorldInfo(lorebookName, lorebookData, true);

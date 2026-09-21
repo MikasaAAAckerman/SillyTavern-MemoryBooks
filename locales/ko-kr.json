@@ -1,4 +1,24 @@
 {
+  "STMemoryBooks_Progress_Title": "대기 중인 진행 상태 업데이트 ({{count}})",
+  "STMemoryBooks_Progress_Blocked": "다른 메모리를 생성하기 전에 이 채팅의 대기 중인 진행 상태 업데이트를 적용하거나 삭제하세요.",
+  "STMemoryBooks_Progress_PersistenceError": "메모리는 저장되었지만 대기 중인 진행 상태 업데이트를 설정에 저장하지 못했습니다. 새로고침 전에 다시 시도하세요. 업데이트가 손실될 수 있습니다.",
+  "STMemoryBooks_Progress_Deferred": "메모리가 저장되었습니다. “{{chat}}”을 다시 열어 마지막으로 처리된 메시지 표시 업데이트를 완료하세요.",
+  "STMemoryBooks_Progress_Later": "나중에",
+  "STMemoryBooks_Progress_Processing": "처리 중…",
+  "STMemoryBooks_Progress_Done": "완료.",
+  "STMemoryBooks_Progress_SettingsSaved": "대기 중인 업데이트가 설정에 저장되었습니다. 해당 채팅을 열어 표시 업데이트를 완료하세요.",
+  "STMemoryBooks_Progress_CleanupError": "채팅은 업데이트되었지만 대기 중인 업데이트의 삭제를 저장하지 못했습니다. 다시 시도하여 완료하세요.",
+  "STMemoryBooks_Progress_Conflict": "채팅 또는 마지막으로 처리된 메시지 표시가 변경되었습니다. 현재 표시를 유지하고 이 대기 중인 업데이트를 삭제하거나 나중에를 선택하세요.",
+  "STMemoryBooks_Progress_RetryError": "업데이트가 아직 대기 중입니다. 이 채팅이 로드되었고 처리 중이 아닌지 확인한 후 다시 시도하세요.",
+  "STMemoryBooks_Progress_Close": "닫기",
+  "STMemoryBooks_Progress_Unknown": "인식할 수 없는 대기 중인 업데이트",
+  "STMemoryBooks_Progress_Range": "현재 마지막으로 처리된 메시지: {{current}}. 대기 중인 진행 상태의 끝: {{target}}.",
+  "STMemoryBooks_Progress_OpenChat": "이 채팅을 직접 열어 대기 중인 업데이트를 적용하세요.",
+  "STMemoryBooks_Progress_OK": "확인",
+  "STMemoryBooks_Progress_Discard": "대기 중인 업데이트 삭제",
+  "STMemoryBooks_Progress_DiscardConfirm": "마지막으로 처리된 메시지의 현재 표시를 유지하고 이 대기 중인 업데이트를 삭제할까요? 로어북에 저장된 메모리는 유지됩니다.",
+  "STMemoryBooks_Progress_Empty": "대기 중인 진행 상태 업데이트가 없습니다.",
+  "STMemoryBooks_Progress_RetrySettings": "대기 중인 업데이트 저장 다시 시도",
   "STMemoryBooks_SidePromptRegeneration_Button": "사이드 프롬프트 다시 생성",
   "STMemoryBooks_SidePromptRegeneration_InvalidSnapshot": "저장된 사이드 프롬프트 실행 스냅샷이 잘못되었습니다. 사이드 프롬프트를 다시 실행하여 교체하세요.",
   "STMemoryBooks_SidePromptRegeneration_MissingSnapshot": "다시 생성을 활성화하려면 이 사이드 프롬프트를 한 번 실행하세요.",
@@ -110,6 +130,11 @@
   "STMemoryBooks_Compaction_SavePrompt": "프롬프트 저장",
   "STMemoryBooks_Compaction_SelectMemoryBook": "메모리 북 선택...",
   "STMemoryBooks_Compaction_MemoryBook": "메모리 북",
+  "STMemoryBooks_Consolidation_SourceMemoryBook": "통합할 메모리 북",
+  "STMemoryBooks_Consolidation_SelectMemoryBook": "메모리 북 선택...",
+  "STMemoryBooks_Consolidation_SourceMemoryBookDesc": "통합할 수 있는 항목이 들어 있는 메모리 북을 선택하세요. 이 선택은 이번 실행에만 적용됩니다.",
+  "STMemoryBooks_Consolidation_LoadingMemoryBook": "메모리 북 불러오는 중...",
+  "STMemoryBooks_Consolidation_LoadFailed": "메모리 북 \"{{name}}\"을(를) 불러올 수 없습니다.",
   "STMemoryBooks_Compaction_Profile": "압축 프로필",
   "STMemoryBooks_Compaction_SelectProfile": "압축 프로필 선택...",
   "STMemoryBooks_Compaction_NoLorebooks": "메모리 북을 찾을 수 없습니다.",
@@ -280,7 +305,7 @@
   "STMemoryBooks_NoChatBound": "채팅에 바인딩된 로어북 없음. 메모리는 로어북 선택이 필요합니다.",
   "STMemoryBooks_Clear": "지우기",
   "STMemoryBooks_GroupCharacterLorebooks": "그룹 캐릭터 로어북",
-  "STMemoryBooks_GroupCharacterLorebooksDesc": "각 그룹 멤버의 로어북을 선택하세요. 같은 캐릭터 로어북을 여러 번 선택할 수 있습니다. 선택하면 STLO 화자 필터가 추가되며, 선택을 지워도 STLO 필터는 유지됩니다.",
+  "STMemoryBooks_GroupCharacterLorebooksDesc": "각 그룹 멤버의 로어북을 선택하세요. 같은 캐릭터 로어북을 여러 번 선택할 수 있습니다. STLO를 사용할 수 있는 경우 별도의 캐릭터 로어북에도 화자 필터가 추가되며, 선택을 지워도 기존 STLO 필터는 유지됩니다.",
   "STMemoryBooks_GroupCharacterLorebooksRequiresSTLO": "개별 로어북 지정에는 STLO가 필요합니다.",
   "STMemoryBooks_GroupLorebooksNoMembers": "수동 로어북 설정에 사용할 수 있는 그룹 멤버가 없습니다.",
   "STMemoryBooks_GroupManualLorebooksIncomplete": "그룹 수동 로어북이 완성되지 않았습니다: {{details}}",
@@ -368,7 +393,7 @@
   "STMemoryBooks_TitleFormat": "메모리 제목 형식:",
   "STMemoryBooks_CustomTitleFormat": "사용자 지정 제목 형식...",
   "STMemoryBooks_EnterCustomFormat": "사용자 지정 형식 입력",
-  "STMemoryBooks_TitleFormatDesc": "자동 번호 매기기를 위해 [0], [00], [000]을 사용하세요. 사용 가능: {{title}}, {{scene}}, {{char}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
+  "STMemoryBooks_TitleFormatDesc": "자동 번호 매기기를 위해 [0], [00], [000]을 사용하세요. 사용 가능: {{title}}, {{scene}}, {{char}}, {{groupname}}, {{present}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
   "STMemoryBooks_Profiles": "메모리 프로필:",
   "STMemoryBooks_Profile_CurrentST": "현재 SillyTavern 설정",
   "STMemoryBooks_Default": "(기본값)",
@@ -935,6 +960,7 @@
   "autosummary.log.sinceLast": "STMemoryBooks: 마지막 메모리 이후 메시지 ({{highestProcessed}}): {{count}}",
   "autosummary.log.triggerCheck": "STMemoryBooks: 자동 요약 트리거 확인: {{count}} >= {{required}}?",
   "autosummary.log.notTriggered": "STMemoryBooks: 자동 요약이 트리거되지 않음 - {{needed}} 메시지 더 필요",
+  "autosummary.log.notTriggeredTokens": "STMemoryBooks: 자동 요약이 트리거되지 않음 - 토큰 {{needed}}개 더 필요",
   "autosummary.log.postponedUntil": "STMemoryBooks: 자동 요약이 메시지 {{until}}까지 연기되었습니다",
   "autosummary.log.blocked": "STMemoryBooks: 자동 요약 차단됨 - 로어북 유효성 검사 실패: {{error}}",
   "autosummary.log.clearedPostpone": "STMemoryBooks: 자동 요약 연기 플래그 지워짐",
@@ -1140,6 +1166,7 @@
   "STMemoryBooks_SetHighest_SetTo": "마지막으로 처리된 메시지가 수동으로 #{{value}}로 설정되었습니다.",
   "addlore.toast.orderClamped": "순서 범위는 0~9999로 제한됩니다. 현재 {{source}} 값은 {{requested}}이지만, {{clamped}}으로 조정되었습니다.",
   "STMemoryBooks_ReverseOrder": "역순 (아웃렛에서만 사용 가능)",
+  "STMemoryBooks_Reverse": "역순",
   "STMemoryBooks_SummaryTier_Label": "요약 단계",
   "STMemoryBooks_ArcAnalysis_NoUsableArcs": "모델 응답에서 사용할 수 있는 요약이 생성되지 않았습니다.",
   "STMemoryBooks_ReviewFailedArc_Title": "검토 실패한 요약 응답",
@@ -1432,4 +1459,40 @@
   ,"STMemoryBooks_TopicalClip_MessageCompileFailed": "선택한 메시지를 컴파일하지 못했습니다."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "주제 클립 업데이트 1개가 승인 대기 중입니다."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "주제 클립 업데이트 {{count}}개가 승인 대기 중입니다."
+  ,"STMemoryBooks_AutoRollbackEnabled": "메시지 삭제 후 자동 롤백"
+  ,"STMemoryBooks_AutoRollbackDesc": "삭제된 메시지로 인해 처리된 메모리가 무효화되면 선택한 롤백 작업을 적용합니다. 메모리 또는 통합 삭제는 되돌릴 수 없습니다."
+  ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "마지막으로 처리한 메시지 ID 업데이트"
+  ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "마지막 메모리 삭제"
+  ,"STMemoryBooks_AutoRollbackRestoreSidePrompts": "이전 Side Prompt 복원"
+  ,"STMemoryBooks_AutoRollbackSidePromptLimit": "Side Prompt는 마지막으로 정확히 저장된 상태로 한 번만 롤백할 수 있습니다. 이전 롤백 단계는 보존되지 않습니다."
+  ,"STMemoryBooks_AutoRollback_LoadFailed": "메모리 롤백에서 Memory Book {{name}}을(를) 안전하게 불러오지 못했습니다. 사용할 수 없는 책을 복구하거나 제거한 후 다시 시도하세요."
+  ,"STMemoryBooks_AutoRollback_ScopeTitle": "메모리 롤백 범위 선택"
+  ,"STMemoryBooks_AutoRollback_ScopeBody": "채팅 중간에서 메시지 {{count}}개를 삭제하면 메모리 항목 {{memories}}개에 영향을 줍니다."
+  ,"STMemoryBooks_AutoRollback_Full": "전체 롤백"
+  ,"STMemoryBooks_AutoRollback_FullDesc": "영향받은 메모리와 그 이후의 모든 메모리를 삭제합니다."
+  ,"STMemoryBooks_AutoRollback_Affected": "영향받은 항목만"
+  ,"STMemoryBooks_AutoRollback_AffectedDesc": "겹치는 메모리만 삭제하고 이후 범위를 이동합니다. 메모리에 영구적인 공백이 남습니다."
+  ,"STMemoryBooks_AutoRollback_Tier": "티어 {{tier}}"
+  ,"STMemoryBooks_AutoRollback_ConsolidationTitle": "종속 통합을 삭제하시겠습니까?"
+  ,"STMemoryBooks_AutoRollback_ConsolidationBody": "롤백하려면 다음 통합을 삭제하고 기존 직접 소스를 다시 활성화해야 합니다. 메모리 삭제는 되돌릴 수 없습니다."
+  ,"STMemoryBooks_AutoRollback_ConfirmDelete": "삭제하고 롤백"
+  ,"STMemoryBooks_AutoRollback_Conflict": "롤백을 준비하는 동안 Memory Book {{name}}이(가) 변경되었습니다. 그 밖의 변경은 적용되지 않았습니다."
+  ,"STMemoryBooks_AutoRollback_CompensationFailed": "다음 책의 롤백 복구도 실패했습니다: {{books}}. 계속하기 전에 해당 Memory Book을 백업에서 복원하세요."
+  ,"STMemoryBooks_AutoRollback_Ambiguous": "채팅/범위 메타데이터가 충분하지 않은 메모리를 발견했습니다: {{entries}}. STMB_chatId, STMB_start, STMB_end 메타데이터를 복구한 후 다시 시도하세요."
+  ,"STMemoryBooks_AutoRollback_LinkedIncomplete": "불완전하게 연결된 메모리 사본을 발견했습니다: {{details}}. 정규/연결 메타데이터를 복구한 후 다시 시도하세요."
+  ,"STMemoryBooks_AutoRollback_NoMemories": "처리된 범위와 정확히 일치하는 메모리 항목을 찾지 못했습니다. 이전 형식이거나 누락된 메모리 메타데이터를 복구한 후 다시 시도하세요."
+  ,"STMemoryBooks_AutoRollback_ConsolidationIncomplete": "불완전한 통합 종속성을 발견했습니다: {{details}}. 복구한 후 다시 시도하세요."
+  ,"STMemoryBooks_AutoRollback_LegacySidePrompts": "이전 버전의 Side Prompt 스냅샷은 롤백할 수 없어 건너뛰었습니다."
+  ,"STMemoryBooks_AutoRollback_ChangedSidePrompts": "일부 Side Prompt가 메모리 생성 후 변경되어 그대로 유지했습니다."
+  ,"STMemoryBooks_AutoRollback_MultipleSidePrompts": "각 Side Prompt에서 사용 가능한 가장 최근의 이전 상태만 복원했습니다. 더 오래된 롤백 정보가 남아 있을 수 있습니다."
+  ,"STMemoryBooks_AutoRollback_Complete": "메모리 항목 {{count}}개의 롤백을 완료했습니다."
+  ,"STMemoryBooks_AutoRollback_Failed": "메모리 롤백 실패"
+  ,"STMemoryBooks_Toast_SceneMarkerCleared": "메시지 삭제로 인해 장면 마커가 지워졌습니다."
+  ,"STMemoryBooks_GroupChatSettings": "그룹 채팅"
+  ,"STMemoryBooks_CharacterAwareMemories": "캐릭터별 메모리"
+  ,"STMemoryBooks_CharacterAwareMemoriesTooltip": "그룹 채팅 메모리를 참여 캐릭터로 필터링합니다. 선택을 해제하면 캐릭터 필터, 참여자 선택, 캐릭터별 복사본, 별도의 그룹/캐릭터 프롬프트 없이 일반적인 단일 메모리 북 처리를 사용합니다. 기존 항목은 다시 작성될 때까지 필터를 유지합니다."
+  ,"STMemoryBooks_SeparateGroupSidePrompts": "그룹 사이드 프롬프트 따로 사용"
+  ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "자동 실행 시 그룹 사이드 프롬프트 기본값을 사용합니다. 선택을 해제하면 솔로 기본값을 상속합니다. 채팅별 명시적 선택은 계속 적용됩니다. 캐릭터별 메모리와 독립적인 설정입니다."
+  ,"STMemoryBooks_CharacterAwareDisabled": "일반 설정에서 “캐릭터별 메모리”가 선택 해제되어 비활성화되었으며 적용되지 않습니다."
+  ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "일반 설정에서 “그룹 사이드 프롬프트 따로 사용”이 선택 해제되어 비활성화되었으며 적용되지 않습니다."
 }

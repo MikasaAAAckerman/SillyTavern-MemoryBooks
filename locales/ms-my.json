@@ -1,4 +1,24 @@
 {
+  "STMemoryBooks_Progress_Title": "Kemas kini kemajuan tertangguh ({{count}})",
+  "STMemoryBooks_Progress_Blocked": "Gunakan atau buang kemas kini kemajuan tertangguh untuk sembang ini sebelum mencipta memori lain.",
+  "STMemoryBooks_Progress_PersistenceError": "Memori disimpan, tetapi kemas kini kemajuan tertangguhnya tidak dapat disimpan dalam tetapan. Cuba semula sebelum memuat semula halaman atau kemas kini mungkin hilang.",
+  "STMemoryBooks_Progress_Deferred": "Memori disimpan. Buka semula “{{chat}}” untuk melengkapkan kemas kini penanda mesej terakhir diproses.",
+  "STMemoryBooks_Progress_Later": "Kemudian",
+  "STMemoryBooks_Progress_Processing": "Sedang memproses…",
+  "STMemoryBooks_Progress_Done": "Selesai.",
+  "STMemoryBooks_Progress_SettingsSaved": "Kemas kini tertangguh disimpan dalam tetapan. Buka sembang berkenaan untuk melengkapkan kemas kini penandanya.",
+  "STMemoryBooks_Progress_CleanupError": "Sembang telah dikemas kini, tetapi penghapusan kemas kini tertangguh tidak dapat disimpan. Cuba semula untuk menyelesaikannya.",
+  "STMemoryBooks_Progress_Conflict": "Sembang atau penanda mesej terakhir diproses telah berubah. Kekalkan penanda semasa dan buang kemas kini tertangguh ini, atau pilih Kemudian.",
+  "STMemoryBooks_Progress_RetryError": "Kemas kini masih tertangguh. Pastikan sembang ini telah dimuatkan dan tiada pemprosesan sedang berjalan, kemudian cuba semula.",
+  "STMemoryBooks_Progress_Close": "Tutup",
+  "STMemoryBooks_Progress_Unknown": "Kemas kini tertangguh tidak dikenali",
+  "STMemoryBooks_Progress_Range": "Mesej terakhir diproses semasa: {{current}}. Kemajuan tertangguh hingga: {{target}}.",
+  "STMemoryBooks_Progress_OpenChat": "Buka sembang ini secara manual untuk menggunakan kemas kini tertangguhnya.",
+  "STMemoryBooks_Progress_OK": "OK",
+  "STMemoryBooks_Progress_Discard": "Buang kemas kini tertangguh",
+  "STMemoryBooks_Progress_DiscardConfirm": "Kekalkan penanda mesej terakhir diproses semasa dan buang kemas kini tertangguh ini? Memori yang disimpan dalam buku legenda akan dikekalkan.",
+  "STMemoryBooks_Progress_Empty": "Tiada kemas kini kemajuan tertangguh.",
+  "STMemoryBooks_Progress_RetrySettings": "Cuba simpan kemas kini tertangguh semula",
   "STMemoryBooks_SidePromptRegeneration_Button": "Jana semula Side Prompt",
   "STMemoryBooks_SidePromptRegeneration_InvalidSnapshot": "Syot kilat larian Side Prompt yang disimpan tidak sah. Jalankan Side Prompt sekali lagi untuk menggantikannya.",
   "STMemoryBooks_SidePromptRegeneration_MissingSnapshot": "Jalankan Side Prompt ini sekali untuk mendayakan penjanaan semula.",
@@ -110,6 +130,11 @@
   "STMemoryBooks_Compaction_SavePrompt": "Simpan Prom",
   "STMemoryBooks_Compaction_SelectMemoryBook": "Pilih Buku Memori...",
   "STMemoryBooks_Compaction_MemoryBook": "Buku Memori",
+  "STMemoryBooks_Consolidation_SourceMemoryBook": "Buku Memori untuk disatukan",
+  "STMemoryBooks_Consolidation_SelectMemoryBook": "Pilih Buku Memori...",
+  "STMemoryBooks_Consolidation_SourceMemoryBookDesc": "Pilih Buku Memori yang entri layaknya hendak disatukan. Pilihan ini hanya digunakan untuk proses ini.",
+  "STMemoryBooks_Consolidation_LoadingMemoryBook": "Memuatkan Buku Memori...",
+  "STMemoryBooks_Consolidation_LoadFailed": "Buku Memori \"{{name}}\" tidak dapat dimuatkan.",
   "STMemoryBooks_Compaction_Profile": "Profil Pemadatan",
   "STMemoryBooks_Compaction_SelectProfile": "Pilih profil Pemadatan...",
   "STMemoryBooks_Compaction_NoLorebooks": "Tiada Buku Memori ditemui.",
@@ -281,7 +306,7 @@
   "STMemoryBooks_NoChatBound": "Tiada buku legenda terikat sembang. Memori akan memerlukan pemilihan buku legenda.",
   "STMemoryBooks_Clear": "Kosongkan",
   "STMemoryBooks_GroupCharacterLorebooks": "Buku Legenda Watak Kumpulan",
-  "STMemoryBooks_GroupCharacterLorebooksDesc": "Pilih buku legenda untuk setiap ahli kumpulan. Buku legenda watak yang sama boleh dipilih lebih daripada sekali. Pilihan menambah penapis penutur STLO; mengosongkan pilihan mengekalkan penapis STLO tersebut.",
+  "STMemoryBooks_GroupCharacterLorebooksDesc": "Pilih buku legenda untuk setiap ahli kumpulan. Buku legenda watak yang sama boleh dipilih lebih daripada sekali. Jika STLO tersedia, buku legenda watak yang berasingan turut menerima penapis penutur; mengosongkan pilihan mengekalkan sebarang penapis STLO yang sedia ada.",
   "STMemoryBooks_GroupCharacterLorebooksRequiresSTLO": "Penetapan buku legenda individu memerlukan STLO.",
   "STMemoryBooks_GroupLorebooksNoMembers": "Tiada ahli kumpulan tersedia untuk persediaan buku legenda manual.",
   "STMemoryBooks_GroupManualLorebooksIncomplete": "Buku legenda manual kumpulan belum lengkap: {{details}}",
@@ -369,7 +394,7 @@
   "STMemoryBooks_TitleFormat": "Format Tajuk Memori:",
   "STMemoryBooks_CustomTitleFormat": "Format Tajuk Tersuai...",
   "STMemoryBooks_EnterCustomFormat": "Masukkan format tersuai",
-  "STMemoryBooks_TitleFormatDesc": "Gunakan [0], [00], [000] untuk penomboran automatik. Tersedia: {{title}}, {{scene}}, {{char}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
+  "STMemoryBooks_TitleFormatDesc": "Gunakan [0], [00], [000] untuk penomboran automatik. Tersedia: {{title}}, {{scene}}, {{char}}, {{groupname}}, {{present}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
   "STMemoryBooks_Profiles": "Profil Memori:",
   "STMemoryBooks_Profile_CurrentST": "Tetapan SillyTavern Semasa",
   "STMemoryBooks_Default": "(Lalai)",
@@ -960,6 +985,7 @@
   "autosummary.log.sinceLast": "STMemoryBooks: Mesej sejak memori terakhir ({{highestProcessed}}): {{count}}",
   "autosummary.log.triggerCheck": "STMemoryBooks: Semakan pencetus auto-ringkasan: {{count}} >= {{required}}?",
   "autosummary.log.notTriggered": "STMemoryBooks: Auto-ringkasan tidak dicetuskan - perlukan {{needed}} lagi mesej",
+  "autosummary.log.notTriggeredTokens": "STMemoryBooks: Auto-ringkasan tidak dicetuskan - perlukan {{needed}} lagi token",
   "autosummary.log.postponedUntil": "STMemoryBooks: Auto-ringkasan ditangguhkan sehingga mesej {{until}}",
   "autosummary.log.blocked": "STMemoryBooks: Auto-ringkasan disekat - pengesahan buku legenda gagal: {{error}}",
   "autosummary.log.clearedPostpone": "STMemoryBooks: Mengosongkan bendera penangguhan auto-ringkasan",
@@ -1140,6 +1166,7 @@
   "STMemoryBooks_SetHighest_SetTo": "Mesej terakhir diproses secara manual ditetapkan kepada #{{value}}.",
   "addlore.toast.orderClamped": "Julat pesanan terhad kepada 0–9999. {{source}} semasa ialah {{requested}}; diapit kepada {{clamped}}.",
   "STMemoryBooks_ReverseOrder": "Terbalik (hanya digunakan dengan Outlet)",
+  "STMemoryBooks_Reverse": "Terbalik",
   "STMemoryBooks_SummaryTier_Label": "Tahap Ringkasan",
   "STMemoryBooks_ArcAnalysis_NoUsableArcs": "Model tidak menghasilkan ringkasan yang boleh digunakan.",
   "STMemoryBooks_ReviewFailedArc_Title": "Semak Respons Ringkasan yang Gagal",
@@ -1432,4 +1459,40 @@
   ,"STMemoryBooks_TopicalClip_MessageCompileFailed": "Gagal menyusun mesej yang dipilih."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 kemas kini Klip Topikal menunggu kelulusan."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} kemas kini Klip Topikal menunggu kelulusan."
+  ,"STMemoryBooks_AutoRollbackEnabled": "Rollback automatik selepas pemadaman mesej"
+  ,"STMemoryBooks_AutoRollbackDesc": "Apabila mesej yang dipadam membatalkan Memory yang telah diproses, gunakan tindakan rollback yang dipilih. Pemadaman Memory atau penggabungan tidak boleh dibuat asal."
+  ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "Kemas kini ID mesej terakhir yang diproses"
+  ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "Padam Memory terakhir"
+  ,"STMemoryBooks_AutoRollbackRestoreSidePrompts": "Pulihkan Side Prompt sebelumnya"
+  ,"STMemoryBooks_AutoRollbackSidePromptLimit": "Side Prompt hanya boleh di-rollback sekali kepada keadaan tepat terkini yang disimpan. Lapisan rollback lama tidak disimpan."
+  ,"STMemoryBooks_AutoRollback_LoadFailed": "Rollback Memory tidak dapat memuatkan Memory Book {{name}} dengan selamat. Baiki atau alih keluar buku yang tidak tersedia, kemudian cuba lagi."
+  ,"STMemoryBooks_AutoRollback_ScopeTitle": "Pilih skop rollback Memory"
+  ,"STMemoryBooks_AutoRollback_ScopeBody": "Memadam {{count}} mesej dari tengah sembang menjejaskan {{memories}} entri Memory."
+  ,"STMemoryBooks_AutoRollback_Full": "Rollback penuh"
+  ,"STMemoryBooks_AutoRollback_FullDesc": "Padam Memory yang terjejas dan semua Memory yang lebih baharu."
+  ,"STMemoryBooks_AutoRollback_Affected": "Yang terjejas sahaja"
+  ,"STMemoryBooks_AutoRollback_AffectedDesc": "Padam hanya Memory yang bertindih dan alihkan julat yang lebih baharu. Ini meninggalkan jurang Memory kekal."
+  ,"STMemoryBooks_AutoRollback_Tier": "tahap {{tier}}"
+  ,"STMemoryBooks_AutoRollback_ConsolidationTitle": "Padam penggabungan bergantung?"
+  ,"STMemoryBooks_AutoRollback_ConsolidationBody": "Rollback memerlukan penggabungan berikut dipadam dan sumber langsung sedia ada didayakan semula. Pemadaman Memory tidak boleh dibuat asal."
+  ,"STMemoryBooks_AutoRollback_ConfirmDelete": "Padam dan rollback"
+  ,"STMemoryBooks_AutoRollback_Conflict": "Memory Book {{name}} berubah semasa rollback disediakan. Tiada perubahan lain dibuat."
+  ,"STMemoryBooks_AutoRollback_CompensationFailed": "Pemulihan rollback turut gagal untuk: {{books}}. Pulihkan Memory Book ini daripada sandaran sebelum meneruskan."
+  ,"STMemoryBooks_AutoRollback_Ambiguous": "Rollback menemui Memory tanpa metadata sembang/julat yang mencukupi: {{entries}}. Baiki metadata STMB_chatId, STMB_start dan STMB_end sebelum mencuba lagi."
+  ,"STMemoryBooks_AutoRollback_LinkedIncomplete": "Rollback menemui salinan Memory terpaut yang tidak lengkap: {{details}}. Baiki metadata kanonik/pautan sebelum mencuba lagi."
+  ,"STMemoryBooks_AutoRollback_NoMemories": "Tiada entri Memory tepat ditemui bagi julat yang diproses. Baiki metadata Memory lama atau yang hilang sebelum mencuba lagi."
+  ,"STMemoryBooks_AutoRollback_ConsolidationIncomplete": "Rollback menemui kebergantungan penggabungan yang tidak lengkap: {{details}}. Baikinya sebelum mencuba lagi."
+  ,"STMemoryBooks_AutoRollback_LegacySidePrompts": "Snapshot Side Prompt versi lama tidak boleh di-rollback dan telah dilangkau."
+  ,"STMemoryBooks_AutoRollback_ChangedSidePrompts": "Sesetengah Side Prompt berubah selepas Memory dicipta dan dibiarkan tanpa perubahan."
+  ,"STMemoryBooks_AutoRollback_MultipleSidePrompts": "Hanya keadaan sebelumnya terkini yang tersedia dipulihkan bagi setiap Side Prompt; maklumat rollback yang lebih lama mungkin kekal."
+  ,"STMemoryBooks_AutoRollback_Complete": "Rollback Memory selesai untuk {{count}} entri Memory."
+  ,"STMemoryBooks_AutoRollback_Failed": "Rollback Memory gagal"
+  ,"STMemoryBooks_Toast_SceneMarkerCleared": "Penanda babak dikosongkan kerana pemadaman mesej."
+  ,"STMemoryBooks_GroupChatSettings": "Sembang Kumpulan"
+  ,"STMemoryBooks_CharacterAwareMemories": "Memori mengikut watak"
+  ,"STMemoryBooks_CharacterAwareMemoriesTooltip": "Menapis memori sembang kumpulan mengikut watak yang mengambil bahagian. Jika dinyahtanda, gunakan pemprosesan biasa dalam satu Buku Memori tanpa penapis watak, pemilihan peserta, salinan watak atau prom kumpulan/watak berasingan. Entri sedia ada mengekalkan penapis sehingga ditulis semula."
+  ,"STMemoryBooks_SeparateGroupSidePrompts": "Gunakan prom sampingan kumpulan berasingan"
+  ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "Gunakan lalai prom sampingan kumpulan untuk pelaksanaan automatik. Jika dinyahtanda, warisi lalai solo. Pilihan khusus bagi setiap sembang masih digunakan. Tidak bergantung pada memori mengikut watak."
+  ,"STMemoryBooks_CharacterAwareDisabled": "Dilumpuhkan dan tidak digunakan kerana “Memori mengikut watak” dinyahtanda dalam Tetapan Umum."
+  ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "Dilumpuhkan dan tidak digunakan kerana “Gunakan prom sampingan kumpulan berasingan” dinyahtanda dalam Tetapan Umum."
 }

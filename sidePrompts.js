@@ -7,7 +7,7 @@ import { loadWorldInfo, world_names } from '../../../world-info.js';
 import { toReadableText } from './chatcompile.js';
 import { compileMessageRange } from './messageRange.js';
 import { getCurrentApiInfo, getUIModelSettings, getCurrentMemoryBooksContext, normalizeCompletionSource, resolveEffectiveConnectionFromProfile, clampInt, createStmbInFlightTask, isStmbStopError, getStmbStopEpoch, throwIfStmbStopped } from './utils.js';
-import { appendAdditionalContextSection, applySelectedRegex, requestCompletion } from './stmemory.js';
+import { appendAdditionalContextSection, applySelectedRegex, assertProviderDidNotTruncate, requestCompletion } from './stmemory.js';
 import { findSetByName, getTemplate, listByTrigger, findTemplateByName, resolveSetItemsForRun } from './sidePromptsManager.js';
 import { upsertLorebookEntryByTitle, upsertLorebookEntriesBatch, getEntryByTitle } from './addlore.js';
 import { fetchPreviousSummaries, showMemoryPreviewPopup } from './confirmationPopup.js';
@@ -334,7 +334,7 @@ async function runLLM(prompt, overrides = null, options = {}) {
         }
     }
 
-    const { text } = await requestCompletion({
+    const { text, full } = await requestCompletion({
         api,
         model,
         prompt,
@@ -348,6 +348,7 @@ async function runLLM(prompt, overrides = null, options = {}) {
         useChatCompletionService,
         chatCompletionPreset,
     });
+    assertProviderDidNotTruncate(full, text);
     
     // Apply the same explicit incoming regex selection flow used by memories.
     try {
@@ -671,15 +672,28 @@ async function prepareSidePromptRun({
     return { unifiedTitle, existing, prior, finalPrompt, conn };
 }
 
-function getSidePromptRegenerationMetadata(tpl, priorContent, compiledScene, runtimeMacros = {}) {
+function getSidePromptRegenerationMetadata(tpl, priorContent, priorEntry, writtenEntry, compiledScene, runtimeMacros = {}) {
     return {
         [SIDE_PROMPT_REGENERATION_METADATA_KEY]: buildSidePromptRegenerationSnapshot({
             templateKey: tpl?.key,
             priorContent,
+            priorEntry,
+            writtenEntry,
             compiledScene,
             runtimeMacros,
         }),
     };
+}
+
+function createSidePromptRegenerationMetadataFactory(tpl, priorContent, compiledScene, runtimeMacros = {}) {
+    return ({ entry, priorEntry }) => getSidePromptRegenerationMetadata(
+        tpl,
+        priorContent,
+        priorEntry,
+        entry,
+        compiledScene,
+        runtimeMacros,
+    );
 }
 
 /**
@@ -982,17 +996,17 @@ async function executeQueuedSidePromptJob(job, context) {
                 defaults: payload.defaults,
                 entryOverrides: payload.entryOverrides,
                 metadataUpdates: {
-                    ...getSidePromptRegenerationMetadata(
-                        tpl,
-                        payload.priorContent,
-                        payload.compiledScene,
-                        payload.runtimeMacros,
-                    ),
                     [`STMB_sp_${tpl.key}_lastMsgId`]: payload.compiledScene?.metadata?.sceneEnd ?? null,
                     [`STMB_sp_${tpl.key}_lastRunAt`]: new Date().toISOString(),
                     STMB_tracker_lastMsgId: payload.compiledScene?.metadata?.sceneEnd ?? null,
                     STMB_tracker_lastRunAt: new Date().toISOString(),
                 },
+                metadataFactory: createSidePromptRegenerationMetadataFactory(
+                    tpl,
+                    payload.priorContent,
+                    payload.compiledScene,
+                    payload.runtimeMacros,
+                ),
                 refreshEditor: getStmbChatKey(job.chatRef) === getStmbChatKey()
                     && extension_settings?.STMemoryBooks?.moduleSettings?.refreshEditor !== false,
             },
@@ -1117,17 +1131,17 @@ async function executeQueuedSidePromptBatchJob(job, context) {
             defaults: item.defaults,
             entryOverrides: item.entryOverrides,
             metadataUpdates: {
-                ...getSidePromptRegenerationMetadata(
-                    tpl,
-                    item.priorContent,
-                    compiledScene,
-                    item.runtimeMacros,
-                ),
                 [`STMB_sp_${tpl.key}_lastMsgId`]: compiledScene?.metadata?.sceneEnd ?? null,
                 [`STMB_sp_${tpl.key}_lastRunAt`]: new Date().toISOString(),
                 STMB_tracker_lastMsgId: compiledScene?.metadata?.sceneEnd ?? null,
                 STMB_tracker_lastRunAt: new Date().toISOString(),
             },
+            metadataFactory: createSidePromptRegenerationMetadataFactory(
+                tpl,
+                item.priorContent,
+                compiledScene,
+                item.runtimeMacros,
+            ),
         });
         group.names.push(name);
     }
@@ -1376,12 +1390,17 @@ export async function evaluateTrackers() {
                     defaults,
                     entryOverrides,
                     metadataUpdates: {
-                        ...getSidePromptRegenerationMetadata(tpl, prepared.prior, compiled, runtimeMacros),
                         [`STMB_sp_${tpl.key}_lastMsgId`]: endId,
                         [`STMB_sp_${tpl.key}_lastRunAt`]: new Date().toISOString(),
                         STMB_tracker_lastMsgId: endId,
                         STMB_tracker_lastRunAt: new Date().toISOString(),
                     },
+                    metadataFactory: createSidePromptRegenerationMetadataFactory(
+                        tpl,
+                        prepared.prior,
+                        compiled,
+                        runtimeMacros,
+                    ),
                     refreshEditor: extension_settings?.STMemoryBooks?.moduleSettings?.refreshEditor !== false,
                 });
                 console.log(`${MODULE_NAME}: SidePrompt success`, {
@@ -1668,14 +1687,14 @@ export async function runAfterMemory(compiledScene, profile = null, options = {}
                         defaults,
                         entryOverrides,
                         metadataUpdates: {
-                            ...getSidePromptRegenerationMetadata(
-                                tpl,
-                                r.priorContent,
-                                compiledScene,
-                                r.runItem?.runtimeMacros || {},
-                            ),
                             [`STMB_sp_${tpl.key}_lastRunAt`]: new Date().toISOString(),
                         },
+                        metadataFactory: createSidePromptRegenerationMetadataFactory(
+                            tpl,
+                            r.priorContent,
+                            compiledScene,
+                            r.runItem?.runtimeMacros || {},
+                        ),
                     });
                     group.names.push(r.runItem?.name || tpl.name);
                 } else {
@@ -1905,12 +1924,17 @@ export async function runSidePrompt(args) {
                 defaults,
                 entryOverrides,
                 metadataUpdates: {
-                    ...getSidePromptRegenerationMetadata(tpl, prepared.prior, compiled, runtimeMacros),
                     [`STMB_sp_${tpl.key}_lastMsgId`]: endId,
                     [`STMB_sp_${tpl.key}_lastRunAt`]: new Date().toISOString(),
                     STMB_tracker_lastMsgId: endId,
                     STMB_tracker_lastRunAt: new Date().toISOString(),
                 },
+                metadataFactory: createSidePromptRegenerationMetadataFactory(
+                    tpl,
+                    prepared.prior,
+                    compiled,
+                    runtimeMacros,
+                ),
                 refreshEditor: extension_settings?.STMemoryBooks?.moduleSettings?.refreshEditor !== false,
             });
             console.log(`${MODULE_NAME}: SidePrompt success`, {
@@ -2149,17 +2173,17 @@ export async function runSidePromptSet(args, options = {}) {
                     defaults,
                     entryOverrides,
                     metadataUpdates: {
-                        ...getSidePromptRegenerationMetadata(
-                            tpl,
-                            prepared.prior,
-                            compiled,
-                            runItem.runtimeMacros,
-                        ),
                         [`STMB_sp_${tpl.key}_lastMsgId`]: endId,
                         [`STMB_sp_${tpl.key}_lastRunAt`]: new Date().toISOString(),
                         STMB_tracker_lastMsgId: endId,
                         STMB_tracker_lastRunAt: new Date().toISOString(),
                     },
+                    metadataFactory: createSidePromptRegenerationMetadataFactory(
+                        tpl,
+                        prepared.prior,
+                        compiled,
+                        runItem.runtimeMacros,
+                    ),
                     refreshEditor,
                 });
                 okCount++;

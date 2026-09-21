@@ -157,7 +157,7 @@ export const settingsTemplate = Handlebars.compile(`
             </select>
             <input type="text" id="stmb-custom-title-format" class="text_pole marginTop5 {{#unless showCustomInput}}displayNone{{/unless}}"
                 data-i18n="[placeholder]STMemoryBooks_EnterCustomFormat" placeholder="Enter custom format" value="{{titleFormat}}">
-            <small class="opacity50p" data-i18n="STMemoryBooks_TitleFormatDesc">Use [0], [00], [000] for auto-numbering. Available: \{{title}}, \{{scene}}, &#123;&#123;char}}, &#123;&#123;user}}, \{{messages}}, \{{profile}}, &#123;&#123;date}}, &#123;&#123;time}}</small>
+            <small class="opacity50p" data-i18n="STMemoryBooks_TitleFormatDesc">Use [0], [00], [000] for auto-numbering. Available: \{{title}}, \{{scene}}, &#123;&#123;char}}, &#123;&#123;groupname}}, \{{present}}, &#123;&#123;user}}, \{{messages}}, \{{profile}}, &#123;&#123;date}}, &#123;&#123;time}}</small>
         </div>
 
         <div class="world_entry_form_control">
@@ -216,10 +216,6 @@ export const generalSettingsTemplate = Handlebars.compile(`
             <span data-i18n="STMemoryBooks_AlwaysUseDefault">Always use default profile (no confirmation prompt)</span>
         </label>
         <label class="checkbox_label">
-            <input type="checkbox" id="stmb-auto-accept-group-participants" {{#if autoAcceptGroupParticipants}}checked{{/if}}>
-            <span data-i18n="STMemoryBooks_GroupParticipants_AutoAccept">Automatically accept detected participants in future</span>
-        </label>
-        <label class="checkbox_label">
             <input type="checkbox" id="stmb-show-memory-previews" {{#if showMemoryPreviews}}checked{{/if}}>
             <span data-i18n="STMemoryBooks_ShowMemoryPreviews;[title]STMemoryBooks_ShowMemoryPreviewsTooltip" title="Shows previews for memories and side prompts returned from the AI.">Show memory previews</span>
         </label>
@@ -258,6 +254,44 @@ export const generalSettingsTemplate = Handlebars.compile(`
             <span data-i18n="STMemoryBooks_CopyMemoryBooksOnBranch">Copy Memory Books when branching</span>
         </label>
         <small class="opacity50p" data-i18n="STMemoryBooks_CopyMemoryBooksOnBranchDesc">When enabled, new chat branches receive independent copies of their active chat-bound or manual Memory Books.</small>
+        <div class="padding10 marginTop5 stmb-box">
+            <label class="checkbox_label">
+                <input type="checkbox" id="stmb-auto-rollback-enabled" {{#if autoRollbackEnabled}}checked{{/if}}>
+                <span data-i18n="STMemoryBooks_AutoRollbackEnabled">Auto-rollback after message deletion</span>
+            </label>
+            <small class="opacity50p" data-i18n="STMemoryBooks_AutoRollbackDesc">When deleted messages invalidate processed Memories, apply the selected rollback actions. Deleting Memories or consolidations is irreversible.</small>
+            <div id="stmb-auto-rollback-options" class="padding10 {{#unless autoRollbackEnabled}}opacity50p{{/unless}}">
+                <label class="checkbox_label">
+                    <input type="checkbox" id="stmb-auto-rollback-update-last-processed" {{#if autoRollbackUpdateLastProcessed}}checked{{/if}} {{#unless autoRollbackEnabled}}disabled{{/unless}}>
+                    <span data-i18n="STMemoryBooks_AutoRollbackUpdateLastProcessed">Update last message ID processed</span>
+                </label>
+                <label class="checkbox_label">
+                    <input type="checkbox" id="stmb-auto-rollback-delete-last-memory" {{#if autoRollbackDeleteLastMemory}}checked{{/if}} {{#unless autoRollbackEnabled}}disabled{{/unless}}>
+                    <span data-i18n="STMemoryBooks_AutoRollbackDeleteLastMemory">Delete last Memory</span>
+                </label>
+                <label class="checkbox_label">
+                    <input type="checkbox" id="stmb-auto-rollback-restore-side-prompts" {{#if autoRollbackRestorePreviousSidePrompts}}checked{{/if}} {{#unless autoRollbackEnabled}}disabled{{/unless}}>
+                    <span data-i18n="STMemoryBooks_AutoRollbackRestoreSidePrompts">Restore previous Side Prompts</span>
+                </label>
+                <small class="warning" data-i18n="STMemoryBooks_AutoRollbackSidePromptLimit">Side Prompts can be rolled back only once, to their latest exact saved state. Older rollback layers are not retained.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="world_entry_form_control">
+        <h4 class="stmb-section-title" data-i18n="STMemoryBooks_GroupChatSettings">Group Chat</h4>
+        <label class="checkbox_label" title="Filter group-chat memories to participating characters. When unchecked, use ordinary single-book processing without character filters, participant selection, character copies, or separate group/character prompts. Existing entries keep their filters until rewritten." data-i18n="[title]STMemoryBooks_CharacterAwareMemoriesTooltip">
+            <input type="checkbox" id="stmb-character-aware-memories" {{#if characterAwareMemories}}checked{{/if}}>
+            <span data-i18n="STMemoryBooks_CharacterAwareMemories">character-aware memories</span>
+        </label>
+        <label class="checkbox_label" title="Use the group side-prompt default for automatic runs. When unchecked, inherit the solo default. Explicit per-chat selections still apply. Independent of character-aware memories." data-i18n="[title]STMemoryBooks_SeparateGroupSidePromptsTooltip">
+            <input type="checkbox" id="stmb-use-separate-group-side-prompts" {{#if useSeparateGroupSidePrompts}}checked{{/if}}>
+            <span data-i18n="STMemoryBooks_SeparateGroupSidePrompts">Use separate group side prompts</span>
+        </label>
+        <label class="checkbox_label">
+            <input type="checkbox" id="stmb-auto-accept-group-participants" {{#if autoAcceptGroupParticipants}}checked{{/if}}>
+            <span data-i18n="STMemoryBooks_GroupParticipants_AutoAccept">Automatically accept detected participants in future</span>
+        </label>
     </div>
 
     <div class="world_entry_form_control">
@@ -379,6 +413,23 @@ export const automaticMemoriesSettingsTemplate = Handlebars.compile(`
             <span data-i18n="STMemoryBooks_AutoSummaryEnabled">Auto-create memory summaries</span>
         </label>
         <small class="opacity50p" data-i18n="STMemoryBooks_AutoSummaryDesc;[title]STMemoryBooks_AutoSummaryWarnTooltip" title="Warning: enabling Auto-Summary may create one large memory from the existing backlog. Use /stmb-set-highest &lt;N|none&gt; to control the baseline.">Automatically run /nextmemory after a specified number of messages.</small>
+    </div>
+
+    <div class="world_entry_form_control">
+        <label for="stmb-auto-summary-trigger-mode">
+            <h4 data-i18n="STMemoryBooks_AutoSummaryTriggerMode">Auto-Summary Trigger:</h4>
+            <select id="stmb-auto-summary-trigger-mode" class="text_pole">
+                <option value="messages" data-i18n="STMemoryBooks_Messages" {{#if autoSummaryTriggerMessages}}selected{{/if}}>Messages</option>
+                <option value="tokens" data-i18n="STMemoryBooks_Tokens" {{#if autoSummaryTriggerTokens}}selected{{/if}}>Tokens</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="world_entry_form_control">
+        <label for="stmb-auto-summary-token-threshold">
+            <h4 data-i18n="STMemoryBooks_AutoSummaryTokenThreshold">Auto-Summary Token Threshold:</h4>
+            <input type="number" id="stmb-auto-summary-token-threshold" class="text_pole" value="{{autoSummaryTokenThreshold}}" min="1" max="1000000" step="1">
+        </label>
     </div>
 
     <div class="world_entry_form_control">

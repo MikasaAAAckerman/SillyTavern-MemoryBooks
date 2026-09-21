@@ -1,4 +1,24 @@
 {
+  "STMemoryBooks_Progress_Title": "待處理的進度更新（{{count}}）",
+  "STMemoryBooks_Progress_Blocked": "建立另一條記憶之前，請先套用或捨棄此聊天待處理的進度更新。",
+  "STMemoryBooks_Progress_PersistenceError": "記憶已儲存，但無法將待處理的進度更新儲存至設定。請在重新整理頁面前重試，否則更新可能遺失。",
+  "STMemoryBooks_Progress_Deferred": "記憶已儲存。請重新開啟「{{chat}}」，完成最後處理訊息標記的更新。",
+  "STMemoryBooks_Progress_Later": "稍後",
+  "STMemoryBooks_Progress_Processing": "處理中…",
+  "STMemoryBooks_Progress_Done": "完成。",
+  "STMemoryBooks_Progress_SettingsSaved": "待處理的更新已儲存至設定。請開啟對應聊天，完成其標記的更新。",
+  "STMemoryBooks_Progress_CleanupError": "聊天已更新，但無法儲存待處理更新的清除結果。請重試以完成操作。",
+  "STMemoryBooks_Progress_Conflict": "聊天或其最後處理訊息標記已變更。請保留目前標記並捨棄此待處理的更新，或選擇「稍後」。",
+  "STMemoryBooks_Progress_RetryError": "更新仍待處理。請確認此聊天已載入且沒有正在進行的處理，然後重試。",
+  "STMemoryBooks_Progress_Close": "關閉",
+  "STMemoryBooks_Progress_Unknown": "無法辨識的待處理更新",
+  "STMemoryBooks_Progress_Range": "目前最後處理的訊息：{{current}}。待更新的進度終點：{{target}}。",
+  "STMemoryBooks_Progress_OpenChat": "請手動開啟此聊天以套用其待處理的更新。",
+  "STMemoryBooks_Progress_OK": "確定",
+  "STMemoryBooks_Progress_Discard": "捨棄待處理的更新",
+  "STMemoryBooks_Progress_DiscardConfirm": "保留目前最後處理訊息標記並捨棄此待處理的更新？故事書中儲存的記憶將保留。",
+  "STMemoryBooks_Progress_Empty": "沒有待處理的進度更新。",
+  "STMemoryBooks_Progress_RetrySettings": "重試儲存待處理的更新",
   "STMemoryBooks_SidePromptRegeneration_Button": "重新產生 Side Prompt",
   "STMemoryBooks_SidePromptRegeneration_InvalidSnapshot": "儲存的 Side Prompt 執行快照無效。請再次執行 Side Prompt 以替換該快照。",
   "STMemoryBooks_SidePromptRegeneration_MissingSnapshot": "請先執行一次此 Side Prompt 以啟用重新產生。",
@@ -110,6 +130,11 @@
   "STMemoryBooks_Compaction_SavePrompt": "儲存提示",
   "STMemoryBooks_Compaction_SelectMemoryBook": "選擇記憶書…",
   "STMemoryBooks_Compaction_MemoryBook": "記憶書",
+  "STMemoryBooks_Consolidation_SourceMemoryBook": "要整合的記憶書",
+  "STMemoryBooks_Consolidation_SelectMemoryBook": "選擇記憶書...",
+  "STMemoryBooks_Consolidation_SourceMemoryBookDesc": "選擇要整合其符合條件項目的記憶書。此選擇僅適用於本次執行。",
+  "STMemoryBooks_Consolidation_LoadingMemoryBook": "正在載入記憶書...",
+  "STMemoryBooks_Consolidation_LoadFailed": "無法載入記憶書「{{name}}」。",
   "STMemoryBooks_Compaction_Profile": "壓縮設定檔",
   "STMemoryBooks_Compaction_SelectProfile": "選擇壓縮設定檔…",
   "STMemoryBooks_Compaction_NoLorebooks": "找不到記憶書。",
@@ -280,7 +305,7 @@
   "STMemoryBooks_NoChatBound": "無聊天綁定的故事書。記憶將需要選擇故事書。",
   "STMemoryBooks_Clear": "清除",
   "STMemoryBooks_GroupCharacterLorebooks": "群組角色故事書",
-  "STMemoryBooks_GroupCharacterLorebooksDesc": "為每個群組成員選擇一本故事書。同一本角色故事書可以重複選擇。選擇後會新增 STLO 發言者篩選；清除選擇時會保留其 STLO 篩選。",
+  "STMemoryBooks_GroupCharacterLorebooksDesc": "為每個群組成員選擇一本故事書。同一本角色故事書可以重複選擇。如果 STLO 可用，獨立的角色故事書也會新增發言者篩選；清除選擇時會保留任何現有的 STLO 篩選。",
   "STMemoryBooks_GroupCharacterLorebooksRequiresSTLO": "單獨指定故事書需要 STLO。",
   "STMemoryBooks_GroupLorebooksNoMembers": "沒有可用於手動故事書設定的群組成員。",
   "STMemoryBooks_GroupManualLorebooksIncomplete": "群組手動故事書尚未完整：{{details}}",
@@ -368,7 +393,7 @@
   "STMemoryBooks_TitleFormat": "記憶標題格式:",
   "STMemoryBooks_CustomTitleFormat": "自訂標題格式...",
   "STMemoryBooks_EnterCustomFormat": "輸入自訂格式",
-  "STMemoryBooks_TitleFormatDesc": "使用 [0], [00], [000] 進行自動編號。可用: {{title}}, {{scene}}, {{char}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
+  "STMemoryBooks_TitleFormatDesc": "使用 [0], [00], [000] 進行自動編號。可用: {{title}}, {{scene}}, {{char}}, {{groupname}}, {{present}}, {{user}}, {{messages}}, {{profile}}, {{date}}, {{time}}",
   "STMemoryBooks_Profiles": "記憶設定檔:",
   "STMemoryBooks_Profile_CurrentST": "目前 SillyTavern 設定",
   "STMemoryBooks_Default": "(預設)",
@@ -946,6 +971,7 @@
   "autosummary.log.sinceLast": "STMemoryBooks: 自上次記憶以來的訊息 ({{highestProcessed}}): {{count}}",
   "autosummary.log.triggerCheck": "STMemoryBooks: 自動摘要觸發檢查: {{count}} >= {{required}}?",
   "autosummary.log.notTriggered": "STMemoryBooks: 自動摘要未觸發 - 還需要 {{needed}} 則訊息",
+  "autosummary.log.notTriggeredTokens": "STMemoryBooks: 自動摘要未觸發 - 還需要 {{needed}} 個 Token",
   "autosummary.log.postponedUntil": "STMemoryBooks: 自動摘要已推遲到訊息 {{until}}",
   "autosummary.log.blocked": "STMemoryBooks: 自動摘要被阻止 - 故事書驗證失敗: {{error}}",
   "autosummary.log.clearedPostpone": "STMemoryBooks: 已清除自動摘要推遲旗標",
@@ -1140,6 +1166,7 @@
   "STMemoryBooks_SetHighest_SetTo": "已手動將最後處理的訊息 ID 設為 #{{value}}。",
   "addlore.toast.orderClamped": "順序值範圍限制為 0–9999。目前 {{source}} 為 {{requested}}；已限制為 {{clamped}}。",
   "STMemoryBooks_ReverseOrder": "逆序（僅與 Outlet 一起使用）",
+  "STMemoryBooks_Reverse": "逆序",
   "STMemoryBooks_SummaryTier_Label": "摘要階層",
   "STMemoryBooks_ArcAnalysis_NoUsableArcs": "未產生可用的整合摘要",
   "STMemoryBooks_ReviewFailedArc_Title": "檢查摘要回應失敗",
@@ -1432,4 +1459,40 @@
   ,"STMemoryBooks_TopicalClip_MessageCompileFailed": "無法編譯所選訊息。"
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 個主題剪輯更新正在等待批准。"
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} 個主題剪輯更新正在等待批准。"
+  ,"STMemoryBooks_AutoRollbackEnabled": "刪除訊息後自動回復"
+  ,"STMemoryBooks_AutoRollbackDesc": "刪除的訊息使已處理的記憶失效時，執行所選的回復操作。刪除記憶或整合項目無法復原。"
+  ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "更新最後處理的訊息 ID"
+  ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "刪除最後一則記憶"
+  ,"STMemoryBooks_AutoRollbackRestoreSidePrompts": "還原先前的 Side Prompt"
+  ,"STMemoryBooks_AutoRollbackSidePromptLimit": "Side Prompt 只能回復一次，還原到最近一次精確儲存的狀態。不保留更早的回復層級。"
+  ,"STMemoryBooks_AutoRollback_LoadFailed": "記憶回復無法安全載入 Memory Book「{{name}}」。請修復或移除無法使用的書後再試一次。"
+  ,"STMemoryBooks_AutoRollback_ScopeTitle": "選擇記憶回復範圍"
+  ,"STMemoryBooks_AutoRollback_ScopeBody": "從聊天中間刪除 {{count}} 則訊息會影響 {{memories}} 個記憶項目。"
+  ,"STMemoryBooks_AutoRollback_Full": "完整回復"
+  ,"STMemoryBooks_AutoRollback_FullDesc": "刪除受影響的記憶及其後所有較新的記憶。"
+  ,"STMemoryBooks_AutoRollback_Affected": "僅受影響項目"
+  ,"STMemoryBooks_AutoRollback_AffectedDesc": "只刪除範圍重疊的記憶，並平移較新的範圍。這會留下永久的記憶缺口。"
+  ,"STMemoryBooks_AutoRollback_Tier": "第 {{tier}} 層"
+  ,"STMemoryBooks_AutoRollback_ConsolidationTitle": "刪除相依的整合項目？"
+  ,"STMemoryBooks_AutoRollback_ConsolidationBody": "回復需要刪除下列整合項目，並重新啟用其仍存在的直接來源。刪除記憶無法復原。"
+  ,"STMemoryBooks_AutoRollback_ConfirmDelete": "刪除並回復"
+  ,"STMemoryBooks_AutoRollback_Conflict": "準備回復時 Memory Book「{{name}}」發生變更。未進行其他變更。"
+  ,"STMemoryBooks_AutoRollback_CompensationFailed": "下列書籍的回復復原也失敗：{{books}}。繼續前請從備份還原這些 Memory Book。"
+  ,"STMemoryBooks_AutoRollback_Ambiguous": "回復發現聊天/範圍中繼資料不足的記憶：{{entries}}。請修復其 STMB_chatId、STMB_start 和 STMB_end 中繼資料後再試一次。"
+  ,"STMemoryBooks_AutoRollback_LinkedIncomplete": "回復發現不完整的連結記憶副本：{{details}}。請修復標準/連結中繼資料後再試一次。"
+  ,"STMemoryBooks_AutoRollback_NoMemories": "找不到與已處理範圍準確對應的記憶項目。請修復舊版或缺少的記憶中繼資料後再試一次。"
+  ,"STMemoryBooks_AutoRollback_ConsolidationIncomplete": "回復發現不完整的整合相依關係：{{details}}。請修復後再試一次。"
+  ,"STMemoryBooks_AutoRollback_LegacySidePrompts": "舊版 Side Prompt 快照無法回復，已略過。"
+  ,"STMemoryBooks_AutoRollback_ChangedSidePrompts": "部分 Side Prompt 在記憶建立後已被變更，因此保持不變。"
+  ,"STMemoryBooks_AutoRollback_MultipleSidePrompts": "每個 Side Prompt 僅還原了最新的可用先前狀態；更早回復的資訊可能仍然存在。"
+  ,"STMemoryBooks_AutoRollback_Complete": "已完成 {{count}} 個記憶項目的回復。"
+  ,"STMemoryBooks_AutoRollback_Failed": "記憶回復失敗"
+  ,"STMemoryBooks_Toast_SceneMarkerCleared": "場景標記已因訊息刪除而清除。"
+  ,"STMemoryBooks_GroupChatSettings": "群組聊天"
+  ,"STMemoryBooks_CharacterAwareMemories": "依角色區分記憶"
+  ,"STMemoryBooks_CharacterAwareMemoriesTooltip": "依參與角色篩選群聊記憶。取消勾選後，使用一般的單一記憶書處理方式，不使用角色篩選、參與者選擇、角色副本或單獨的群組/角色提示詞。現有條目在重寫前保留原有篩選。"
+  ,"STMemoryBooks_SeparateGroupSidePrompts": "使用獨立的群組側邊提示"
+  ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "自動執行時使用群組側邊提示預設值。取消勾選後，繼承單人聊天預設值。每個聊天的明確選擇仍然有效。此設定獨立於依角色區分記憶。"
+  ,"STMemoryBooks_CharacterAwareDisabled": "已停用且不套用，因為一般設定中的「依角色區分記憶」未勾選。"
+  ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "已停用且不套用，因為一般設定中的「使用獨立的群組側邊提示」未勾選。"
 }
