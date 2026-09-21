@@ -320,6 +320,8 @@
   "STMemoryBooks_AutoSummaryBufferDesc": "保留最后X条消息不作处理，以实现延迟。默认2，最大50。",
   "STMemoryBooks_TokenSaving": "节省 token（隐藏/取消隐藏消息）",
   "STMemoryBooks_AutoMemory": "自动记忆",
+  "STMemoryBooks_CharacterGraph": "人物图谱",
+  "STMemoryBooks_FailedToOpenCharacterGraph": "打开人物图谱失败",
   "STMemoryBooks_AutoConsolidationEnabled": "当某个层级准备好时提示合并",
   "STMemoryBooks_AutoConsolidationDesc": "当所选摘要层级中的任意一个达到所需的来源条目数量时，显示是/否提示。使用每个层级保存的最小值。",
   "STMemoryBooks_AutoConsolidationTier": "自动合并层级：",

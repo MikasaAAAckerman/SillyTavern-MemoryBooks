@@ -153,6 +153,7 @@ import {
   DEFAULT_TOPICAL_CLIP_PROMPT_TEMPLATE,
 } from "./clipPromptDefaults.js";
 import { showSidePromptsPopup } from "./sidePromptsPopup.js";
+import { showCharacterGraphPopup } from "./characterGraph.js";
 import {
   buildQueuedMemoryAssistanceJobs,
   executeQueuedMemoryAssistanceJob,
@@ -7562,6 +7563,24 @@ function populateInlineButtons() {
       text: "⏱️ " + translate("Automatic Memories", "STMemoryBooks_AutoMemory"),
       id: "stmb-automatic-memories-settings",
       action: showAutomaticMemoriesSettingsPopup,
+    },
+    {
+      text: "👥 " + translate("Character Graph", "STMemoryBooks_CharacterGraph"),
+      id: "stmb-character-graph",
+      action: async () => {
+        try {
+          await showCharacterGraphPopup();
+        } catch (error) {
+          console.error(`${MODULE_NAME}: Error opening Character Graph:`, error);
+          toastr.error(
+            translate(
+              "Failed to open Character Graph",
+              "STMemoryBooks_FailedToOpenCharacterGraph",
+            ),
+            "STMemoryBooks",
+          );
+        }
+      },
     },
     {
       text:
