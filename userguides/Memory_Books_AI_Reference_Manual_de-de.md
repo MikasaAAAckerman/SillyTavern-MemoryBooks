@@ -166,7 +166,7 @@ Das Ausblenden verarbeiteter Nachrichten löscht sie nicht. Sie werden lediglich
 - **Clip vs. Topical Clip:** Ein Clip beginnt mit markiertem Text im aktuellen Chat. Ein Topical Clip beginnt mit bereits bestätigten STMB Memories.
 - **Topical Clip vs. Side Prompt:** Ein Topical Clip wird manuell ausgeführt, um ein Thema zu sammeln. Ein Side Prompt kann einen veränderlichen Tracker wiederholt pflegen.
 - **Compaction vs. Consolidation:** Compaction schreibt einen Eintrag neu. Consolidation erzeugt aus mehreren Einträgen eine neue höherstufige Zusammenfassung.
-- **Memory vs. Side Prompt:** Memories sind normalerweise sequenzielle Szenenaufzeichnungen. Side Prompts aktualisieren oder überschreiben meist ein fortlaufendes Hilfsdokument.
+- **Memory vs Side Prompt:** Memories sind normalerweise sequenzielle Szenenaufzeichnungen. Side Prompts aktualisieren oder überschreiben gewöhnlich ein fortlaufendes Support-Dokument.
 - **Generierung vs. Abruf:** Ein erzeugter Eintrag wird nicht automatisch garantiert später von SillyTavern aktiviert.
 
 ---
@@ -413,7 +413,9 @@ Die benannte Verbindung liefert ihre gespeicherte URL und ihr Secret. Das Model-
 
 ### 7.6 ChatCompletionService
 
-**Use ST’s ChatCompletionService** routet unterstützte Profilanfragen durch SillyTaverns Request-Helper und kann einen gewählten SillyTavern-Chat-Completion-Preset anwenden. OpenRouter-Anfragen übernehmen außerdem Provider-Reihenfolge, Quantisierungsfilter, Fallback-Steuerung und Middle-Out-Routing von SillyTavern. Diese OpenRouter-Einstellungen bleiben aktiv, falls ChatCompletionService scheitert und STMB über seinen Fallback-Anfragepfad erneut versucht. Scheitert auch dieser, behält und meldet STMB sowohl den ursprünglichen ChatCompletionService-Fehler als auch die Fallback-Provider-Antwort. Full-Manual-Profile nutzen diesen Weg nicht.
+**Use ST’s ChatCompletionService** verwendet `ConnectionManagerRequestService`, wenn im Connection Manager von SillyTavern ein Profil ausgewählt ist. Dieses Verbindungsprofil liefert Provider, Zugangsdaten, Endpoint, Proxy und Chat-Completion-Preset. STMB überschreibt Modell und Temperatur und behält sein Response-Token-Limit sowie die Structured-Output-Auswahl bei. Das Preset des Verbindungsprofils hat Vorrang vor einem separat in STMB ausgewählten Chat-Completion-Preset. Das ausgewählte Verbindungsprofil muss Chat Completion verwenden. Fehlgeschlagene Anfragen über das Verbindungsprofil werden gemeldet, ohne über den direkten STMB-Anfragepfad erneut versucht zu werden, da dabei die Verbindungseinstellungen verloren gingen.
+
+Wenn kein SillyTavern-Verbindungsprofil ausgewählt ist, gilt das bestehende ChatCompletionService-Verhalten einschließlich des optionalen STMB-Chat-Completion-Presets. OpenRouter-Anfragen über diesen Pfad übernehmen außerdem Provider-Reihenfolge, Quantisierungsfilter, Fallback-Steuerung und Middle-Out-Routing-Einstellung von SillyTavern. Diese Einstellungen bleiben aktiv, wenn ChatCompletionService fehlschlägt und STMB über seinen Fallback-Anfragepfad erneut versucht. Scheitert auch dieser Versuch, meldet STMB beide Fehler. Wird die Option deaktiviert, bleibt das direkte STMB-Anfrageverhalten erhalten. Full-Manual-Profile verwenden keinen der beiden Service-Pfade.
 
 ### 7.7 Reverse Proxy und Full Manual Configuration
 
@@ -671,6 +673,22 @@ SillyTavern speichert, welche Card jede Nachricht verfasst hat. Dadurch kann STM
 
 Es gibt keinen separaten Group-Chat-Mode-Schalter. Öffnen Sie einen Group Chat und verwenden Sie STMB normal.
 
+
+**General Settings → Group Chat** enthält zwei unabhängige Einstellungen, die standardmäßig beide aktiviert sind:
+
+| Einstellung | Aktiviert | Deaktiviert |
+|---|---|---|
+| **character-aware memories** | Aktiviert teilnehmerbasierte Memory-Filter und konfigurierte characterspezifische Memory-Verarbeitung. | Verwendet für neue Memories, Regeneration und Consolidation die normale Single-Book-Verarbeitung. Keine Participant Confirmation, Character-Filter, Character-Book-Kopien, verknüpfte Regeneration, Character-basierte Consolidation-Streams oder automatische Group-/Character-Prompt-Routing. |
+| **Use separate group side prompts** | Automatische Side Prompts übernehmen den Group-Standard. | Automatische Side Prompts übernehmen den Solo-Standard. |
+
+Das Memory-Kontrollkästchen beeinflusst das Side-Prompt-Kontrollkästchen nicht. Das Standard-Routing für Side Prompts gilt sowohl für After-Memory- als auch Interval-Trigger; explizite Set-Auswahlen pro Chat oder einzeln aktivierte Prompts haben weiterhin Vorrang, und manuelle Läufe bleiben verfügbar.
+
+Wenn **character-aware memories** deaktiviert ist, bleiben **Automatically accept detected participants in future**, die Zuweisungen unter **Group Character Lorebooks**, **Use separate group and character prompts in group chats** sowie die Selektoren **Group Summary Prompt / Character Summary Prompt** sichtbar, sind aber ausgegraut. Die Tooltips erklären, dass sie wegen der deaktivierten General-Settings-Option nicht angewendet werden. Wenn **Use separate group side prompts** deaktiviert ist, wird aus diesem Grund nur der Standardselektor für Group-Side-Prompts ausgegraut. Gespeicherte Auswahlen bleiben erhalten und werden beim erneuten Aktivieren wiederhergestellt.
+
+Diese Schalter migrieren weder bestehende Einträge noch die STLO-Konfiguration. Bestehende Filter bleiben wirksam, bis ein Eintrag ausdrücklich regeneriert wird; eine Regeneration bei deaktivierten **character-aware memories** entfernt den Character-Filter dieses Eintrags, ohne seine verknüpften Kopien neu zu schreiben. Neue Consolidation-Einträge sind ungefiltert, während Quell-Einträge ihre Filter behalten. Bereits gestartete Vorgänge, einschließlich Queue-Jobs und Retries, behalten ihre erfassten Einstellungen. Native Gruppenidentität, Sprechernamen und die primäre Memory-Book-Auswahl bleiben unverändert. Narrator Mode ist von diesen nativen Group-Steuerungen unabhängig.
+
+Das unten beschriebene character-aware Verhalten gilt, solange **character-aware memories** aktiviert ist.
+
 ### 11.2 Participant Detection
 
 Ein erkannter Teilnehmer ist normalerweise eine Character Card, die mindestens eine Nachricht in der ausgewählten Szene verfasst hat.
@@ -716,10 +734,9 @@ Die erweiterte Real-Group-Konfiguration verwendet:
 Anforderungen:
 
 - Manual Lorebook Mode;
-- SillyTavern-LorebookOrdering (STLO) installiert und aktiviert;
 - gültige Zuordnung für jedes erforderliche Mitglied.
 
-Das kanonische Group Book darf nicht zugleich Character Book sein. Mehrere Characters dürfen dasselbe Character Book teilen; STMB schreibt dann eine gemeinsame Kopie statt Duplikaten.
+Das kanonische Group Book darf auch als Character Book ausgewählt werden. STMB speichert den kanonischen Group-Eintrag und seine verknüpfte Character-Kopie als getrennte Einträge in diesem Book. Die Character-Kopie wird auf den zugeordneten Character gefiltert und hat im Turn dieses Characters Vorrang vor der kanonischen Version. Mehrere Characters dürfen dasselbe Character Book teilen; STMB schreibt dann eine gemeinsame Kopie statt Duplikaten.
 
 Beim Speichern einer Memory:
 
@@ -749,7 +766,7 @@ Character-fokussierte Versionen können bewahren:
 
 Dies benötigt zusätzliche KI-Anfragen. Ein geteiltes Character Book erhält eine gemeinsame Kopie, nicht eine pro zugeordnetem Character.
 
-### 11.6 STLO-Verantwortlichkeiten
+### 11.6 Optionale STLO-Integration
 
 Memory Books entscheidet:
 
@@ -759,13 +776,13 @@ Memory Books entscheidet:
 - welche Books Kopien erhalten;
 - ob individualisierte Prompts verwendet werden.
 
-STLO entscheidet:
+Wenn STLO installiert ist, entscheidet es zusätzlich:
 
 - wann ein Lorebook aktiv ist;
 - welcher Character es aktivieren darf;
 - Priorität, Position, Budget und Reihenfolge.
 
-Wenn STMB ein Character Book zuordnet, fügt es den Avatar-Basename des Characters zu `stlo.characterOverrides` hinzu und aktiviert `stlo.onlyWhenSpeaking`, wobei bestehende STLO-Prioritäten, Budgets und Overrides erhalten bleiben.
+STLO ist für einen echten Group Chat nicht erforderlich. STMB injiziert das zugewiesene Book des aktuell sprechenden nativen Group-Mitglieds in diese Generierung und verwendet native Character-Filter auf Eintragsebene. Wenn STLO verfügbar ist und STMB ein separates Character Book zuordnet, fügt STMB außerdem den Avatar-Basename des Characters zu `stlo.characterOverrides` hinzu und aktiviert `stlo.onlyWhenSpeaking`, wobei bestehende STLO-Prioritäten, Budgets und Overrides erhalten bleiben. STMB wendet keinen lorebookweiten STLO-Speaking-Filter an, wenn das Character-Book-Assignment dem kanonischen Group Book entspricht.
 
 STMB arbeitet nur zusammenführend. Löschen oder Ändern einer Zuordnung entfernt den alten STLO-Character-Override nicht automatisch. Entfernen Sie überflüssige Overrides manuell in STLO.
 
@@ -850,7 +867,7 @@ Regeln:
 - retired Mitglieder behalten Identität und reservierte Book-Zuordnung, bis sie wiederhergestellt oder anderweitig entfernt werden;
 - Auto-Create ist inkompatibel, da Narrator Mode von Manual Lorebook Mode abhängt.
 
-Anders als die erweiterte Real-Group-Struktur benötigt Narrator Mode kein STLO für Active-Character-Abruf. STMB injiziert die Books des aktiven Casts während der Generierung in den aktiven Lorebook-Kontext.
+Wie die erweiterte Real-Group-Struktur benötigt Narrator Mode kein STLO für Active-Character-Abruf. STMB injiziert die Books des ausgewählten Casts während der Generierung in den aktiven Lorebook-Kontext.
 
 ### 12.3 Einrichtung
 
@@ -860,7 +877,8 @@ Anders als die erweiterte Real-Group-Struktur benötigt Narrator Mode kein STLO 
 4. Aktivieren Sie **Narrator Mode**.
 5. Öffnen Sie **Manage Narrator Cast**.
 6. Fügen Sie jeden fiktionalen Character mit Namen hinzu und ordnen Sie ein eindeutiges Memory Book zu.
-7. Wählen Sie im schwebenden **Active Cast**-Drawer die Characters des nächsten Austauschs.
+7. Verwenden Sie **Edit** neben einem bestehenden Cast-Mitglied, um den Character-Namen zu korrigieren oder das zugewiesene Memory Book zu ändern.
+8. Wählen Sie im schwebenden **Active Cast**-Drawer die Characters des nächsten Austauschs.
 
 Narrator Mode muss deaktiviert werden, bevor Manual Lorebook Mode deaktiviert werden kann.
 
@@ -927,6 +945,8 @@ Der Cast Manager kann ein Mitglied als retired markieren und später wiederherst
 - behalten ihre Book-Reservierung, um versehentliche Wiederverwendung und Identitätsvermischung zu verhindern.
 
 Verwenden Sie Retirement, wenn ein Character den aktiven Cast verlässt, seine historische Memory-Identität aber erhalten bleiben muss.
+
+Das Bearbeiten des Character-Namens oder Memory Books eines Cast-Mitglieds bewahrt dessen stabile Identität und Retired-Status. Ein korrigierter Name wird überall verwendet, wo dieses Mitglied angezeigt wird, sowie in künftigen Memory-Ausgaben. Eine neue Book-Zuweisung steuert künftigen Abruf und künftige Memory-Schreibvorgänge; bereits in das vorherige Book geschriebene Einträge werden nicht verschoben.
 
 ---
 
@@ -1075,13 +1095,30 @@ Nicht verwendet werden:
 5. Geben Sie Activation Keywords ein oder lassen Sie sie leer, um das Thema zu verwenden.
 6. Wählen Sie neuen Eintrag oder vorhandenes `[STMB Clip]`-Update-Target.
 7. Wählen Sie gespeicherte Memories, Chat Messages oder beides als Quellen.
-8. Optional nur bestimmte Source Memories und/oder exakten Message Range auswählen.
+8. Wählen Sie optional nur bestimmte Quell-Memories aus. Für Chatnachrichten geben Sie einen exakten Bereich ein oder klicken auf **Extract…**, um den gesamten aktuellen Chat zu durchsuchen und einzelne Nachrichten auszuwählen, einschließlich nicht zusammenhängender und ausgeblendeter Nachrichten.
 9. Generation Profile wählen.
 10. Draft generieren.
 11. Prüfen und bearbeiten.
 12. Erst speichern, wenn korrekt.
 
 Der generierte Draft wird nie automatisch gespeichert.
+
+
+### Bestehende Topical Clips kombinieren
+
+Klicken Sie im Fenster **Topical Clip** auf **Combine Clips**. Wählen Sie ein Memory Book, mindestens zwei Topical Clips (bei Bedarf auch deaktivierte Clips) und geben Sie den Titel des neuen Clips ein. Es erscheinen nur von STMB erstellte Topical Clips; normale Clips sind ausgeschlossen. Die Aktivierungs-Keywords des neuen Clips sind die Vereinigung der primären Keywords der ausgewählten Clips ohne Duplikate. Sekundäre Keyword-Bedingungen werden nicht kopiert.
+
+Wählen Sie ein Generierungsprofil und klicken Sie auf **Generate Draft**. Die KI erhält Titel und vollständigen Inhalt jedes ausgewählten Clips und soll belegte Fakten zusammenführen, Wiederholungen entfernen und ungelöste Konflikte beibehalten. Prüfen und bearbeiten Sie den Draft vor dem Speichern. Änderungen an ausgewählten Quellen, Titel oder Memory Book löschen den Draft. Wenn sich eine Quelle vor dem Speichern ändert, erzeugen Sie einen neuen Draft.
+
+**Disable original clips after saving** ist standardmäßig aktiviert. Deaktivieren Sie die Option, um den aktuellen Aktivierungszustand der Originale beizubehalten. Beim Speichern wird der neue Topical Clip aktiviert angelegt und bei aktivierter Option werden die Originale im selben Memory-Book-Update deaktiviert. Die Originale werden nie gelöscht. Der kombinierte Clip speichert seine Quell-IDs getrennt von der normalen Topical-Clip-Historie der Memory-Quellen.
+
+Wenn Text im Chat markiert ist, bietet das schwebende Steuerelement **Clip** und **Extract** an. Extract öffnet denselben Nachrichten-Picker mit dem markierten Text als Suchanfrage. Er durchsucht die vollständige Historie des aktuellen Chats, einschließlich Nachrichten, die nicht auf dem Bildschirm gerendert sind. Eine leere Suche listet alle Nachrichten. Die Suche gleicht Literaltext oder Sprechernamen ohne Beachtung der Groß-/Kleinschreibung ab; **Hidden only** beschränkt die Treffer auf ausgeblendete Nachrichten.
+
+Ergebnisse erscheinen in Gruppen von 50. Verwenden Sie **Load more**, um weitere Treffer anzuzeigen, klappen Sie einen Treffer auf, um seinen vollständigen Text mit hervorgehobenen Treffern zu lesen, oder verwenden Sie **Previous message** und **Next message**, um umgebenden Kontext einzublenden. Kontextnachrichten werden nicht automatisch ausgewählt und können erscheinen, auch wenn sie nicht zur Suche oder zum Filter Hidden only passen. Ausgeblendete Nachrichten sind gekennzeichnet; ihre Auswahl nimmt den Text in die Topical-Clip-Quelle auf, ohne die Nachricht im Chat einzublenden.
+
+Auswahlen bleiben über Suchvorgänge und Filteränderungen hinweg erhalten. Die Auswahlanzahl umfasst auch Nachrichten außerhalb der angezeigten Ergebnisse. **Select loaded results** wählt jedes angezeigte Ergebnis einschließlich eingeblendeter Kontextnachrichten; **Clear selection** entfernt alle Auswahlen. Wählen Sie **Topical Clip** aus einem eigenständigen Extract oder **Use selected messages**, wenn Sie zu einem bestehenden Editor zurückkehren. Die Suchanfrage liefert das anfängliche Thema und die Keywords; beide bleiben bearbeitbar.
+
+STMB speichert Quell-Fingerprints, wenn Nachrichten in den Picker gelangen, und prüft ausgewählte Nachrichten erneut, bevor sie übernommen, ein Draft generiert oder gespeichert wird. Wenn sich eine ausgewählte Quelle ändert, löscht **Refresh results** die Auswahl und lädt die Ergebnisse neu, damit die Quellen erneut ausgewählt werden können. Beenden oder verwerfen Sie eine noch offene Nachrichtenbearbeitung vor der Suche. Beim Wechsel des Chats schließt sich der Picker. Extract durchsucht keine anderen Chats.
 
 ### 15.4 Bestehenden Topical Clip aktualisieren
 
@@ -1140,7 +1177,7 @@ Verwenden Sie Reset to Default, wenn ein Custom Prompt keine nützliche Ausgabe 
 
 ## 16. Side Prompts
 
-Ein Side Prompt ist ein benannter STMB-Prompt, der getrennt von der normalen Character Response läuft. Er erzeugt oder aktualisiert gewöhnlich einen fortlaufenden Support Entry statt einer weiteren sequenziellen Scene Memory.
+Ein Side Prompt ist ein benannter STMB-Prompt, der getrennt von der normalen Charakterantwort ausgeführt wird. Er erstellt oder aktualisiert gewöhnlich einen fortlaufenden Support-Eintrag statt einer weiteren sequenziellen Szenen-Memory.
 
 In der Liste **Trackers & Side Prompts** ändert das Power-Symbol sofort das promptweite **Enabled**-Flag: grün bedeutet aktiviert, gedimmt deaktiviert. Dieser Schalter fügt keine konfigurierten Trigger hinzu, entfernt oder verändert sie nicht.
 
@@ -1201,7 +1238,7 @@ Ein ausgewählter Set ersetzt einzeln aktivierte automatische Prompts für diese
 
 #### Memory Assistance Side Prompt
 
-**Memory Assistance** ist ein reservierter Side Prompt mit vier unabhängigen Modi. Er läuft nach erfolgreich gespeicherten Memories unabhängig von gewöhnlicher Side-Prompt-Aktivierung oder ausgewähltem Side Prompt Set. Während Memory Regeneration läuft er nicht.
+**Memory Assistance** ist ein reservierter Side Prompt mit fünf unabhängigen Modi. Er läuft nach erfolgreich gespeicherten Memories unabhängig von gewöhnlicher Side-Prompt-Aktivierung oder dem ausgewählten Side Prompt Set. Während Memory Regeneration läuft er nicht.
 
 Memory Assistance vergleicht die rohe verarbeitete Szene mit normalen und Topical Clips in jedem Memory Book, das die Memory erhalten hat. An die KI werden für jeden geprüften Clip Titel/Thema, Keywords, aktueller Inhalt, stabile ID und Typ gesendet.
 
@@ -1209,6 +1246,7 @@ Wenn die Job Queue verfügbar ist, erhält jedes Ziel-Memory-Book nach dem Speic
 
 - **Off** deaktiviert Memory Assistance.
 - **Update** prüft fünf oder weniger Clips direkt; bei mehr als fünf erscheint eine Auswahlliste. Vorschläge warten auf manuelle Freigabe.
+- **Suggest** entdeckt neue Topical-Clip-Themen, ohne bestehende Clips zu prüfen oder zu aktualisieren.
 - **Update and Suggest** führt zuerst eine Topic-Discovery-Anfrage aus und danach denselben Existing-Clip-Review-Workflow wie Update.
 - **Automatic** prüft alle Clips in tokenbasierten Batches ohne Auswahlfrage. Gültige Ergänzungen zu normalen Clips werden direkt angewendet; Topical-Clip-Replacements bleiben in **Memory Assistance Suggestions** zur Freigabe.
 
@@ -1605,7 +1643,7 @@ Das vollständige Source Set muss weiterhin im richtigen Tier existieren. Eine L
 
 ### 19.3 Side-Prompt-Regeneration
 
-Siehe Snapshot-Regeln in Abschnitt 16.16.
+Siehe die Side-Prompt-Snapshot-Regeln in Abschnitt 16.16 und das Verhalten des Versionsverlaufs in Abschnitt 16.16.
 
 ### 19.4 Sicherheitsprüfungen
 
@@ -1948,7 +1986,24 @@ Retry Scopes:
 
 Retry All stellt Combined Workflow wieder her; Retry Memory, wenn Tracker Work nicht laufen soll.
 
+Consolidation-Speicherungen legen vor dem Schreiben jeder akzeptierten Zusammenfassung einen Checkpoint in den Extension Settings an. Eine Zusammenfassung und die zugehörigen Änderungen zum Deaktivieren ihrer Quellen werden gemeinsam gespeichert. Ein Retry prüft vor dem Schreiben das Live-Memory-Book auf die Checkpoint-Markierung, sodass eine bestätigte Zusammenfassung wiederverwendet statt dupliziert wird. Nach einem Reload listet **Consolidation recovery** im Extensions-Menü unvollständige Checkpoints auf und bietet **Resume** sowie **Review details** an. Eine geänderte Quelle, bearbeitete Zusammenfassung, doppelte Markierung oder unbestätigte Speicherung wird als **Needs Review** gekennzeichnet und nie automatisch erneut abgespielt; nach Prüfung des Memory Books entfernt **Dismiss after review** den Checkpoint-Hinweis, ohne das Book zu ändern. Dies verwendet die Settings- und Lorebook-APIs von ST; es stellt keine Server-Transaktion bereit.
+
+Checkpoints speichern den akzeptierten Summary Draft, erzeugte Keywords, Quell-IDs und Fingerprints sowie Speicheroptionen in den ST Extension Settings, damit nach einem Reload exakt derselbe Kandidat fortgesetzt werden kann. Behandeln Sie Settings-Backups genauso vertraulich wie die Memory Books selbst.
+
 Ohne Chat Top Bar laufen normale Workflows weiter, nur ohne Queue UI.
+
+
+### Verzögerte Aktualisierung des zuletzt verarbeiteten Stands
+
+Wenn eine Memory aus der Queue fertig wird, nachdem ihr Quell-Chat nicht mehr geöffnet ist, wird die Memory trotzdem in ihrem Memory Book gespeichert. STMB speichert die Aktualisierung des Last-Processed-Markers in `extension_settings.STMemoryBooks.pendingProgress`, statt den inaktiven Character- oder Group-Chat abzurufen und neu zu schreiben. Bereits eingereihte Jobs dürfen fertig werden; neue manuelle und automatische Base-Memory-Anfragen für diesen Chat warten, bis die ausstehenden Aktualisierungen angewendet oder ausdrücklich verworfen wurden. Andere Chats bleiben nutzbar.
+
+Die Benachrichtigung fordert den Nutzer auf, den Quell-Chat manuell wieder zu öffnen. Sobald dieser Chat geladen und inaktiv ist, bietet ein Popup **Apply**, **Later** und **Discard pending update** an. Apply zeigt **Processing…**, führt im betroffenen Chat `/stmb-set-highest <pending message number>` aus und entfernt die ausstehenden Datensätze aus den Einstellungen, bevor **Done** angezeigt wird. Dabei wird das normale manuelle Marker-Verhalten des Befehls einschließlich Range-Clamping verwendet, ohne Nachrichteninhalte oder Attachments zu vergleichen oder den Chat erneut zu lesen. Later, Escape oder das Schließen des Popups bewahrt die Datensätze. Im STMB-Hauptpanel kann die Schaltfläche **Pending progress updates (N)** dieses Verwaltungs-Popup erneut öffnen, auch nach einem Refresh oder nach dem Deaktivieren von Chat Top Bar. STMB wechselt niemals automatisch den Chat. Discard erfordert eine Bestätigung und lässt gespeicherte Lorebook-Memories unverändert.
+
+Jeder ausstehende Datensatz enthält eine Chat-Referenz, die Operation-/Job-Identität, den Ziel-Nachrichtenindex, den ursprünglichen Marker-Zustand bzw. dessen Revision, eine Chat-Integritätskennung und einen SHA-256-Fingerprint des Quell-Nachrichtentextes und der Identitätsfelder. Attachment-Felder werden weder gelesen noch in den Fingerprint einbezogen. Konversationstext wird nicht gespeichert. Angefügte Nachrichten sowie Hide/Unhide-Änderungen sind zulässig; Bearbeitungen, Löschungen, geänderte Identität, manuelle Marker-Änderungen oder Rollback können eine Aktualisierung unsicher machen. Diese Prüfungen gelten für automatische Marker-Aktualisierungen. Ein ausdrückliches Apply verwendet den Slash Command auch dann, wenn der ursprüngliche Fingerprint oder die Marker-Revision nicht mehr übereinstimmt; Later bewahrt die ausstehende Aktualisierung, Discard entfernt sie. Ausdrückliche Chat-/Character-Rename-Ereignisse ordnen ausstehende Referenzen neu zu; fehlende oder nicht erkannte Referenzen bleiben zur Prüfung und zum Verwerfen verfügbar.
+
+Ausstehende Datensätze werden über STs Settings API gespeichert und durch erneutes Lesen der Einstellungen verifiziert; die Bestätigung hat ein Zeitlimit von zehn Sekunden. Bei einem Settings-Fehler bleibt die Aktualisierung im Arbeitsspeicher. Verwenden Sie Apply im betroffenen Chat, um den Marker-Befehl auszuführen, oder Discard pending update, um den ausstehenden Datensatz zu entfernen. Es gibt keinen separaten Retry-Button für das Speichern der Einstellungen. Es gibt kein Browser-Recovery-Backup: Ein Refresh vor einem erfolgreichen Settings-Save kann eine noch nicht persistierte Aktualisierung verlieren. Schlägt die Settings-Bereinigung nach Apply fehl, bleibt der ausstehende Datensatz verfügbar; ein erneuter Klick auf Apply führt den Befehl nochmals aus und versucht die Bereinigung erneut, ohne eine weitere Memory zu erzeugen. Ein ausdrückliches Apply verlässt sich auf das normale Save-Verhalten des Befehls; automatische Aktualisierungen verifizieren den gespeicherten Marker weiterhin.
+
+Damit entfällt STMBs separater Replacement-Write für inaktive Chats. STs normaler Current-Chat-Save schreibt weiterhin einen vollständigen Chat, und gleichzeitige Settings-Saves aus anderen Tabs/Geräten sind nicht transaktional. Diese Änderung identifiziert weder die Ursache zuvor gemeldeter Chat-Verluste noch garantiert sie Schutz vor allen Save-Races im Core oder in anderen Extensions.
 
 ---
 
@@ -1992,10 +2047,10 @@ Scopes:
 |---|---|---|---|
 | **Enable Manual Lorebook Mode** | **Current Lorebook Configuration** | Globaler Mode; Book Choice per chat | Nutzt nicht mehr das normale chatgebundene Lorebook als automatisches STMB-Target und verlangt ein Memory Book. Inkompatibel mit Auto-Create. |
 | **Selected manual Memory Book** | Manual-Lorebook-Controls in Current Lorebook Configuration | Per chat | Haupt-Memory-Book dieses Chats; in Narrator Mode das Omniscient Book. |
-| **Group-character Memory Book assignments** | Group-character rows in Manual Mode | Per chat | Separates Memory Book pro Real-Group-Member. STLO nötig. |
+| **Group-character Memory Book assignments** | **Current Lorebook Configuration → group-character rows**; sichtbar in einer echten Gruppe mit Manual Mode | Pro Chat | Ordnet jedem Real-Group-Mitglied ein Memory Book zu. STMB injiziert das zugewiesene Book des aktuell sprechenden nativen Mitglieds; STLO-Integration ist optional. Das kanonische Group Book darf ebenfalls zugeordnet werden und speichert dann sowohl Group- als auch character-fokussierte Einträge. |
 | **Character Memory Book lock** | Lock Icon neben Character Assignment | Per character | Behält dieselbe Book-Zuordnung über kompatible Manual-Mode-Chats. Vor Änderung entsperren. |
 | **Narrator Mode** | Current Lorebook Configuration; nur Non-Group Chats | Per chat | Verwendet Selected Manual Book als Omniscient Book und erlaubt deklarierte fiktionale Characters mit eigenen Books. |
-| **Manage Narrator Cast** | Unter Narrator Mode / Active Cast Drawer | Per chat | Characters hinzufügen, retiren, wiederherstellen und eindeutige Books zuordnen. |
+| **Manage Narrator Cast** | Unter **Narrator Mode**; auch über den Active-Cast-Drawer verfügbar | Pro Chat | Fügt deklarierte Narrator-Characters hinzu, benennt sie um, retirert oder stellt sie wieder her und weist ihnen eindeutige Memory Books zu. |
 | **Auto-create lorebook if none exists** | Current Lorebook Configuration | Global | Erzeugt/bindet in Automatic Mode ein Lorebook, wenn keines existiert. Inkompatibel mit Manual Mode. |
 | **Lorebook Name Template** | unter Auto-create | Global | Benennt auto-created Books; `{{char}}`, `{{user}}`, `{{chat}}`. |
 | **Memory profile selection** | Memory Profiles | Per run | Profil für nächste Memory und Profile Actions. Ändert nicht allein den gespeicherten Default. |
@@ -2018,7 +2073,8 @@ Scopes:
 | **Allow scene overlap** | Global | Erlaubt Überschneidung mit Message IDs bestehender Memories. |
 | **Refresh lorebook editor after adding memories** | Global | Aktualisiert offenen Lorebook Editor nach Writes. |
 | **Copy Memory Books when branching** | Global | Branch erhält unabhängige Kopien aktiver ungesperrter Books; Character-Locked Books bleiben geteilt. |
-| **Auto-rollback after message deletion** | Global | Aktiviert koordiniertes Rollback, wenn Message-Löschung oder -Truncation bereits verarbeiteten Chat-Inhalt betrifft. Standardmäßig deaktiviert. Normale Message-Edits und Swipes lösen es nicht aus. |
+| **Auto-rollback after message deletion** | Global | Aktiviert koordinierten Rollback, wenn Löschung oder Kürzung bereits verarbeitetes Chatmaterial schneidet. Standardmäßig deaktiviert. Gewöhnliche Nachrichtenbearbeitungen und Swipes lösen ihn nicht aus. |
+| **Apply auto-rollback to branches/checkpoints** | Global; Auto-Rollback-Option | Rollt beim ersten Öffnen eines Branches oder Checkpoints Memories zurück, die über dessen erhaltene Nachrichten hinausgehen. Erfordert unabhängige Kopien jedes aktiven Memory Books; andernfalls wird der Rollback übersprungen. |
 | **Update last message ID processed** | Global; Auto-Rollback-Aktion | Setzt den Processed Checkpoint auf das Ende der neuesten überlebenden Memory oder löscht ihn, wenn keine überlebt. |
 | **Delete last Memory** | Global; Auto-Rollback-Aktion | Löscht jede durch den Rollback-Scope ungültig gewordene Memory und ihre Linked Copies. Das Löschen von Memories und Consolidations ist irreversibel. |
 | **Restore previous Side Prompts** | Global; Auto-Rollback-Aktion | Stellt jeden unveränderten betroffenen Side Prompt auf seinen neuesten exakten Before-State zurück. Es wird nur eine Rollback-Ebene gespeichert. |
@@ -2034,6 +2090,14 @@ Scopes:
 #### Memory Auto-Rollback in General Settings
 
 **Auto-rollback after message deletion** ist die Master-Einstellung. Die drei Aktions-Checkboxes können unabhängig gewählt werden, sind standardmäßig aktiviert und werden optisch deaktiviert, solange der Master-Schalter aus ist. Bestehende Installationen beginnen daher nicht allein durch ein Upgrade mit Löschungen.
+
+**Apply auto-rollback to branches/checkpoints** ist standardmäßig deaktiviert. Ist die Option aktiviert, wendet STMB die ausgewählten Aktionen beim ersten Öffnen eines geeigneten Branches oder Checkpoints an, einschließlich bereits vorhandener Child-Chats. Checkpoints werden beim Öffnen behandelt, nicht bei der Erstellung. STMB verwendet die aktuelle Nachrichtenanzahl des Child-Chats als Index der ersten ausgelassenen Nachricht. Eine Memory, die an der letzten erhaltenen Nachricht endet, bleibt daher intakt, während Memories, die diese Grenze überschreiten oder danach beginnen, infrage kommen. Der Abschluss wird für dieses Child und diese Grenze gespeichert; geänderte Einstellungen führen einen bereits abgeschlossenen Rollback nicht erneut aus.
+
+Wenn der Branch-/Checkpoint-Rollback eine Memory löscht, blendet er nach erfolgreichem Speichern der Memory Books außerdem die erhaltenen Nachrichten im Quellbereich dieser Memory wieder ein. Wird zum Beispiel bei Nachricht 36 verzweigt und umfasst eine Memory 33–44, wird diese Memory aus der Kopie gelöscht und die Nachrichten 33–36 werden eingeblendet. Das ist unabhängig von der Einstellung zum Einblenden vor der Generierung. Bereits abgeschlossene Child-Rollbacks werden nach einem Upgrade nicht automatisch wiederholt; verwenden Sie `/unhide 33-36`, um dieses Beispiel in einem bestehenden Branch zu reparieren.
+
+Ausstehende Unhide-Bereiche werden in denselben Memory-Book-Schreibvorgängen wie die Löschungen gespeichert. Wenn ein Chatwechsel oder Fehler das Einblenden unterbricht, versucht das erneute Öffnen des Child-Chats mit aktiviertem Branch-/Checkpoint-Auto-Rollback diese gespeicherten Bereiche erneut, auch wenn die gelöschten Memories nicht mehr existieren. Beim Retry können bereits abgeschlossene Unhide-Befehle wiederholt werden; die Recovery-Datensätze werden erst entfernt, wenn jeder Bereich im vorgesehenen Chat abgeschlossen ist.
+
+Branch-/Checkpoint-Rollback erfordert isolierte Kopien jedes aktiven Memory Books. Wenn **Copy Memory Books when branching** deaktiviert ist oder ein gemeinsam verwendetes/gesperrtes Book nicht isoliert werden kann, überspringt STMB den Rollback und meldet den Grund, damit die Daten des Parent-Chats nicht geändert werden. Fehler beim Kopieren oder Rollback sowie abgebrochene Consolidation-Bestätigungen bleiben für ein späteres Öffnen berechtigt.
 
 Auto-Rollback reagiert nur auf Message-Löschung oder -Truncation, einschließlich der Löschphase einer Response Regeneration. Normale Edits oder Swipes lösen es nicht aus. STMB verfolgt die tatsächlichen Message-Identitäten jedes Chats, weil der von SillyTavern gelieferte Löschwert eine Löschung in der Mitte nicht zuverlässig identifiziert.
 
@@ -2066,10 +2130,23 @@ Side-Prompt-Rollback verwendet Version-2-Regeneration-Snapshots. Jeder Snapshot 
 | Einstellung | Scope | Wirkung |
 |---|---|---|
 | **Auto-create memory summaries** | Global | Automatic `/nextmemory`-ähnliche Generierung. Ohne Baseline kann bei Message 0 begonnen werden. |
-| **Auto-Summary Interval** | Global | Message Count der automatischen Cadence. |
+| **Auto-Summary Trigger** | Global | Wählt, ob die automatische Memory-Erstellung durch Nachrichtenanzahl oder Tokenanzahl ausgelöst wird. |
+| **Auto-Summary Token Threshold** | Global | Legt die Tokenanzahl fest, die bei Trigger **Tokens** die automatische Memory-Erstellung auslöst. |
+| **Auto-Summary Interval** | Global | Legt fest, wie viele Nachrichten den normalen automatischen Rhythmus bilden, wenn der Trigger **Messages** ist. |
 | **Auto-Summary Buffer** | Global | Lässt neueste Messages aus, damit Generierung hinter Live Chat bleibt. |
 | **Prompt for consolidation when a tier is ready** | Global | Yes/Later-Prompt bei ausreichenden Sources; konsolidiert nie stillschweigend. |
 | **Auto-Consolidation Tiers** | Global | Überwachte Target Tiers. Mindestwert pro Tier in Consolidate Memories. |
+
+#### Memory-Erinnerungsbenachrichtigungen
+
+Steuerelemente für automatische Memory-Erinnerungen erscheinen nur unter **Automatic Memories**. Steuerelemente für manuelle Memory-Erinnerungen erscheinen sowohl unter **General Settings** als auch unter **Automatic Memories** und verwenden dieselben globalen Einstellungen. Beide Erinnerungsschalter sind standardmäßig **off** und funktionieren unabhängig von **Show notifications**.
+
+- **Turn on reminders for automatic memories** gilt, solange **Auto-create memory summaries** aktiviert ist. Das konfigurierbare Intervall X beträgt standardmäßig **10 messages**. Die erste Erinnerung ist bei **Auto-Summary Interval + Auto-Summary Buffer + X** unverarbeiteten Nachrichten fällig; weitere Erinnerungen folgen alle X zusätzlichen Nachrichten. Bei Intervall 50, Buffer 2 und X = 10 wird beispielsweise erstmals bei 62 unverarbeiteten Nachrichten erinnert und danach bei 72, 82 usw., sofern bei diesen Zählständen geprüft wird.
+- **Turn on reminders to make memories manually** gilt, solange Auto-Create deaktiviert ist. Das konfigurierbare Intervall Y beträgt standardmäßig **50 messages**. Die erste Erinnerung erfolgt bei Y unverarbeiteten Nachrichten und danach alle weiteren Y Nachrichten. Beide Einstellungen bleiben beim Ein- oder Ausschalten von Auto-Create gespeichert.
+
+Intervalle akzeptieren positive ganze Zahlen und zählen **chat messages**, einschließlich Benutzer- und Assistentennachrichten, anhand der bestehenden Grenze der zuletzt verarbeiteten Memory. Automatische Erinnerungen bleiben nachrichtenbasiert, auch wenn die Generierung einen Token-Schwellenwert verwendet. Prüfungen erfolgen nach Assistentenantworten und wenn die Memory-Verarbeitung inaktiv wird; Generierung, ausstehender Fortschritt und ein ausdrücklich aufgeschobenes Auto-Summary unterdrücken neue Erinnerungen. Bei einer verzögerten Erinnerung beginnt das Wiederholungsintervall bei der tatsächlich angezeigten Benachrichtigungszahl.
+
+Erinnerungs-Toasts besitzen eine Schließen-Schaltfläche und bleiben sichtbar, bis sie verworfen werden. Wiederholungen stapeln sich nicht, solange eine Erinnerung sichtbar ist. Benachrichtigungs-Checkpoints werden pro Chat gespeichert, sodass ein Reload eine bereits gelieferte Erinnerung nicht sofort wiederholt. Eine geänderte verarbeitete Grenze oder Erinnerungskonfiguration setzt den betreffenden Zeitplan zurück; gelöschte Nachrichten verschieben Wiederholungs-Checkpoints entsprechend. Ein Chatwechsel, eine Grenzänderung oder das Deaktivieren/Wechseln des aktiven Erinnerungsmodus entfernt die sichtbare Erinnerung. Diese Erinnerungen erzeugen keine Memories und ändern keine Schwellenwerte der automatischen Generierung.
 
 ### 27.4 Profile Editor
 
@@ -2081,8 +2158,8 @@ Side-Prompt-Rollback verwendet Version-2-Regeneration-Snapshots. Jeder Snapshot 
 | **API/Provider** | Current ST, unterstützter Provider, Custom OpenAI-compatible oder Full Manual. |
 | **Use this connection profile** | Nutzt aktive oder benannte ST-Custom-Verbindung; STMB Model bleibt Override. |
 | **Skip structured output and use plain-text completion** | Sendet kein Schema, Modell muss trotzdem gültiges STMB-JSON liefern. |
-| **Use ST's ChatCompletionService** | Routing über ST Chat Completion Helper; nicht Full Manual. |
-| **Chat Completion Preset** | Optionaler ST-Preset via ChatCompletionService. |
+| **Use ST's ChatCompletionService** | Verwendet das ausgewählte ST-Connection-Manager-Profil mit STMB-Overrides für Modell und Temperatur. Ohne ausgewähltes Verbindungsprofil wird der bestehende ChatCompletionService-Pfad verwendet. Für Full-Manual-Profile nicht verfügbar. |
+| **Chat Completion Preset** | Wendet optional ein SillyTavern-Chat-Completion-Preset an, wenn kein ST-Connection-Manager-Profil ausgewählt ist. Andernfalls liefert das Verbindungsprofil das Preset. |
 | **Model** | Exakte Model ID; Current ST liest Live-Modell. |
 | **Temperature** | Profiltemperatur; Current ST liest Live-Temperatur. |
 | **Use reverse proxy** | Übergibt ST Reverse-Proxy-Daten; Full Manual bezeichnet Secret als Proxy Password. |
@@ -2131,7 +2208,7 @@ Provider, Modell, Temperatur, Connection Preset und Reverse Proxy für Current S
 | **Previous memories for context** | Prompt Editor | 0–7 Previous Memories. |
 | **Use additional context / Additional Context Source** | Prompt Editor | Follow Chat oder Fixed Context Setting. |
 | **Lorebook Target** | Prompt Editor; template/chat | Default Memory Book oder anderes Lorebook; Scope wird beim Ändern gefragt. |
-| **Lorebook Entry Title Override / Keywords** | Prompt Editor | Upsert Title Template und Keywords. |
+| **Lorebook Entry Title Override / Keywords** | Side-Prompt-Editor; pro Template | Steuert optional das Titel-Template des per Upsert gepflegten Eintrags und kommagetrennte Aktivierungs-Keywords. |
 | **Activation Mode / Insertion Position / Outlet Name** | Prompt Editor | Lorebook Entry Activation/Placement. |
 | **Insertion Order / Order Value** | Prompt Editor | Auto Memory-number order oder fixed manual. |
 | **Prevent Recursion / Delay Until Recursion / Ignore Budget** | Prompt Editor | ST Lorebook Flags. |
@@ -2281,11 +2358,11 @@ Manual Mode:
 - gelöschte Selection reparieren;
 - Broken Character Lock entsperren.
 
-Real Multi-Book Group:
+Real multi-book group:
 
-- STLO verfügbar;
-- jedes erforderliche Mitglied gültige Assignment;
-- Group Book nicht als Character Book wiederverwenden.
+- jedes erforderliche Mitglied braucht eine gültige Zuordnung;
+- das Group Book darf als Character Book wiederverwendet werden;
+- wenn STLO installiert ist, prüfen Sie seine optionalen Aktivierungs- und Ordnungsregeln.
 
 Narrator Mode:
 
@@ -2355,7 +2432,7 @@ Model-Use-Problem. Möglich:
 
 ### 29.9 Side Prompt lief nicht
 
-Siehe 16.18. Insbesondere unterdrückt ein Selected Set individually enabled prompts außerhalb des Sets.
+Siehe Abschnitt 16.18. Insbesondere unterdrückt ein ausgewähltes Set einzeln aktivierte Prompts außerhalb dieses Sets.
 
 ### 29.10 Consolidation promptete nicht
 
@@ -2593,3 +2670,12 @@ Das System funktioniert am besten, wenn:
 - Consolidation alte Details reduziert, ohne Kontinuität zu löschen;
 - Nutzer Retrieval prüfen statt „gespeichert = gesendet“ anzunehmen;
 - Advanced Multi-Book Routing nur verwendet wird, wenn die Präzision die Komplexität wert ist.
+### Side-Prompt-Versionsverlauf
+
+Aktivieren Sie **Enable sideprompt versioning** unter **Trackers & Side Prompts** und anschließend **Save all versions** für jeden normalen Side Prompt, dessen Verlauf erhalten werden soll. Beide Einstellungen sind standardmäßig deaktiviert. Die Template-Einstellung bleibt bei Bearbeitung, Duplizierung, Import und Export erhalten; Memory Assistance unterstützt keinen Versionsverlauf.
+
+Jeder erfolgreiche Lauf wird in seinem Ziel-Lorebook als `Title-001 (STMB SidePrompt)`, dann `002` und weitere Versionen gespeichert. Bereits vorhandener unnummerierter Output wird beim ersten Aktivieren des Verlaufs als `001` übernommen. Ältere Versionen werden deaktiviert, die neueste bleibt aktiviert. Versionen teilen eine bereinigte Side-Prompt-/Chat-Inclusion-Group; eine Änderung des Anzeigenamens aktualisiert diese Gruppe bei einer späteren erfolgreichen Speicherung. Streams werden nach Template, Chat, aufgelöstem Title Override und Ziel-Lorebook getrennt.
+
+Wenn eine der beiden Einstellungen deaktiviert ist, aktualisiert STMB den neuesten Output an Ort und Stelle und behält die vorhandene Historie. Regeneration aktualisiert den ausgewählten Eintrag, statt eine Version anzuhängen. Rollback verwendet die bestehenden Snapshots und aktiviert nach erfolgreicher Wiederherstellung die neueste verbleibende Version. Mehrdeutiger Legacy-Output wird nicht geändert. Fehlgeschlagene, leere, abgebrochene oder abgelehnte Läufe erzeugen keine Historie.
+
+STMB serialisiert seine beteiligten Lorebook-Schreibvorgänge innerhalb eines Browser-Tabs. SillyTaverns bestehende Einschränkung bei gleichzeitigen Speicherungen gilt weiterhin für andere Clients und direkte Editor-Speicherungen.

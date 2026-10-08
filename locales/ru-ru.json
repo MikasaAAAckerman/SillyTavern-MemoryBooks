@@ -1,8 +1,35 @@
 {
+  "STMemoryBooks_Progress_Explanation": "Отметка последнего обработанного сообщения указывает, какие сообщения уже охвачены сохранёнными воспоминаниями, чтобы следующее воспоминание начиналось с нужного места, а автоматические пороги учитывали новые сообщения. Безопасные ожидающие обновления применяются автоматически, когда соответствующий чат открыт и не занят обработкой. Пока обновление ожидает применения, сохранённые воспоминания остаются нетронутыми.",
+  "STMemoryBooks_Progress_Reopen": "Снова открыть чат и обновить отметку",
+  "STMemoryBooks_Progress_ReopenInfo": "Снова откройте этот чат, чтобы обновить его отметку до сообщения {{target}}. Это переключит активный чат.",
+  "STMemoryBooks_CombineClips_Open": "Объединить клипы",
+  "STMemoryBooks_CombineClips_Select": "Выберите два или более тематических клипа",
+  "STMemoryBooks_CombineClips_NewTitle": "Название нового тематического клипа",
+  "STMemoryBooks_CombineClips_Disable": "Отключить исходные клипы после сохранения",
+  "STMemoryBooks_CombineClips_Disabled": "отключён",
+  "STMemoryBooks_CombineClips_None": "В этой Книге памяти нет тематических клипов.",
+  "STMemoryBooks_CombineClips_Minimum": "Выберите не менее двух тематических клипов.",
+  "STMemoryBooks_CombineClips_SourcesChanged": "Один из выбранных клипов изменился. Создайте черновик заново.",
+  "STMemoryBooks_Extract_HiddenOnly": "Только скрытые",
+  "STMemoryBooks_Extract_Hidden": "Скрыто",
+  "STMemoryBooks_Extract_OutsideCount": "Вне отображаемых результатов: {{count}}",
+  "STMemoryBooks_Extract_UnfinishedEdit": "Завершите или отмените редактирование сообщения, затем обновите результаты.",
+  "STMemoryBooks_Extract_Stale": "Чат или выбранные сообщения изменились. Обновите результаты, чтобы сбросить выбор и повторить поиск.",
+  "STMemoryBooks_Extract_SelectMessage": "Выбрать сообщение",
+  "STMemoryBooks_Extract_Previous": "Предыдущее сообщение",
+  "STMemoryBooks_Extract_Next": "Следующее сообщение",
+  "STMemoryBooks_Extract_LoadedCount": "Показано сообщений: {{count}} · Найдено сообщений: {{total}}",
+  "STMemoryBooks_Extract_SearchButton": "Поиск",
+  "STMemoryBooks_Extract_LoadMore": "Загрузить ещё",
+  "STMemoryBooks_Extract_SelectLoaded": "Выбрать загруженные результаты",
+  "STMemoryBooks_Extract_ClearSelection": "Сбросить выбор",
+  "STMemoryBooks_Extract_Refresh": "Обновить результаты",
+  "STMemoryBooks_Extract_FullChat": "Поиск по всему текущему чату, включая скрытые сообщения. Выбранные сообщения сохраняются при смене поиска.",
+  "STMemoryBooks_SidePromptHistoryConflict": "История сайд-промпта неоднозначна. Изменения не сохранены.",
   "STMemoryBooks_Progress_Title": "Ожидающие обновления прогресса ({{count}})",
   "STMemoryBooks_Progress_Blocked": "Примените или отклоните ожидающее обновление прогресса этого чата, прежде чем создавать новое воспоминание.",
   "STMemoryBooks_Progress_PersistenceError": "Воспоминание сохранено, но ожидающее обновление прогресса не удалось сохранить в настройках. Повторите попытку до обновления страницы, иначе обновление прогресса может быть потеряно.",
-  "STMemoryBooks_Progress_Deferred": "Воспоминание сохранено. Снова откройте «{{chat}}», чтобы завершить обновление отметки последнего обработанного сообщения.",
+  "STMemoryBooks_Progress_Deferred": "Воспоминание сохранено. Прогресс для «{{chat}}» ожидает обновления. Безопасные обновления применяются, когда чат открыт и не занят обработкой. Нажмите, чтобы просмотреть ожидающие обновления.",
   "STMemoryBooks_Progress_Later": "Позже",
   "STMemoryBooks_Progress_Processing": "Обработка…",
   "STMemoryBooks_Progress_Done": "Готово.",
@@ -1267,9 +1294,11 @@
   "STMemoryBooks_Jobs_TopInfoBarInstall": "Установить Chat Top Bar",
   "STMemoryBooks_Jobs_TopInfoBarMissingDismiss": "Скрыть и больше не показывать это уведомление.",
   "STMemoryBooks_UseChatCompletionService": "Использовать ChatCompletionService ST",
-  "STMemoryBooks_UseChatCompletionServiceDesc": "Направляет этот профиль через встроенный помощник запросов чат-завершения SillyTavern. Профили с полной ручной конфигурацией не затрагиваются.",
+  "STMemoryBooks_UseChatCompletionServiceDesc": "Использует выбранный профиль менеджера подключений SillyTavern, заменяя модель и температуру значениями STMB. Если профиль подключения не выбран, используется прежний помощник запросов. Профили с полной ручной конфигурацией не затрагиваются.",
   "STMemoryBooks_ChatCompletionPreset": "Пресет чат-завершения:",
-  "STMemoryBooks_ChatCompletionPresetDesc": "Необязательно. Применяет пресет чат-завершения SillyTavern через ChatCompletionService.processRequest.",
+  "STMemoryBooks_ChatCompletionPresetDesc": "Необязательно. Применяется, только если в менеджере подключений SillyTavern не выбран профиль. Иначе используется пресет профиля подключения.",
+  "STMemoryBooks_ConnectionProfileRequiresChatCompletion": "Выбранный профиль подключения SillyTavern должен использовать чат-завершение.",
+  "STMemoryBooks_ConnectionManagerUnavailable": "Запросы через профили подключения SillyTavern недоступны. Обновите SillyTavern или отмените выбор профиля подключения.",
   "STMemoryBooks_NoChatCompletionPreset": "Без пресета чат-завершения",
   "STMemoryBooks_ContextSettings_Title": "Настройки контекста",
   "STMemoryBooks_ContextSettings_Singular": "Настройка контекста",
@@ -1408,6 +1437,8 @@
   ,"STMemoryBooks_ClipReview_ModeOff": "Выключенный"
   ,"STMemoryBooks_ClipReview_ModeUpdate": "Обновлять"
   ,"STMemoryBooks_ClipReview_ModeUpdateAndSuggest": "Обновить и предложить"
+  ,"STMemoryBooks_ClipReview_ModeSuggest": "Предложить"
+  ,"STMemoryBooks_ClipReview_SuggestHelp": "«Предложить» находит новые темы для тематических клипов, не обновляя существующие клипы."
   ,"STMemoryBooks_ClipReview_Name": "Помощь в памяти"
   ,"STMemoryBooks_ClipReview_NoSuggestions": "На данный момент предложений по помощи памяти нет."
   ,"STMemoryBooks_ClipReview_OpenFailed": "Не удалось открыть предложения помощи при запоминании."
@@ -1445,6 +1476,8 @@
   ,"STMemoryBooks_ClipReview_NewTopicOne": "1 новая тема"
   ,"STMemoryBooks_ClipReview_NewTopicMany": "новых тем: {{count}}"
   ,"STMemoryBooks_ClipReview_FoundUpdatesAndTopics": "«Помощь в памяти» нашла {{updateMessage}} и {{topicMessage}}."
+  ,"STMemoryBooks_ClipReview_FoundTopics": "«Помощь в памяти» нашла {{topicMessage}}."
+  ,"STMemoryBooks_Consolidation_RetryNeedsReview": "У этой консолидации нет подтверждения сохранения. Проверьте сохранённые сводки в Книге Памяти, прежде чем начинать новую консолидацию."
   ,"STMemoryBooks_ClipReview_FoundUpdates": "«Помощь в памяти» нашла {{updateMessage}}."
   ,"STMemoryBooks_ClipReview_ResetPrompt": "Сбросить промпт"
   ,"STMemoryBooks_ClipReview_ResetWarning": "Только «Помощь в памяти» будет сброшена к встроенным промптам и настройкам. Текущий режим не изменится. Это действие нельзя отменить."
@@ -1460,6 +1493,10 @@
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 обновление тематического клипа ожидает утверждения."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} обновлений тематических клипов ожидают утверждения."
   ,"STMemoryBooks_AutoRollbackEnabled": "Автоматический откат после удаления сообщений"
+  ,"STMemoryBooks_AutoRollbackBranches": "Применять автооткат также к веткам и контрольным точкам"
+  ,"STMemoryBooks_AutoRollbackBranchesDesc": "При открытии ветки или контрольной точки откатываются Memories после сохранённых сообщений. Для этого нужны отдельные копии Memory Books."
+  ,"STMemoryBooks_AutoRollbackBranchCopyDisabled": "Автооткат для этой ветки или контрольной точки пропущен, поскольку копирование Memory Books отключено."
+  ,"STMemoryBooks_AutoRollbackBranchIsolation": "Автооткат ветки/контрольной точки пропущен: не удалось проверить отдельные копии всех активных Memory Books."
   ,"STMemoryBooks_AutoRollbackDesc": "Если удалённые сообщения делают уже обработанные воспоминания недействительными, применяются выбранные действия отката. Удаление воспоминаний или консолидаций необратимо."
   ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "Обновить ID последнего обработанного сообщения"
   ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "Удалить последнее воспоминание"
@@ -1495,4 +1532,38 @@
   ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "Использовать групповые Боковые Промпты по умолчанию для автоматических запусков. Если флажок снят, наследуется настройка одиночного чата. Явный выбор для конкретного чата продолжает действовать. Не зависит от воспоминаний с учётом персонажей."
   ,"STMemoryBooks_CharacterAwareDisabled": "Отключено и не применяется, поскольку флажок «Воспоминания с учётом персонажей» снят в Общих настройках."
   ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "Отключено и не применяется, поскольку флажок «Использовать отдельные групповые Боковые Промпты» снят в Общих настройках."
+  ,"STMemoryBooks_EnableSidePromptVersioning": "Включить версионирование побочных промптов"
+  ,"STMemoryBooks_SaveAllSidePromptVersions": "Сохранять все версии"
+  ,"STMemoryBooks_SidePromptVersioningHelp": "Установите этот флажок, чтобы включить индивидуальные настройки версий побочных промптов. Если флажок снят, новые версии создаваться не будут; существующая история версий сохранится, а последний результат будет обновляться."
+  ,"STMemoryBooks_SidePromptVersioningTemplateHelp": "Требуется включить версионирование побочных промптов в менеджере. Старые версии остаются отключёнными."
+  ,"STMemoryBooks_Extract_Search": "Поиск сообщений чата"
+  ,"STMemoryBooks_Extract_CurrentChat": "Поиск в открытом чате. Выберите сообщения как источники тематического клипа."
+  ,"STMemoryBooks_Extract_UseSelected": "Использовать выбранные сообщения"
+  ,"STMemoryBooks_Extract_NoMatches": "Совпадающих сообщений нет."
+  ,"STMemoryBooks_Extract_Changed": "Чат или выбранные сообщения изменились. Выберите их снова."
+  ,"STMemoryBooks_Extract_Action": "Извлечь"
+  ,"STMemoryBooks_Extract_Open": "Извлечь…"
+  ,"STMemoryBooks_Extract_Selected": "Выбранные сообщения"
+  ,"STMemoryBooks_Extract_Edit": "Изменить выбор"
+  ,"STMemoryBooks_Extract_SelectedCount": "Выбрано сообщений: {{count}}"
+  ,"STMemoryBooks_TopicalClip_MessageRange": "Диапазон сообщений"
+  ,"STMemoryBooks_Consolidation_NoPending": "Нет ожидающих сохранений консолидации."
+  ,"STMemoryBooks_Consolidation_RecoveryHint": "Проверьте сохранённую сводку перед продолжением."
+  ,"STMemoryBooks_Consolidation_Resume": "Продолжить"
+  ,"STMemoryBooks_Consolidation_RecoveryTitle": "Восстановление консолидации"
+  ,"STMemoryBooks_Consolidation_Confirmed": "Сохранение консолидации подтверждено."
+  ,"STMemoryBooks_Consolidation_Pending": "Ожидает"
+  ,"STMemoryBooks_Consolidation_ReviewRequired": "Не удалось подтвердить состояние сохранённой консолидации. Проверьте Книгу Памяти, прежде чем начинать заново."
+  ,"STMemoryBooks_Consolidation_ReviewAction": "Проверить детали"
+  ,"STMemoryBooks_Consolidation_DismissAction": "Закрыть после проверки"
+  ,"STMemoryBooks_Consolidation_RecoveryPartial": "Сохранённые сводки восстановлены. Начните новую консолидацию для оставшихся источников."
+  ,"STMemoryBooks_Reminder_AutomaticEnabled": "Включить напоминания об автоматических сводках памяти"
+  ,"STMemoryBooks_Reminder_AutomaticInterval": "Интервал автоматических напоминаний (сообщения)"
+  ,"STMemoryBooks_Reminder_AutomaticHelp": "При включённом автосоздании первое напоминание появится после интервала сообщений плюс буфер плюс указанное число сообщений, затем будет повторяться через такое же число новых сообщений. Всегда считаются сообщения чата, даже если создание запускается по числу токенов."
+  ,"STMemoryBooks_Reminder_ManualEnabled": "Включить напоминания о создании сводок памяти вручную"
+  ,"STMemoryBooks_Reminder_ManualInterval": "Интервал ручных напоминаний (сообщения)"
+  ,"STMemoryBooks_Reminder_ManualHelp": "При выключенном автосоздании напоминание появится после указанного числа необработанных сообщений чата, затем будет повторяться через такое же число новых сообщений."
+  ,"STMemoryBooks_Reminder_CommonHelp": "Напоминания остаются видимыми до закрытия и работают независимо от настройки «Показывать уведомления»."
+  ,"STMemoryBooks_Reminder_AutomaticToast": "Автоматическое создание сводок памяти задерживается: необработанных сообщений — {{count}}. Проверьте настройки автоматической памяти или создайте сводку памяти."
+  ,"STMemoryBooks_Reminder_ManualToast": "Сообщений с момента последней сводки памяти: {{count}}. Подумайте о создании сводки памяти."
 }

@@ -1,8 +1,35 @@
 {
+  "STMemoryBooks_Progress_Explanation": "Die Markierung der zuletzt verarbeiteten Nachricht hält fest, welche Nachrichten bereits durch gespeicherte Erinnerungen abgedeckt sind. So beginnt die nächste Erinnerung an der richtigen Stelle und automatische Schwellenwerte zählen neue Nachrichten. Sichere ausstehende Aktualisierungen werden automatisch angewendet, sobald der zugehörige Chat geöffnet ist und keine Verarbeitung läuft. Gespeicherte Erinnerungen bleiben währenddessen erhalten.",
+  "STMemoryBooks_Progress_Reopen": "Chat erneut öffnen und Markierung aktualisieren",
+  "STMemoryBooks_Progress_ReopenInfo": "Öffne diesen Chat erneut, um seine Markierung bis Nachricht {{target}} zu aktualisieren. Dadurch wechselst du den aktiven Chat.",
+  "STMemoryBooks_CombineClips_Open": "Clips zusammenführen",
+  "STMemoryBooks_CombineClips_Select": "Mindestens zwei Themen-Clips auswählen",
+  "STMemoryBooks_CombineClips_NewTitle": "Titel des neuen Themen-Clips",
+  "STMemoryBooks_CombineClips_Disable": "Original-Clips nach dem Speichern deaktivieren",
+  "STMemoryBooks_CombineClips_Disabled": "deaktiviert",
+  "STMemoryBooks_CombineClips_None": "Keine Themen-Clips in diesem Memory Book gefunden.",
+  "STMemoryBooks_CombineClips_Minimum": "Wähle mindestens zwei Themen-Clips aus.",
+  "STMemoryBooks_CombineClips_SourcesChanged": "Ein ausgewählter Clip wurde geändert. Erstelle den Entwurf erneut.",
+  "STMemoryBooks_Extract_HiddenOnly": "Nur ausgeblendete",
+  "STMemoryBooks_Extract_Hidden": "Ausgeblendet",
+  "STMemoryBooks_Extract_OutsideCount": "Außerhalb der angezeigten Ergebnisse: {{count}}",
+  "STMemoryBooks_Extract_UnfinishedEdit": "Beende oder verwirf die Nachrichtenbearbeitung und aktualisiere dann die Ergebnisse.",
+  "STMemoryBooks_Extract_Stale": "Der Chat oder die ausgewählten Nachrichten haben sich geändert. Aktualisiere die Ergebnisse, um die Auswahl zu löschen und erneut zu suchen.",
+  "STMemoryBooks_Extract_SelectMessage": "Nachricht auswählen",
+  "STMemoryBooks_Extract_Previous": "Vorherige Nachricht",
+  "STMemoryBooks_Extract_Next": "Nächste Nachricht",
+  "STMemoryBooks_Extract_LoadedCount": "Angezeigte Nachrichten: {{count}} · Passende Nachrichten: {{total}}",
+  "STMemoryBooks_Extract_SearchButton": "Suchen",
+  "STMemoryBooks_Extract_LoadMore": "Mehr laden",
+  "STMemoryBooks_Extract_SelectLoaded": "Geladene Ergebnisse auswählen",
+  "STMemoryBooks_Extract_ClearSelection": "Auswahl löschen",
+  "STMemoryBooks_Extract_Refresh": "Ergebnisse aktualisieren",
+  "STMemoryBooks_Extract_FullChat": "Durchsucht den gesamten aktuellen Chat einschließlich ausgeblendeter Nachrichten. Die Auswahl bleibt bei weiteren Suchen erhalten.",
+  "STMemoryBooks_SidePromptHistoryConflict": "Der Side-Prompt-Verlauf ist mehrdeutig. Es wurden keine Änderungen gespeichert.",
   "STMemoryBooks_Progress_Title": "Ausstehende Fortschrittsaktualisierungen ({{count}})",
   "STMemoryBooks_Progress_Blocked": "Wende die ausstehende Fortschrittsaktualisierung für diesen Chat an oder verwirf sie, bevor du eine weitere Erinnerung erstellst.",
   "STMemoryBooks_Progress_PersistenceError": "Erinnerung gespeichert, aber die ausstehende Fortschrittsaktualisierung konnte nicht in den Einstellungen gespeichert werden. Versuche es vor dem Neuladen erneut, sonst kann die Aktualisierung verloren gehen.",
-  "STMemoryBooks_Progress_Deferred": "Erinnerung gespeichert. Öffne „{{chat}}“ erneut, um die Markierung der zuletzt verarbeiteten Nachricht zu aktualisieren.",
+  "STMemoryBooks_Progress_Deferred": "Erinnerung gespeichert. Der Fortschritt für „{{chat}}“ ist noch nicht aktualisiert. Sichere Aktualisierungen werden angewendet, sobald der Chat geöffnet ist und keine Verarbeitung läuft. Klicke, um ausstehende Aktualisierungen anzusehen.",
   "STMemoryBooks_Progress_Later": "Später",
   "STMemoryBooks_Progress_Processing": "Wird verarbeitet…",
   "STMemoryBooks_Progress_Done": "Fertig.",
@@ -1272,9 +1299,11 @@
   "STMemoryBooks_Jobs_TopInfoBarInstall": "Chat Top Bar installieren",
   "STMemoryBooks_Jobs_TopInfoBarMissingDismiss": "Ausblenden und diese Benachrichtigung nie wieder anzeigen.",
   "STMemoryBooks_UseChatCompletionService": "STs ChatCompletionService verwenden",
-  "STMemoryBooks_UseChatCompletionServiceDesc": "Leitet dieses Profil über SillyTaverns integrierten Anfragehelfer für Chat-Vervollständigungen. Vollständig manuelle Profile sind nicht betroffen.",
+  "STMemoryBooks_UseChatCompletionServiceDesc": "Verwendet das ausgewählte Profil des SillyTavern-Verbindungsmanagers mit Modell und Temperatur aus STMB. Ohne ausgewähltes Verbindungsprofil wird der bisherige Anfragehelfer verwendet. Vollständig manuelle Profile sind nicht betroffen.",
   "STMemoryBooks_ChatCompletionPreset": "Chat-Completion-Preset:",
-  "STMemoryBooks_ChatCompletionPresetDesc": "Optional. Wendet ein SillyTavern-Chat-Completion-Preset über ChatCompletionService.processRequest an.",
+  "STMemoryBooks_ChatCompletionPresetDesc": "Optional. Gilt nur, wenn kein Profil im SillyTavern-Verbindungsmanager ausgewählt ist. Andernfalls wird das Preset des Verbindungsprofils verwendet.",
+  "STMemoryBooks_ConnectionProfileRequiresChatCompletion": "Das ausgewählte SillyTavern-Verbindungsprofil muss Chat-Vervollständigungen verwenden.",
+  "STMemoryBooks_ConnectionManagerUnavailable": "Anfragen über SillyTavern-Verbindungsprofile sind nicht verfügbar. Aktualisieren Sie SillyTavern oder heben Sie die Auswahl des Verbindungsprofils auf.",
   "STMemoryBooks_NoChatCompletionPreset": "Kein Chat-Completion-Preset",
   "STMemoryBooks_ContextSettings_Title": "Kontexteinstellungen",
   "STMemoryBooks_ContextSettings_Singular": "Kontexteinstellung",
@@ -1408,6 +1437,8 @@
   ,"STMemoryBooks_ClipReview_ModeOff": "Aus"
   ,"STMemoryBooks_ClipReview_ModeUpdate": "Aktualisieren"
   ,"STMemoryBooks_ClipReview_ModeUpdateAndSuggest": "Aktualisieren und vorschlagen"
+  ,"STMemoryBooks_ClipReview_ModeSuggest": "Vorschlagen"
+  ,"STMemoryBooks_ClipReview_SuggestHelp": "Vorschlagen entdeckt neue Themen für Themen-Clips, ohne vorhandene Clips zu aktualisieren."
   ,"STMemoryBooks_ClipReview_Name": "Memory Assistance"
   ,"STMemoryBooks_ClipReview_NoSuggestions": "Es gibt derzeit keine Memory-Assistance-Vorschläge."
   ,"STMemoryBooks_ClipReview_OpenFailed": "Memory-Assistance-Vorschläge konnten nicht geöffnet werden"
@@ -1445,6 +1476,8 @@
   ,"STMemoryBooks_ClipReview_NewTopicOne": "1 neues Thema"
   ,"STMemoryBooks_ClipReview_NewTopicMany": "{{count}} neue Themen"
   ,"STMemoryBooks_ClipReview_FoundUpdatesAndTopics": "Memory Assistance hat {{updateMessage}} und {{topicMessage}} gefunden."
+  ,"STMemoryBooks_ClipReview_FoundTopics": "Memory Assistance hat {{topicMessage}} gefunden."
+  ,"STMemoryBooks_Consolidation_RetryNeedsReview": "Für diese Konsolidierung liegt keine Speicherbestätigung vor. Prüfe die gespeicherten Zusammenfassungen im Memory Book, bevor du eine neue Konsolidierung startest."
   ,"STMemoryBooks_ClipReview_FoundUpdates": "Memory Assistance hat {{updateMessage}} gefunden."
   ,"STMemoryBooks_ClipReview_ResetPrompt": "Prompt zurücksetzen"
   ,"STMemoryBooks_ClipReview_ResetWarning": "Dadurch wird nur Memory Assistance auf die integrierten Prompts und Einstellungen zurückgesetzt. Der aktuelle Modus bleibt unverändert. Diese Aktion kann nicht rückgängig gemacht werden."
@@ -1460,6 +1493,10 @@
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 Themen-Clip-Aktualisierung wartet auf Genehmigung."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} Themen-Clip-Aktualisierungen warten auf Genehmigung."
   ,"STMemoryBooks_AutoRollbackEnabled": "Automatisches Rollback nach Nachrichtenlöschung"
+  ,"STMemoryBooks_AutoRollbackBranches": "Auto-Rollback auch auf Zweige und Checkpoints anwenden"
+  ,"STMemoryBooks_AutoRollbackBranchesDesc": "Beim Öffnen eines Zweigs oder Checkpoints werden Memories außerhalb der enthaltenen Nachrichten zurückgesetzt. Dafür sind unabhängige Memory-Book-Kopien erforderlich."
+  ,"STMemoryBooks_AutoRollbackBranchCopyDisabled": "Auto-Rollback für diesen Zweig oder Checkpoint wurde übersprungen, weil das Kopieren von Memory Books deaktiviert ist."
+  ,"STMemoryBooks_AutoRollbackBranchIsolation": "Auto-Rollback für Zweig/Checkpoint wurde übersprungen, weil unabhängige Kopien aller aktiven Memory Books nicht bestätigt werden konnten."
   ,"STMemoryBooks_AutoRollbackDesc": "Wenn gelöschte Nachrichten bereits verarbeitete Memories ungültig machen, werden die ausgewählten Rollback-Aktionen ausgeführt. Das Löschen von Memories oder Konsolidierungen kann nicht rückgängig gemacht werden."
   ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "ID der zuletzt verarbeiteten Nachricht aktualisieren"
   ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "Letzte Memory löschen"
@@ -1495,4 +1532,38 @@
   ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "Verwendet bei automatischen Ausführungen den Side-Prompt-Standard für Gruppen. Ohne Häkchen gilt der Solo-Standard. Explizite Auswahlen pro Chat gelten weiterhin. Unabhängig von charakterbezogenen Erinnerungen."
   ,"STMemoryBooks_CharacterAwareDisabled": "Deaktiviert und nicht angewendet, weil „Charakterbezogene Erinnerungen“ in den Allgemeinen Einstellungen nicht angehakt ist."
   ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "Deaktiviert und nicht angewendet, weil „Separate Gruppen-Side-Prompts verwenden“ in den Allgemeinen Einstellungen nicht angehakt ist."
+  ,"STMemoryBooks_EnableSidePromptVersioning": "Versionierung von Side Prompts aktivieren"
+  ,"STMemoryBooks_SaveAllSidePromptVersions": "Alle Versionen speichern"
+  ,"STMemoryBooks_SidePromptVersioningHelp": "Aktivieren Sie dieses Kontrollkästchen, um individuelle Versionierungseinstellungen für Nebenprompts zu aktivieren. Wenn es deaktiviert ist, werden keine neuen Versionen erstellt; der bestehende Versionsverlauf bleibt erhalten und die neueste Ausgabe wird aktualisiert."
+  ,"STMemoryBooks_SidePromptVersioningTemplateHelp": "Erfordert die Aktivierung der Side-Prompt-Versionierung im Side-Prompt-Manager. Ältere Versionen bleiben deaktiviert."
+  ,"STMemoryBooks_Extract_Search": "Chatnachrichten suchen"
+  ,"STMemoryBooks_Extract_CurrentChat": "Durchsucht den aktuell geöffneten Chat. Wähle Nachrichten als Quellen für einen Themen-Clip aus."
+  ,"STMemoryBooks_Extract_UseSelected": "Ausgewählte Nachrichten verwenden"
+  ,"STMemoryBooks_Extract_NoMatches": "Keine passenden Nachrichten."
+  ,"STMemoryBooks_Extract_Changed": "Der Chat oder die ausgewählten Nachrichten haben sich geändert. Wähle sie erneut aus."
+  ,"STMemoryBooks_Extract_Action": "Extrahieren"
+  ,"STMemoryBooks_Extract_Open": "Extrahieren…"
+  ,"STMemoryBooks_Extract_Selected": "Ausgewählte Nachrichten"
+  ,"STMemoryBooks_Extract_Edit": "Auswahl bearbeiten"
+  ,"STMemoryBooks_Extract_SelectedCount": "Ausgewählte Nachrichten: {{count}}"
+  ,"STMemoryBooks_TopicalClip_MessageRange": "Nachrichtenbereich"
+  ,"STMemoryBooks_Consolidation_NoPending": "Keine ausstehenden Konsolidierungsspeicherungen."
+  ,"STMemoryBooks_Consolidation_RecoveryHint": "Prüfe die gespeicherte Zusammenfassung, bevor du fortfährst."
+  ,"STMemoryBooks_Consolidation_Resume": "Fortsetzen"
+  ,"STMemoryBooks_Consolidation_RecoveryTitle": "Konsolidierung wiederherstellen"
+  ,"STMemoryBooks_Consolidation_Confirmed": "Speicherung der Konsolidierung bestätigt."
+  ,"STMemoryBooks_Consolidation_Pending": "Ausstehend"
+  ,"STMemoryBooks_Consolidation_ReviewRequired": "Der gespeicherte Konsolidierungsstand konnte nicht bestätigt werden. Prüfe das Memory Book, bevor du erneut beginnst."
+  ,"STMemoryBooks_Consolidation_ReviewAction": "Details prüfen"
+  ,"STMemoryBooks_Consolidation_DismissAction": "Nach Prüfung schließen"
+  ,"STMemoryBooks_Consolidation_RecoveryPartial": "Gespeicherte Zusammenfassungen wurden wiederhergestellt. Starte für die verbleibenden Quellen eine neue Konsolidierung."
+  ,"STMemoryBooks_Reminder_AutomaticEnabled": "Erinnerungen für automatische Erinnerungs-Zusammenfassungen einschalten"
+  ,"STMemoryBooks_Reminder_AutomaticInterval": "Intervall für automatische Erinnerungen (Nachrichten)"
+  ,"STMemoryBooks_Reminder_AutomaticHelp": "Bei aktivierter automatischer Erstellung erfolgt die erste Erinnerung nach dem Nachrichtenintervall plus Puffer plus dieser Nachrichtenanzahl, danach jeweils nach ebenso vielen weiteren Nachrichten. Es werden immer Chatnachrichten gezählt, auch bei tokenbasierter Erstellung."
+  ,"STMemoryBooks_Reminder_ManualEnabled": "Erinnerungen zum manuellen Erstellen von Erinnerungs-Zusammenfassungen einschalten"
+  ,"STMemoryBooks_Reminder_ManualInterval": "Intervall für manuelle Erinnerungen (Nachrichten)"
+  ,"STMemoryBooks_Reminder_ManualHelp": "Bei deaktivierter automatischer Erstellung erfolgt die Erinnerung nach dieser Anzahl unverarbeiteter Chatnachrichten, danach jeweils nach ebenso vielen weiteren Nachrichten."
+  ,"STMemoryBooks_Reminder_CommonHelp": "Erinnerungen bleiben sichtbar, bis sie geschlossen werden, und funktionieren unabhängig von „Benachrichtigungen anzeigen“."
+  ,"STMemoryBooks_Reminder_AutomaticToast": "Automatische Erinnerungs-Zusammenfassungen sind überfällig: {{count}} unverarbeitete Nachrichten. Prüfe die Einstellungen für automatische Erinnerungen oder erstelle eine Erinnerung."
+  ,"STMemoryBooks_Reminder_ManualToast": "Seit deiner letzten Erinnerungs-Zusammenfassung sind {{count}} Nachrichten hinzugekommen. Erwäge, eine Erinnerung zu erstellen."
 }

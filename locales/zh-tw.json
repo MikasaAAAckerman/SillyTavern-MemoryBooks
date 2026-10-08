@@ -1,8 +1,35 @@
 {
+  "STMemoryBooks_Progress_Explanation": "最後處理訊息標記記錄了哪些訊息已包含在儲存的記憶中，讓下一則記憶從正確的位置開始，並讓自動門檻只計算新訊息。當對應聊天已開啟且閒置時，可安全套用的待處理更新會自動套用。更新待處理期間，已儲存的記憶保持不變。",
+  "STMemoryBooks_Progress_Reopen": "重新開啟聊天並更新標記",
+  "STMemoryBooks_Progress_ReopenInfo": "重新開啟此聊天，將其標記更新至訊息 {{target}}。這會切換目前的聊天。",
+  "STMemoryBooks_CombineClips_Open": "合併剪輯",
+  "STMemoryBooks_CombineClips_Select": "選擇至少兩個主題剪輯",
+  "STMemoryBooks_CombineClips_NewTitle": "新主題剪輯標題",
+  "STMemoryBooks_CombineClips_Disable": "儲存後停用原始剪輯",
+  "STMemoryBooks_CombineClips_Disabled": "已停用",
+  "STMemoryBooks_CombineClips_None": "此記憶書中沒有主題剪輯。",
+  "STMemoryBooks_CombineClips_Minimum": "請選擇至少兩個主題剪輯。",
+  "STMemoryBooks_CombineClips_SourcesChanged": "選取的剪輯已變更。請重新產生草稿。",
+  "STMemoryBooks_Extract_HiddenOnly": "僅隱藏訊息",
+  "STMemoryBooks_Extract_Hidden": "已隱藏",
+  "STMemoryBooks_Extract_OutsideCount": "不在顯示結果中的選擇：{{count}}",
+  "STMemoryBooks_Extract_UnfinishedEdit": "請完成或取消訊息編輯，然後重新整理結果。",
+  "STMemoryBooks_Extract_Stale": "聊天或所選訊息已變更。請重新整理結果以清除選擇並再次搜尋。",
+  "STMemoryBooks_Extract_SelectMessage": "選擇訊息",
+  "STMemoryBooks_Extract_Previous": "上一則訊息",
+  "STMemoryBooks_Extract_Next": "下一則訊息",
+  "STMemoryBooks_Extract_LoadedCount": "顯示的訊息：{{count}} · 相符的訊息：{{total}}",
+  "STMemoryBooks_Extract_SearchButton": "搜尋",
+  "STMemoryBooks_Extract_LoadMore": "載入更多",
+  "STMemoryBooks_Extract_SelectLoaded": "選擇已載入的結果",
+  "STMemoryBooks_Extract_ClearSelection": "清除選擇",
+  "STMemoryBooks_Extract_Refresh": "重新整理結果",
+  "STMemoryBooks_Extract_FullChat": "搜尋整個目前的聊天，包括隱藏訊息。變更搜尋時會保留所選訊息。",
+  "STMemoryBooks_SidePromptHistoryConflict": "側邊提示詞歷史紀錄不明確。未儲存任何變更。",
   "STMemoryBooks_Progress_Title": "待處理的進度更新（{{count}}）",
   "STMemoryBooks_Progress_Blocked": "建立另一條記憶之前，請先套用或捨棄此聊天待處理的進度更新。",
   "STMemoryBooks_Progress_PersistenceError": "記憶已儲存，但無法將待處理的進度更新儲存至設定。請在重新整理頁面前重試，否則更新可能遺失。",
-  "STMemoryBooks_Progress_Deferred": "記憶已儲存。請重新開啟「{{chat}}」，完成最後處理訊息標記的更新。",
+  "STMemoryBooks_Progress_Deferred": "記憶已儲存。「{{chat}}」的進度待更新。當聊天已開啟且閒置時，安全的更新會自動套用。點擊查看待處理的更新。",
   "STMemoryBooks_Progress_Later": "稍後",
   "STMemoryBooks_Progress_Processing": "處理中…",
   "STMemoryBooks_Progress_Done": "完成。",
@@ -1267,9 +1294,11 @@
   "STMemoryBooks_Jobs_TopInfoBarInstall": "安裝 Chat Top Bar",
   "STMemoryBooks_Jobs_TopInfoBarMissingDismiss": "隱藏且不再顯示此通知。",
   "STMemoryBooks_UseChatCompletionService": "使用 ST 的 ChatCompletionService",
-  "STMemoryBooks_UseChatCompletionServiceDesc": "透過 SillyTavern 內建的聊天補全請求助手路由此設定檔。完全手動設定檔不受影響。",
+  "STMemoryBooks_UseChatCompletionServiceDesc": "使用 SillyTavern 連線管理員中選取的設定檔，並以 STMB 的模型和溫度覆寫對應設定。未選取連線設定檔時，使用現有請求助手。完全手動設定檔不受影響。",
   "STMemoryBooks_ChatCompletionPreset": "聊天補全預設：",
-  "STMemoryBooks_ChatCompletionPresetDesc": "可選。透過 ChatCompletionService.processRequest 套用 SillyTavern 聊天補全預設。",
+  "STMemoryBooks_ChatCompletionPresetDesc": "可選。僅在未選取 SillyTavern 連線管理員設定檔時套用。否則，使用連線設定檔中的預設。",
+  "STMemoryBooks_ConnectionProfileRequiresChatCompletion": "選取的 SillyTavern 連線設定檔必須使用聊天補全。",
+  "STMemoryBooks_ConnectionManagerUnavailable": "無法透過 SillyTavern 連線設定檔傳送請求。請更新 SillyTavern 或取消選取連線設定檔。",
   "STMemoryBooks_NoChatCompletionPreset": "無聊天補全預設",
   "STMemoryBooks_ContextSettings_Title": "內容脈絡設定",
   "STMemoryBooks_ContextSettings_Singular": "內容脈絡設定",
@@ -1408,6 +1437,8 @@
   ,"STMemoryBooks_ClipReview_ModeOff": "停用"
   ,"STMemoryBooks_ClipReview_ModeUpdate": "更新"
   ,"STMemoryBooks_ClipReview_ModeUpdateAndSuggest": "更新與建議"
+  ,"STMemoryBooks_ClipReview_ModeSuggest": "建議"
+  ,"STMemoryBooks_ClipReview_SuggestHelp": "建議模式尋找新的主題剪輯話題，而不更新現有剪輯。"
   ,"STMemoryBooks_ClipReview_Name": "記憶輔助"
   ,"STMemoryBooks_ClipReview_NoSuggestions": "目前沒有記憶輔助建議。"
   ,"STMemoryBooks_ClipReview_OpenFailed": "無法開啟記憶輔助建議"
@@ -1445,6 +1476,8 @@
   ,"STMemoryBooks_ClipReview_NewTopicOne": "1 個新主題"
   ,"STMemoryBooks_ClipReview_NewTopicMany": "{{count}} 個新主題"
   ,"STMemoryBooks_ClipReview_FoundUpdatesAndTopics": "記憶輔助發現了 {{updateMessage}}和{{topicMessage}}。"
+  ,"STMemoryBooks_ClipReview_FoundTopics": "記憶輔助發現了{{topicMessage}}。"
+  ,"STMemoryBooks_Consolidation_RetryNeedsReview": "此次整合沒有儲存紀錄。開始新的整合前，請檢查記憶書中已儲存的摘要。"
   ,"STMemoryBooks_ClipReview_FoundUpdates": "記憶輔助發現了 {{updateMessage}}。"
   ,"STMemoryBooks_ClipReview_ResetPrompt": "重設提示詞"
   ,"STMemoryBooks_ClipReview_ResetWarning": "這只會將記憶輔助重設為其內建提示詞和設定。目前的模式不會變更。此操作無法復原。"
@@ -1460,6 +1493,10 @@
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 個主題剪輯更新正在等待批准。"
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} 個主題剪輯更新正在等待批准。"
   ,"STMemoryBooks_AutoRollbackEnabled": "刪除訊息後自動回復"
+  ,"STMemoryBooks_AutoRollbackBranches": "也對分支／檢查點套用自動回復"
+  ,"STMemoryBooks_AutoRollbackBranchesDesc": "開啟分支或檢查點時，回復保留訊息之後的 Memory。此功能需要獨立的 Memory Book 副本。"
+  ,"STMemoryBooks_AutoRollbackBranchCopyDisabled": "由於 Memory Book 複製功能已關閉，已略過此分支或檢查點的自動回復。"
+  ,"STMemoryBooks_AutoRollbackBranchIsolation": "無法確認所有作用中的 Memory Book 都有獨立副本，已略過分支／檢查點自動回復。"
   ,"STMemoryBooks_AutoRollbackDesc": "刪除的訊息使已處理的記憶失效時，執行所選的回復操作。刪除記憶或整合項目無法復原。"
   ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "更新最後處理的訊息 ID"
   ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "刪除最後一則記憶"
@@ -1495,4 +1532,38 @@
   ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "自動執行時使用群組側邊提示預設值。取消勾選後，繼承單人聊天預設值。每個聊天的明確選擇仍然有效。此設定獨立於依角色區分記憶。"
   ,"STMemoryBooks_CharacterAwareDisabled": "已停用且不套用，因為一般設定中的「依角色區分記憶」未勾選。"
   ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "已停用且不套用，因為一般設定中的「使用獨立的群組側邊提示」未勾選。"
+  ,"STMemoryBooks_EnableSidePromptVersioning": "啟用側提示詞版本控制"
+  ,"STMemoryBooks_SaveAllSidePromptVersions": "儲存所有版本"
+  ,"STMemoryBooks_SidePromptVersioningHelp": "勾選此方塊以啟用各側提示詞的版本設定。未勾選時不會建立新版本；現有歷史會保留，並更新最新輸出。"
+  ,"STMemoryBooks_SidePromptVersioningTemplateHelp": "需要在側提示詞管理器中啟用版本控制。舊版本會保持停用。"
+  ,"STMemoryBooks_Extract_Search": "搜尋聊天訊息"
+  ,"STMemoryBooks_Extract_CurrentChat": "搜尋目前開啟的聊天。選取訊息作為主題剪輯的來源。"
+  ,"STMemoryBooks_Extract_UseSelected": "使用所選訊息"
+  ,"STMemoryBooks_Extract_NoMatches": "沒有相符的訊息。"
+  ,"STMemoryBooks_Extract_Changed": "聊天或所選訊息已變更。請重新選取。"
+  ,"STMemoryBooks_Extract_Action": "擷取"
+  ,"STMemoryBooks_Extract_Open": "擷取…"
+  ,"STMemoryBooks_Extract_Selected": "所選訊息"
+  ,"STMemoryBooks_Extract_Edit": "編輯選取"
+  ,"STMemoryBooks_Extract_SelectedCount": "所選訊息：{{count}}"
+  ,"STMemoryBooks_TopicalClip_MessageRange": "訊息範圍"
+  ,"STMemoryBooks_Consolidation_NoPending": "沒有待處理的整合儲存。"
+  ,"STMemoryBooks_Consolidation_RecoveryHint": "繼續前請檢查已儲存的摘要。"
+  ,"STMemoryBooks_Consolidation_Resume": "繼續"
+  ,"STMemoryBooks_Consolidation_RecoveryTitle": "整合復原"
+  ,"STMemoryBooks_Consolidation_Confirmed": "整合儲存已確認。"
+  ,"STMemoryBooks_Consolidation_Pending": "待處理"
+  ,"STMemoryBooks_Consolidation_ReviewRequired": "無法確認已儲存整合的狀態。重新開始前請檢查記憶書。"
+  ,"STMemoryBooks_Consolidation_ReviewAction": "檢視詳情"
+  ,"STMemoryBooks_Consolidation_DismissAction": "檢查後關閉"
+  ,"STMemoryBooks_Consolidation_RecoveryPartial": "已復原儲存的摘要。請為剩餘來源開始新的整合。"
+  ,"STMemoryBooks_Reminder_AutomaticEnabled": "開啟自動記憶提醒"
+  ,"STMemoryBooks_Reminder_AutomaticInterval": "自動記憶提醒間隔（訊息數）"
+  ,"STMemoryBooks_Reminder_AutomaticHelp": "開啟自動建立時，首次提醒會在訊息間隔加緩衝區再加上此訊息數後出現，此後每增加相同數量的訊息就再次提醒。即使使用詞元門檻觸發生成，也始終按聊天訊息數計數。"
+  ,"STMemoryBooks_Reminder_ManualEnabled": "開啟手動建立記憶提醒"
+  ,"STMemoryBooks_Reminder_ManualInterval": "手動記憶提醒間隔（訊息數）"
+  ,"STMemoryBooks_Reminder_ManualHelp": "關閉自動建立時，未處理的聊天訊息達到此數量後提醒，此後每增加相同數量的訊息就再次提醒。"
+  ,"STMemoryBooks_Reminder_CommonHelp": "提醒會一直顯示，直到手動關閉，且不受「顯示通知」設定影響。"
+  ,"STMemoryBooks_Reminder_AutomaticToast": "自動記憶摘要已逾期：有 {{count}} 則未處理的訊息。請檢查自動記憶設定或建立記憶。"
+  ,"STMemoryBooks_Reminder_ManualToast": "自上次記憶摘要以來已有 {{count}} 則訊息。請考慮建立記憶。"
 }

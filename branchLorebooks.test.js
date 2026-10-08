@@ -9,6 +9,7 @@ import {
     applyBranchLorebookBindings,
     cloneLorebookForBranch,
     createBranchLorebookController,
+    isChildChatForAutoRollback,
     planBranchLorebookCopies,
     resolveActiveLorebookBindings,
     shouldCopyForChatChange,
@@ -51,6 +52,47 @@ test('recognizes only a newly created native branch', () => {
             branchChatId: 'Parent - Branch #1',
         },
     })), false);
+});
+
+test('recognizes existing child chats for opt-in auto-rollback only when copies are enabled', () => {
+    assert.equal(isChildChatForAutoRollback(snapshot({
+        chatId: 'Checkpoint 1', mainChat: 'Parent', autoRollbackEnabled: true,
+    })), true);
+    assert.equal(isChildChatForAutoRollback(snapshot({
+        chatId: 'Checkpoint 1', mainChat: 'Parent', autoRollbackEnabled: false,
+    })), false);
+    assert.equal(isChildChatForAutoRollback(snapshot({
+        chatId: 'Checkpoint 1', mainChat: 'Parent', autoRollbackEnabled: true, copyEnabled: false,
+    })), false);
+});
+
+test('branch copies remap Side Prompt identities and retain edit detection', async () => {
+    const { fingerprintRollbackEntry, remapSidePromptChatIdentity } = await import('./memoryRollback.js');
+    const entry = { uid: 1, content: 'Saved child state', STMB_chatId: 'Parent' };
+    entry.STMB_sidePromptRegeneration = {
+        version: 2, chatId: 'Parent', sceneStart: 1, sceneEnd: 2,
+        priorEntryExisted: true,
+        priorEntryState: {
+            uid: 2,
+            STMB_sidePromptHistory: {
+                version: 1, chatId: 'Parent', chatKey: '["character","avatar","Parent"]',
+                group: 'Prompt-Parent', titleSource: 'name', templateKey: 'prompt', sequence: 1,
+            },
+        },
+        writtenFingerprint: '',
+    };
+    entry.STMB_sidePromptRegeneration.writtenFingerprint = fingerprintRollbackEntry(entry, { excludeSidePromptSnapshot: true });
+    remapSidePromptChatIdentity(entry, 'Parent', 'Parent - Branch #1');
+    assert.equal(entry.STMB_sidePromptRegeneration.chatId, 'Parent - Branch #1');
+    assert.equal(entry.STMB_sidePromptRegeneration.priorEntryState.STMB_sidePromptHistory.chatId, 'Parent - Branch #1');
+    assert.equal(JSON.parse(entry.STMB_sidePromptRegeneration.priorEntryState.STMB_sidePromptHistory.chatKey)[2], 'Parent - Branch #1');
+    assert.equal(fingerprintRollbackEntry(entry, { excludeSidePromptSnapshot: true }), entry.STMB_sidePromptRegeneration.writtenFingerprint);
+
+    entry.content = 'Edited by user';
+    const oldFingerprint = entry.STMB_sidePromptRegeneration.writtenFingerprint;
+    remapSidePromptChatIdentity(entry, 'Parent - Branch #1', 'Parent - Branch #2');
+    assert.notEqual(fingerprintRollbackEntry(entry, { excludeSidePromptSnapshot: true }), oldFingerprint);
+    assert.equal(entry.STMB_sidePromptRegeneration.writtenFingerprint, oldFingerprint);
 });
 
 test('plans one shared branch number and reuses lineage roots', () => {
@@ -194,6 +236,7 @@ function createHarness({
     const books = new Map(Object.entries(worlds || {}).map(([name, data]) => [name, structuredClone(data)]));
     const notifications = [];
     let metadataSaveCount = 0;
+    let childReadyCount = 0;
 
     const controller = createBranchLorebookController({
         getCurrentChatId: () => state.chatId,
@@ -203,6 +246,8 @@ function createHarness({
             moduleSettings: {
                 manualModeEnabled: activeManualMode,
                 copyMemoryBooksOnBranch: true,
+                autoRollbackEnabled: true,
+                autoRollbackApplyToBranches: true,
             },
         }),
         isGroupChat: () => group,
@@ -220,6 +265,7 @@ function createHarness({
         getLockedLorebookName: () => lockedLorebookName,
         getLockedCharacterBindingKeys: () => lockedCharacterBindingKeys,
         saveMetadata: async () => { metadataSaveCount++; },
+        afterChildReady: async () => { childReadyCount++; },
         translate: fallback => fallback,
         notify: (level, message, options) => {
             const notification = { level, message, options, cleared: false };
@@ -255,6 +301,7 @@ function createHarness({
             group = false;
         },
         get metadataSaveCount() { return metadataSaveCount; },
+        get childReadyCount() { return childReadyCount; },
     };
 }
 
@@ -311,6 +358,27 @@ test('leaves a persistent locked solo book untouched when branching', async () =
     assert.equal(harness.books.has('Chat Manual Book Branch 1'), false);
     assert.equal(harness.state.metadata.STMemoryBooks.manualLorebook, 'Chat Manual Book');
     assert.equal(harness.notifications.at(-1).level, 'warning');
+    assert.equal(harness.state.metadata.STMemoryBooks[BRANCH_LOREBOOK_METADATA_KEY].status, 'skipped');
+    const warningCount = harness.notifications.filter(item => item.level === 'warning').length;
+    await harness.controller.handleChatChanged('Parent - Branch #1');
+    assert.equal(harness.notifications.filter(item => item.level === 'warning').length, warningCount);
+    assert.equal(harness.metadataSaveCount, 1);
+});
+
+test('manual branch ignores the unrelated chat-bound book after copying', async () => {
+    const harness = createHarness({
+        manualMode: true,
+        parentMetadata: { world_info: 'Chat Book', STMemoryBooks: { manualLorebook: 'Manual Book' } },
+        worlds: { 'Chat Book': { entries: {} }, 'Manual Book': { entries: {} } },
+    });
+    harness.setBranch();
+    await harness.controller.handleChatChanged('Parent - Branch #1');
+    assert.equal(harness.controller.hasVerifiedCopies('Parent - Branch #1'), true);
+    assert.equal(harness.childReadyCount, 1);
+    await harness.controller.handleChatChanged('Parent - Branch #1');
+    assert.equal(harness.childReadyCount, 2);
+    assert.equal(harness.books.has('Manual Book Branch 2'), false);
+    assert.equal(harness.metadataSaveCount, 1);
 });
 
 test('resolves the primary binding through the existing effective-lorebook helper', async () => {

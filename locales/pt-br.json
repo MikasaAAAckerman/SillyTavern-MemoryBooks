@@ -1,8 +1,35 @@
 {
+  "STMemoryBooks_Progress_Explanation": "O marcador da última mensagem processada registra quais mensagens já estão cobertas pelas memórias salvas, para que a próxima memória comece no lugar certo e os limites automáticos contem as novas mensagens. Atualizações pendentes seguras são aplicadas automaticamente quando o chat correspondente está aberto e ocioso. As memórias salvas permanecem intactas enquanto uma atualização estiver pendente.",
+  "STMemoryBooks_Progress_Reopen": "Reabrir chat e atualizar marcador",
+  "STMemoryBooks_Progress_ReopenInfo": "Reabra este chat para atualizar seu marcador até a mensagem {{target}}. Isso muda o chat ativo.",
+  "STMemoryBooks_CombineClips_Open": "Combinar clipes",
+  "STMemoryBooks_CombineClips_Select": "Selecione dois ou mais Clipes Temáticos",
+  "STMemoryBooks_CombineClips_NewTitle": "Título do novo Clipe Temático",
+  "STMemoryBooks_CombineClips_Disable": "Desativar os clipes originais após salvar",
+  "STMemoryBooks_CombineClips_Disabled": "desativado",
+  "STMemoryBooks_CombineClips_None": "Nenhum Clipe Temático encontrado neste Livro de Memórias.",
+  "STMemoryBooks_CombineClips_Minimum": "Selecione pelo menos dois Clipes Temáticos.",
+  "STMemoryBooks_CombineClips_SourcesChanged": "Um clipe selecionado foi alterado. Gere o rascunho novamente.",
+  "STMemoryBooks_Extract_HiddenOnly": "Somente mensagens ocultas",
+  "STMemoryBooks_Extract_Hidden": "Oculta",
+  "STMemoryBooks_Extract_OutsideCount": "Fora dos resultados exibidos: {{count}}",
+  "STMemoryBooks_Extract_UnfinishedEdit": "Conclua ou cancele a edição da mensagem e atualize os resultados.",
+  "STMemoryBooks_Extract_Stale": "O chat ou as mensagens selecionadas mudaram. Atualize os resultados para limpar a seleção e pesquisar novamente.",
+  "STMemoryBooks_Extract_SelectMessage": "Selecionar mensagem",
+  "STMemoryBooks_Extract_Previous": "Mensagem anterior",
+  "STMemoryBooks_Extract_Next": "Próxima mensagem",
+  "STMemoryBooks_Extract_LoadedCount": "Mensagens exibidas: {{count}} · Mensagens correspondentes: {{total}}",
+  "STMemoryBooks_Extract_SearchButton": "Buscar",
+  "STMemoryBooks_Extract_LoadMore": "Carregar mais",
+  "STMemoryBooks_Extract_SelectLoaded": "Selecionar resultados carregados",
+  "STMemoryBooks_Extract_ClearSelection": "Limpar seleção",
+  "STMemoryBooks_Extract_Refresh": "Atualizar resultados",
+  "STMemoryBooks_Extract_FullChat": "Busca em todo o chat atual, incluindo mensagens ocultas. As seleções são mantidas entre as buscas.",
+  "STMemoryBooks_SidePromptHistoryConflict": "O histórico do side prompt é ambíguo. Nenhuma alteração foi salva.",
   "STMemoryBooks_Progress_Title": "Atualizações de progresso pendentes ({{count}})",
   "STMemoryBooks_Progress_Blocked": "Aplique ou descarte a atualização de progresso pendente deste chat antes de criar outra memória.",
   "STMemoryBooks_Progress_PersistenceError": "Memória salva, mas não foi possível salvar sua atualização de progresso pendente nas configurações. Tente novamente antes de recarregar a página ou a atualização poderá ser perdida.",
-  "STMemoryBooks_Progress_Deferred": "Memória salva. Reabra “{{chat}}” para concluir a atualização do marcador da última mensagem processada.",
+  "STMemoryBooks_Progress_Deferred": "Memória salva. O progresso de “{{chat}}” está pendente. Atualizações seguras são aplicadas quando o chat está aberto e ocioso. Clique para revisar as atualizações pendentes.",
   "STMemoryBooks_Progress_Later": "Mais tarde",
   "STMemoryBooks_Progress_Processing": "Processando…",
   "STMemoryBooks_Progress_Done": "Concluído.",
@@ -725,9 +752,11 @@
   "STMemoryBooks_APIProfileConfigHint": "💡 Dica de Configuração do Perfil: primeiro configure e teste as conexões no SillyTavern. Perfis de API Personalizada podem usar a conexão Personalizada ativa ou ser vinculados acima a um perfil específico de conexão Personalizada. A Configuração Manual Completa deve ser usada apenas em conexões diretas excepcionais pelo navegador.",
   "STMemoryBooks_SkipStructuredOutput": "Ignorar saída estruturada e usar conclusão em texto simples",
   "STMemoryBooks_UseChatCompletionService": "Usar o ChatCompletionService do ST",
-  "STMemoryBooks_UseChatCompletionServiceDesc": "Encaminha este perfil pelo auxiliar integrado de solicitações de chat completion do SillyTavern. Perfis de Configuração Manual Completa não são afetados.",
+  "STMemoryBooks_UseChatCompletionServiceDesc": "Usa o perfil selecionado no gerenciador de conexões do SillyTavern, com o modelo e a temperatura do STMB. Sem um perfil de conexão selecionado, usa o auxiliar de solicitações existente. Perfis de Configuração Manual Completa não são afetados.",
   "STMemoryBooks_ChatCompletionPreset": "Predefinição de Chat Completion:",
-  "STMemoryBooks_ChatCompletionPresetDesc": "Opcional. Aplica uma predefinição de chat completion do SillyTavern por meio de ChatCompletionService.processRequest.",
+  "STMemoryBooks_ChatCompletionPresetDesc": "Opcional. Aplica-se apenas quando nenhum perfil está selecionado no gerenciador de conexões do SillyTavern. Caso contrário, usa a predefinição do perfil de conexão.",
+  "STMemoryBooks_ConnectionProfileRequiresChatCompletion": "O perfil de conexão selecionado do SillyTavern deve usar chat completion.",
+  "STMemoryBooks_ConnectionManagerUnavailable": "Solicitações por perfis de conexão do SillyTavern estão indisponíveis. Atualize o SillyTavern ou desmarque o perfil de conexão.",
   "STMemoryBooks_NoChatCompletionPreset": "Nenhuma predefinição de Chat Completion",
   "STMemoryBooks_FullManualConfig": "Configuração Manual Completa",
   "STMemoryBooks_TemperatureRange": "Temperatura (0.0 - 2.0):",
@@ -1405,6 +1434,8 @@
   ,"STMemoryBooks_ClipReview_ModeOff": "Desligada"
   ,"STMemoryBooks_ClipReview_ModeUpdate": "Atualizar"
   ,"STMemoryBooks_ClipReview_ModeUpdateAndSuggest": "Atualizar e sugerir"
+  ,"STMemoryBooks_ClipReview_ModeSuggest": "Sugerir"
+  ,"STMemoryBooks_ClipReview_SuggestHelp": "Sugerir descobre novos tópicos de Clips Temáticos sem atualizar os Clips existentes."
   ,"STMemoryBooks_ClipReview_Name": "Assistência de memória"
   ,"STMemoryBooks_ClipReview_NoSuggestions": "Não há sugestões atuais de Assistência à Memória."
   ,"STMemoryBooks_ClipReview_OpenFailed": "Falha ao abrir sugestões de assistência à memória"
@@ -1442,6 +1473,8 @@
   ,"STMemoryBooks_ClipReview_NewTopicOne": "1 novo tópico"
   ,"STMemoryBooks_ClipReview_NewTopicMany": "{{count}} novos tópicos"
   ,"STMemoryBooks_ClipReview_FoundUpdatesAndTopics": "A Assistência de memória encontrou {{updateMessage}} e {{topicMessage}}."
+  ,"STMemoryBooks_ClipReview_FoundTopics": "A Assistência de memória encontrou {{topicMessage}}."
+  ,"STMemoryBooks_Consolidation_RetryNeedsReview": "Esta consolidação não tem confirmação de salvamento. Revise os resumos salvos no Livro de Memória antes de iniciar uma nova consolidação."
   ,"STMemoryBooks_ClipReview_FoundUpdates": "A Assistência de memória encontrou {{updateMessage}}."
   ,"STMemoryBooks_ClipReview_ResetPrompt": "Redefinir prompt"
   ,"STMemoryBooks_ClipReview_ResetWarning": "Isso redefinirá somente a Assistência de memória para seus prompts e configurações integrados. O modo atual não será alterado. Esta ação não pode ser desfeita."
@@ -1457,6 +1490,10 @@
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 atualização de Clip Temático aguarda aprovação."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} atualizações de Clips Temáticos aguardam aprovação."
   ,"STMemoryBooks_AutoRollbackEnabled": "Reversão automática após excluir mensagens"
+  ,"STMemoryBooks_AutoRollbackBranches": "Aplicar reversão automática também a ramificações e pontos de controle"
+  ,"STMemoryBooks_AutoRollbackBranchesDesc": "Ao abrir uma ramificação ou um ponto de controle, as Memories posteriores às mensagens mantidas são revertidas. São necessárias cópias independentes dos Memory Books."
+  ,"STMemoryBooks_AutoRollbackBranchCopyDisabled": "A reversão automática desta ramificação ou ponto de controle foi ignorada porque a cópia de Memory Books está desativada."
+  ,"STMemoryBooks_AutoRollbackBranchIsolation": "A reversão automática da ramificação/ponto de controle foi ignorada porque não foi possível verificar cópias independentes de todos os Memory Books ativos."
   ,"STMemoryBooks_AutoRollbackDesc": "Quando mensagens excluídas invalidarem Memórias já processadas, aplique as ações de reversão selecionadas. A exclusão de Memórias ou consolidações é irreversível."
   ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "Atualizar o ID da última mensagem processada"
   ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "Excluir a última Memória"
@@ -1492,4 +1529,38 @@
   ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "Usa o padrão de prompts laterais de grupo nas execuções automáticas. Quando desmarcado, herda o padrão de chats individuais. Seleções explícitas por chat continuam valendo. Independente das memórias por personagem."
   ,"STMemoryBooks_CharacterAwareDisabled": "Desativado e não aplicado porque “Memórias por personagem” está desmarcado nas Configurações Gerais."
   ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "Desativado e não aplicado porque “Usar prompts laterais de grupo separados” está desmarcado nas Configurações Gerais."
+  ,"STMemoryBooks_EnableSidePromptVersioning": "Ativar versionamento de prompts auxiliares"
+  ,"STMemoryBooks_SaveAllSidePromptVersions": "Salvar todas as versões"
+  ,"STMemoryBooks_SidePromptVersioningHelp": "Marque esta caixa para ativar as configurações individuais de versão dos prompts auxiliares. Se ela estiver desmarcada, nenhuma nova versão será criada; o histórico existente será mantido e a saída mais recente será atualizada."
+  ,"STMemoryBooks_SidePromptVersioningTemplateHelp": "Exige que o versionamento de prompts auxiliares esteja ativado no gerenciador. As versões mais antigas permanecem desativadas."
+  ,"STMemoryBooks_Extract_Search": "Buscar mensagens do chat"
+  ,"STMemoryBooks_Extract_CurrentChat": "Busca no chat aberto. Selecione mensagens como fontes de Clips Temáticos."
+  ,"STMemoryBooks_Extract_UseSelected": "Usar mensagens selecionadas"
+  ,"STMemoryBooks_Extract_NoMatches": "Nenhuma mensagem correspondente."
+  ,"STMemoryBooks_Extract_Changed": "O chat ou as mensagens selecionadas mudaram. Selecione-as novamente."
+  ,"STMemoryBooks_Extract_Action": "Extrair"
+  ,"STMemoryBooks_Extract_Open": "Extrair…"
+  ,"STMemoryBooks_Extract_Selected": "Mensagens selecionadas"
+  ,"STMemoryBooks_Extract_Edit": "Editar seleção"
+  ,"STMemoryBooks_Extract_SelectedCount": "Mensagens selecionadas: {{count}}"
+  ,"STMemoryBooks_TopicalClip_MessageRange": "Intervalo de mensagens"
+  ,"STMemoryBooks_Consolidation_NoPending": "Nenhum salvamento de consolidação pendente."
+  ,"STMemoryBooks_Consolidation_RecoveryHint": "Revise o resumo salvo antes de continuar."
+  ,"STMemoryBooks_Consolidation_Resume": "Continuar"
+  ,"STMemoryBooks_Consolidation_RecoveryTitle": "Recuperação de consolidação"
+  ,"STMemoryBooks_Consolidation_Confirmed": "Salvamento da consolidação confirmado."
+  ,"STMemoryBooks_Consolidation_Pending": "Pendente"
+  ,"STMemoryBooks_Consolidation_ReviewRequired": "Não foi possível confirmar o estado da consolidação salva. Revise o Livro de Memória antes de começar novamente."
+  ,"STMemoryBooks_Consolidation_ReviewAction": "Revisar detalhes"
+  ,"STMemoryBooks_Consolidation_DismissAction": "Dispensar após revisar"
+  ,"STMemoryBooks_Consolidation_RecoveryPartial": "Os resumos salvos foram recuperados. Inicie outra consolidação para as fontes restantes."
+  ,"STMemoryBooks_Reminder_AutomaticEnabled": "Ativar lembretes para memórias automáticas"
+  ,"STMemoryBooks_Reminder_AutomaticInterval": "Intervalo dos lembretes automáticos (mensagens)"
+  ,"STMemoryBooks_Reminder_AutomaticHelp": "Com a criação automática ativada, o primeiro lembrete aparece após o intervalo de mensagens mais o buffer mais esta quantidade de mensagens; depois, repete-se a cada nova quantidade igual de mensagens. Sempre conta mensagens do chat, mesmo quando a geração é acionada por tokens."
+  ,"STMemoryBooks_Reminder_ManualEnabled": "Ativar lembretes para criar memórias manualmente"
+  ,"STMemoryBooks_Reminder_ManualInterval": "Intervalo dos lembretes manuais (mensagens)"
+  ,"STMemoryBooks_Reminder_ManualHelp": "Com a criação automática desativada, lembra após esta quantidade de mensagens do chat não processadas e repete-se a cada nova quantidade igual de mensagens."
+  ,"STMemoryBooks_Reminder_CommonHelp": "Os lembretes ficam visíveis até serem fechados e funcionam independentemente de Mostrar notificações."
+  ,"STMemoryBooks_Reminder_AutomaticToast": "Os resumos de memória automáticos estão atrasados: {{count}} mensagens não processadas. Verifique as configurações de memórias automáticas ou crie uma memória."
+  ,"STMemoryBooks_Reminder_ManualToast": "Há {{count}} mensagens desde seu último resumo de memória. Considere criar uma memória."
 }

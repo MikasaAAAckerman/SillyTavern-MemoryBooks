@@ -413,7 +413,9 @@ The named connection supplies its saved URL and secret. The model field in the S
 
 ### 7.6 ChatCompletionService
 
-**Use ST’s ChatCompletionService** routes supported profile requests through SillyTavern’s request helper and can apply a selected SillyTavern Chat Completion preset. OpenRouter requests also inherit SillyTavern’s provider order, quantization filters, fallback controls, and middle-out routing setting. These OpenRouter controls remain in force if ChatCompletionService fails and STMB retries through its fallback request path. If that retry also fails, STMB retains and reports both the initial ChatCompletionService error and the fallback provider response. Full Manual profiles do not use this route.
+**Use ST’s ChatCompletionService** uses `ConnectionManagerRequestService` when a profile is selected in SillyTavern’s Connection Manager. That connection profile supplies the provider, credentials, endpoint, proxy, and Chat Completion preset. STMB overrides the model and temperature and retains its response-token limit and structured-output choice. The connection profile’s preset takes precedence over a separate Chat Completion preset selected in STMB. The selected connection profile must use Chat Completion. Failed connection-profile requests are reported without retrying through STMB’s direct request path, which would lose the connection settings.
+
+When no SillyTavern connection profile is selected, the existing ChatCompletionService behavior applies, including STMB’s optional Chat Completion preset. OpenRouter requests on this route inherit SillyTavern’s provider order, quantization filters, fallback controls, and middle-out routing setting. These controls remain in force if ChatCompletionService fails and STMB retries through its fallback request path. If that retry also fails, STMB reports both failures. Unchecking the option keeps STMB’s direct request behavior. Full Manual profiles do not use either service route.
 
 ### 7.7 Reverse proxy and Full Manual Configuration
 
@@ -671,6 +673,21 @@ SillyTavern records which card authored each message, so STMB can preserve speak
 
 No separate Group Chat Mode switch is required. Open a group chat and use STMB normally.
 
+**General Settings → Group Chat** contains two independent controls, both checked by default:
+
+| Setting | Checked | Unchecked |
+|---|---|---|
+| **character-aware memories** | Enables participant-based memory filters and configured character-specific memory processing. | Uses ordinary single-book processing for new memories, regeneration, and consolidation. No participant confirmation, character filters, character-book copies, linked regeneration, character-based consolidation streams, or automatic group/character prompt routing. |
+| **Use separate group side prompts** | Automatic side prompts inherit the group default. | Automatic side prompts inherit the solo default. |
+
+The memory checkbox does not affect the side-prompt checkbox. Side-prompt default routing applies to both after-memory and interval triggers; explicit per-chat set selections or individually enabled prompts still take precedence, and manual runs remain available.
+
+When character-aware memories is off, **Automatically accept detected participants in future**, **Group Character Lorebooks** assignments, **Use separate group and character prompts in group chats**, and its **Group Summary Prompt / Character Summary Prompt** selectors remain visible but grayed out. Their tooltips explain that they are disabled and not applied because the General Settings checkbox is unchecked. When separate group side prompts is off, only the group side-prompt default selector is grayed out for that reason. Saved choices are retained and restored when re-enabled.
+
+These switches do not migrate existing entries or STLO configuration. Existing filters continue to apply until an entry is explicitly regenerated; regeneration with character-aware memories off removes that entry's character filter without rewriting its linked copies. New consolidated entries are unfiltered, while source entries retain their filters. Operations already started, including queued jobs and retries, retain their captured settings. Native group identity, speaker names, and primary Memory Book selection remain intact. Narrator Mode is independent of these native-group controls.
+
+The character-aware behavior described below applies while **character-aware memories** is checked.
+
 ### 11.2 Participant detection
 
 A detected participant is normally a character card that authored at least one message inside the selected scene.
@@ -716,10 +733,9 @@ The advanced real-group layout uses:
 Requirements:
 
 - Manual Lorebook Mode;
-- SillyTavern-LorebookOrdering (STLO) installed and enabled;
 - a valid assignment for every required group member.
 
-The canonical group book cannot also be a character book. More than one character may share the same character book; STMB writes one copy to that shared book rather than duplicates.
+The canonical group book may also be selected as a character book. STMB stores the canonical group entry and its linked character copy as separate entries in that book. The character copy is filtered to its assigned character and takes precedence over the canonical version on that character’s turn. More than one character may share the same character book; STMB writes one shared copy rather than duplicates.
 
 When a Memory is saved:
 
@@ -749,7 +765,7 @@ Character-focused versions can preserve:
 
 This requires additional AI requests. A shared character book receives one shared copy rather than one duplicate per assigned character.
 
-### 11.6 STLO responsibilities
+### 11.6 Optional STLO integration
 
 Memory Books decides:
 
@@ -759,13 +775,13 @@ Memory Books decides:
 - which books receive copies;
 - whether individualized prompts are used.
 
-STLO decides:
+When installed, STLO additionally decides:
 
 - when a lorebook is active;
 - which character can activate it;
 - priority, position, budget, and ordering.
 
-When STMB assigns a character book, it adds the character’s avatar basename to `stlo.characterOverrides` and enables `stlo.onlyWhenSpeaking`, while preserving existing STLO priorities, budgets, and overrides.
+STLO is not required for a real group chat. STMB injects the speaking native group member’s assigned book into that generation and uses native entry-level character filters. When STLO is available and STMB assigns a separate character book, it also adds the character’s avatar basename to `stlo.characterOverrides` and enables `stlo.onlyWhenSpeaking`, while preserving existing STLO priorities, budgets, and overrides. STMB does not apply a lorebook-wide STLO speaking filter when the character assignment is the canonical group book.
 
 STMB uses merge-only behavior. Clearing or changing an assignment does not automatically remove the old STLO character override. Remove obsolete overrides in STLO manually.
 
@@ -850,7 +866,7 @@ Rules:
 - retired members retain their identity and reserved book assignment until restored or otherwise removed by the implementation;
 - Auto-Create is incompatible because Narrator Mode depends on Manual Lorebook Mode.
 
-Unlike the advanced real-group layout, Narrator Mode does not require STLO for active-character retrieval. STMB injects the selected cast members’ books into the active lorebook context during generation.
+Like the advanced real-group layout, Narrator Mode does not require STLO for active-character retrieval. STMB injects the selected cast members’ books into the active lorebook context during generation.
 
 ### 12.3 Setup
 
@@ -860,7 +876,8 @@ Unlike the advanced real-group layout, Narrator Mode does not require STLO for a
 4. Enable **Narrator Mode**.
 5. Open **Manage Narrator Cast**.
 6. Add each fictional character by name and assign a unique Memory Book.
-7. Use the floating **Active Cast** drawer to select characters present in the next exchange.
+7. Use **Edit** beside an existing cast member to correct the character name or change that member's assigned Memory Book.
+8. Use the floating **Active Cast** drawer to select characters present in the next exchange.
 
 Narrator Mode must be disabled before Manual Lorebook Mode can be disabled.
 
@@ -927,6 +944,8 @@ The cast manager can mark a member retired and later restore them. Retired membe
 - retain their book reservation, preventing accidental reuse that would merge identities.
 
 Use retirement for a character who leaves the active cast but whose historical Memory identity must remain intact.
+
+Editing a cast member's character name or Memory Book preserves the member's stable identity and retired state. A corrected name is used wherever that member is displayed and in future Memory output. A new book assignment controls future retrieval and Memory writes; it does not move entries that were already written to the previous book.
 
 ---
 
@@ -1075,13 +1094,29 @@ It does not use:
 5. Enter activation keywords, or leave them blank to use the topic.
 6. Choose a new entry or an existing `[STMB Clip]` update target.
 7. Choose saved Memories, chat messages, or both as sources.
-8. Optionally select only specific source Memories and/or enter an exact message range.
+8. Optionally select only specific source Memories. For chat messages, enter an exact range or click **Extract…** to search the full current chat and select individual messages, including noncontiguous and hidden messages.
 9. Choose the generation profile.
 10. Generate the draft.
 11. Review and edit it.
 12. Save only when correct.
 
 The generated draft is never saved automatically.
+
+### Combine existing Topical Clips
+
+In the **Topical Clip** window, click **Combine Clips**. Select a Memory Book, choose at least two Topical Clips (including disabled clips if needed), and enter the new clip's title. Only Topical Clips created by STMB appear; ordinary Clips are excluded. The new clip's activation keywords are the union of the selected clips' primary keywords, without duplicates. Secondary keyword conditions are not copied.
+
+Choose a generation profile and click **Generate Draft**. The AI receives each selected clip's title and full content and is asked to consolidate supported facts, remove repetition, and retain unresolved conflicts. Review and edit the draft before saving. Changing the selected sources, title, or Memory Book clears the draft. If a source changes before saving, generate a fresh draft.
+
+**Disable original clips after saving** is checked by default. Uncheck it to preserve their current activation states. Saving creates the new enabled Topical Clip and, when checked, disables the originals in the same Memory Book update. The originals are never deleted. The combined clip records its source IDs separately from normal Topical Clip Memory-source history.
+
+When text is highlighted in the chat, the floating control offers **Clip** and **Extract**. Extract opens the same message picker with the highlighted text as its search query. It searches the full history of the current chat, including messages that are not rendered onscreen. An empty search lists all messages. Search matches literal text or speaker names, ignoring case; **Hidden only** restricts matches to hidden messages.
+
+Results appear in batches of 50. Use **Load more** to display more matches, expand a result to read its complete text with highlighted matches, or use **Previous message** and **Next message** to reveal surrounding context. Context messages are not selected automatically and can appear even when they do not match the search or Hidden only filter. Hidden messages are labeled; selecting one includes its text in the Topical Clip source without unhiding it in the chat.
+
+Selections are retained across searches and filter changes. The selection count includes messages outside the displayed results. **Select loaded results** selects every displayed result, including any revealed context messages; **Clear selection** removes all selections. Choose **Topical Clip** from standalone Extract or **Use selected messages** when returning to an existing editor. The query supplies the initial topic and keywords, which remain editable.
+
+STMB records source fingerprints when messages enter the picker and checks selected messages before accepting them, generating a draft, and saving it. If a selected source changes, **Refresh results** clears the selection and reloads the results so you can select sources again. Finish or cancel any unfinished message edit before searching. Switching chats closes the picker. Extract does not search other chats.
 
 ### 15.4 Updating an existing Topical Clip
 
@@ -1201,7 +1236,7 @@ A selected set replaces individually enabled automatic prompts for that chat. It
 
 #### Memory Assistance Side Prompt
 
-**Memory Assistance** is a reserved Side Prompt with four independent modes. It runs after successfully saved Memories regardless of ordinary Side Prompt enablement or the selected Side Prompt Set. It does not run during Memory regeneration.
+**Memory Assistance** is a reserved Side Prompt with five independent modes. It runs after successfully saved Memories regardless of ordinary Side Prompt enablement or the selected Side Prompt Set. It does not run during Memory regeneration.
 
 Memory Assistance compares the raw processed scene with ordinary and Topical Clips in each Memory Book that received the Memory. It sends each reviewed Clip's title/topic, keywords, current content, stable ID, and type to the AI.
 
@@ -1209,6 +1244,7 @@ When the job queue is available, each target Memory Book receives a separate **M
 
 - **Off** disables Memory Assistance.
 - **Update** reviews five or fewer Clips directly; more than five Clips open a selection list. Proposed changes wait for manual approval.
+- **Suggest** discovers new Topical Clip topics without reviewing or updating existing Clips.
 - **Update and Suggest** first performs one topic-discovery request, then runs the same existing-Clip review workflow as Update.
 - **Automatic** reviews every Clip in token-based batches without asking which Clips to review. It directly applies valid ordinary Clip additions, while Topical Clip replacements remain pending for approval in **Memory Assistance Suggestions**.
 
@@ -1948,7 +1984,23 @@ Retry scopes:
 
 Use Retry All to restore the combined workflow; use Retry Memory when tracker work should not run.
 
+Consolidation saves record a checkpoint in extension settings before writing each accepted summary. A summary and its source-disable changes are saved together. Retry checks the live Memory Book for the checkpoint marker before writing, so a confirmed summary is reused instead of duplicated. After a reload, **Consolidation recovery** in the extension menu lists unfinished checkpoints and offers **Resume** and **Review details**. A changed source, edited summary, duplicate marker, or unconfirmed save is marked **Needs Review** and is never replayed automatically; after checking the Memory Book, **Dismiss after review** removes the checkpoint notice without changing the book. This uses ST's settings and lorebook APIs; it does not provide a server transaction.
+
+Checkpoints store the accepted summary draft, generated keywords, source IDs and fingerprints, and save options in ST extension settings so a reload can resume the exact candidate. Keep settings backups as private as the Memory Books themselves.
+
 Without Chat Top Bar, STMB still performs its normal workflows but lacks the queue UI.
+
+### Deferred last-processed progress
+
+When a queued Memory finishes after its source chat is no longer open, the Memory is still saved to its Memory Book. STMB records the last-processed marker update in `extension_settings.STMemoryBooks.pendingProgress` instead of fetching and rewriting the inactive character or group chat. Already-queued jobs can finish; new manual and automatic base-memory requests for that chat wait until its pending updates are applied or explicitly discarded. Other chats remain usable.
+
+The notification asks the user to reopen the source chat manually. Once that chat is loaded and idle, a popup offers **Apply**, **Later**, and **Discard pending update**. Apply displays **Processing…**, runs `/stmb-set-highest <pending message number>` in the affected chat, and removes the pending records from settings before displaying **Done**. It uses the command's normal manual-marker behavior and range clamping, without comparing message contents or attachments or reading the chat back. Later, Escape, or closing the popup preserves the records. The main STMB panel has a **Pending progress updates (N)** button for reopening this management popup, including after refreshing or disabling Chat Top Bar. It never switches chats automatically. Discard requires confirmation and leaves saved lorebook memories untouched.
+
+Each pending record contains a chat reference, operation/job identity, target message index, original marker state/revision, chat integrity identifier, and SHA-256 fingerprint of the source message text and identity fields. Attachment fields are not read or fingerprinted. It does not persist conversation text. Appended messages and hide/unhide changes are allowed; edits, deletions, changed identity, manual marker changes, or rollback can make an update unsafe. Those checks apply to automatic marker updates. Explicit Apply uses the slash command even if the original fingerprint or marker revision no longer matches; Later preserves the pending update and Discard removes it. Explicit chat/character rename events remap pending references; missing or unrecognized references remain available for review and discard.
+
+Pending records are saved using ST's settings API and verified by reading settings back, with a ten-second confirmation limit. A settings failure leaves the update in memory. Use Apply in the affected chat to run the marker command, or Discard pending update to remove the pending record. There is no separate settings-save retry button. There is no browser recovery backup: refreshing before a successful settings save can lose an unpersisted update. If settings cleanup fails after Apply, the pending record remains available; clicking Apply again reruns the command and retries cleanup without generating another Memory. Explicit Apply relies on the command’s normal save behavior; automatic updates still verify the saved marker.
+
+This removes STMB's separate inactive-chat replacement write. ST's normal current-chat save still writes a complete chat, and concurrent settings saves from other tabs/devices are not transactional. The change does not identify the cause of previously reported chat loss or guarantee protection from all core/other-extension save races.
 
 ---
 
@@ -1992,10 +2044,10 @@ Scopes used below:
 |---|---|---|---|
 | **Enable Manual Lorebook Mode** | **Current Lorebook Configuration** | Global mode; book choice is per chat | Stops using the normal chat-bound lorebook as STMB's automatic target and requires a Memory Book to be selected for the current chat. It cannot be enabled with Auto-Create Lorebook Mode. |
 | **Selected manual Memory Book** | **Current Lorebook Configuration → manual lorebook controls**; visible in Manual Mode | Per chat | Chooses the main Memory Book that receives Memories for this chat. In Narrator Mode this is the omniscient book. |
-| **Group-character Memory Book assignments** | **Current Lorebook Configuration → group-character rows**; visible in a real group using Manual Mode | Per chat | Assigns a separate Memory Book to each real-group member. STLO is required to configure these assignments and provide the corresponding character-filtered retrieval behavior. |
+| **Group-character Memory Book assignments** | **Current Lorebook Configuration → group-character rows**; visible in a real group using Manual Mode | Per chat | Assigns a Memory Book to each real-group member. STMB injects the current native speaker’s assigned book; STLO integration is optional. The canonical group book may also be assigned and then stores both group and character-focused entries. |
 | **Character Memory Book lock** | Lock icon beside a character's Memory Book assignment | Per character | Keeps that character card assigned to the same Memory Book across compatible Manual Mode chats. Unlock before changing the assignment. |
 | **Narrator Mode** | **Current Lorebook Configuration**; normal non-group chats only | Per chat | Uses the selected manual book as an omniscient Memory Book and enables declared fictional cast members with their own unique books. Manual Mode and an omniscient book are required. |
-| **Manage Narrator Cast** | Under **Narrator Mode**; also available from the Active Cast drawer | Per chat | Adds, retires, restores, and assigns unique Memory Books to declared Narrator characters. |
+| **Manage Narrator Cast** | Under **Narrator Mode**; also available from the Active Cast drawer | Per chat | Adds, renames, retires, restores, and assigns unique Memory Books to declared Narrator characters. |
 | **Auto-create lorebook if none exists** | **Current Lorebook Configuration** | Global | In Automatic Mode, creates and binds a lorebook when the chat has none. It cannot be enabled with Manual Mode. |
 | **Lorebook Name Template** | Directly below **Auto-create lorebook if none exists** | Global | Names auto-created books. Supports `{{char}}`, `{{user}}`, and `{{chat}}`. It is used only while Auto-Create Lorebook Mode is enabled. |
 | **Memory profile selection** | **Memory Profiles** selector | Per run | Chooses the profile for the next Memory and for the adjacent profile actions. This selection alone does not change the saved default. |
@@ -2019,6 +2071,7 @@ Open **Settings → General Settings** in the main panel.
 | **Refresh lorebook editor after adding memories** | Global | Refreshes an open lorebook editor after STMB writes entries so the new content appears immediately. |
 | **Copy Memory Books when branching** | Global | Gives a native chat branch independent copies of its active unlocked chat-bound or manual Memory Books. Character-locked books remain shared by design. |
 | **Auto-rollback after message deletion** | Global | Enables coordinated rollback when deletion or truncation intersects already processed chat material. It is disabled by default. Ordinary message edits and swipes do not trigger it. |
+| **Apply auto-rollback to branches/checkpoints** | Global; Auto-rollback option | On the first opening of a branch or checkpoint, rolls back Memories beyond its retained messages. Requires independent copies of every active Memory Book; otherwise it skips the rollback. |
 | **Update last message ID processed** | Global; Auto-rollback action | Moves the processed checkpoint to the end of the newest surviving Memory, or clears it when none survives. |
 | **Delete last Memory** | Global; Auto-rollback action | Deletes every invalidated Memory selected by the rollback scope and its linked copies. Memory and consolidation deletion is irreversible. |
 | **Restore previous Side Prompts** | Global; Auto-rollback action | Restores each unchanged affected Side Prompt to its latest exact saved before-state. Only one rollback level is retained. |
@@ -2034,6 +2087,14 @@ Open **Settings → General Settings** in the main panel.
 #### Memory Auto-Rollback inside General Settings
 
 **Auto-rollback after message deletion** is a master preference. Its three action checkboxes are independently selectable, enabled by default, and visually disabled while the master switch is off. Existing installations therefore do not begin deleting anything merely by upgrading.
+
+**Apply auto-rollback to branches/checkpoints** is off by default. When enabled, STMB applies the selected actions the first time an eligible branch or checkpoint is opened, including existing child chats. Checkpoints are handled when opened, not when created. STMB uses the child chat's current message count as the first omitted message index, so a Memory ending at the last retained message remains intact while Memories crossing or following that boundary are eligible. Completion is recorded for that child and boundary, and changing settings does not repeat a completed rollback.
+
+When branch/checkpoint rollback deletes a Memory, it also unhides the retained messages in that Memory's source range after the Memory Books save successfully. For example, branching at message 36 with a Memory covering 33–44 deletes that Memory from the copy and unhides messages 33–36. This does not depend on the unhide-before-generation preference. Already completed child rollbacks are not automatically repeated after an upgrade; use `/unhide 33-36` to repair that example in an existing branch.
+
+Pending unhide ranges are saved in the same Memory Book writes as the deletions. If switching chats or an error interrupts unhiding, reopening the child with branch/checkpoint auto-rollback enabled retries those saved ranges, even though the deleted Memories no longer exist. Retrying may repeat already completed unhide commands; the recovery records are removed only after every range completes in the intended chat.
+
+Branch/checkpoint rollback requires isolated copies of every active Memory Book. When **Copy Memory Books when branching** is disabled or a shared/locked book cannot be isolated, STMB skips rollback and reports the reason to avoid changing the parent chat's data. Copy or rollback failures and canceled consolidation confirmations remain eligible for a later opening.
 
 Auto-rollback reacts only to message deletion or truncation, including the deletion phase of response regeneration. It does not react to an ordinary edit or swipe. STMB tracks the actual message identities in each chat because SillyTavern's deletion event value does not reliably identify a middle deletion.
 
@@ -2068,10 +2129,23 @@ Open **Settings → Automatic Memories** in the main panel.
 | Setting | Scope | What it does |
 |---|---|---|
 | **Auto-create memory summaries** | Global | Enables automatic `/nextmemory`-style Memory creation. With no processed baseline, current STMB can begin at message 0; a first manual Memory remains recommended for setup validation and a deliberate starting boundary. |
-| **Auto-Summary Interval** | Global | Sets how many messages make up the normal automatic cadence. |
+| **Auto-Summary Trigger** | Global | Chooses whether automatic Memory creation is triggered by message count or token count. |
+| **Auto-Summary Token Threshold** | Global | Sets the token count that triggers automatic Memory creation when the trigger is **Tokens**. |
+| **Auto-Summary Interval** | Global | Sets how many messages make up the normal automatic cadence when the trigger is **Messages**. |
 | **Auto-Summary Buffer** | Global | Excludes this many newest messages from an otherwise ready automatic range so generation happens slightly behind the live conversation. |
 | **Prompt for consolidation when a tier is ready** | Global | Shows a yes/later prompt when a monitored tier reaches its saved eligible-source minimum. It never silently performs consolidation. |
 | **Auto-Consolidation Tiers** | Global | Chooses which target tiers are monitored for readiness prompts. The minimum for each tier is saved in **Consolidate Memories**. |
+
+#### Memory reminder notifications
+
+Automatic-memory reminder controls appear only in **Automatic Memories**. Manual-memory reminder controls appear in both **General Settings** and **Automatic Memories**, backed by the same global preferences. Both reminder toggles default to **off** and operate independently of **Show notifications**.
+
+- **Turn on reminders for automatic memories** applies while **Auto-create memory summaries** is enabled. Its configurable interval X defaults to **10 messages**. The first reminder is due at **Auto-Summary Interval + Auto-Summary Buffer + X** unprocessed messages, with repeats every X additional messages. For example, interval 50, buffer 2, and X = 10 first reminds at 62 unprocessed messages, then 72, 82, and so on if checked at those counts.
+- **Turn on reminders to make memories manually** applies while auto-create is disabled. Its configurable interval Y defaults to **50 messages**. It first reminds at Y unprocessed messages, then every Y additional messages. Both preferences remain saved when switching auto-create on or off.
+
+Intervals accept positive whole numbers and count **chat messages**, including both user and assistant messages, using the existing last-processed Memory boundary. Automatic reminders remain message-based even when generation uses a token threshold. Checks run after assistant replies and when memory processing becomes idle; generation, pending progress, and an explicit auto-summary postponement suppress new reminders. A delayed reminder starts its repeat interval from the actual notification count.
+
+Reminder toasts have a close button and stay visible until dismissed. Repeats do not stack while a reminder is visible. Notification checkpoints are saved per chat, so reloading does not immediately repeat a delivered reminder. A changed processed boundary or reminder configuration resets the relevant schedule; deleted messages rebase repeat checkpoints. Changing chats, changing the boundary, or disabling/switching the active reminder mode clears the visible reminder. These reminders do not create memories or change automatic generation thresholds.
 
 ### 27.4 Profile editor
 
@@ -2083,8 +2157,8 @@ Choose a profile under **Memory Profiles**, then open **Profile Actions → Edit
 | **API/Provider** | Chooses current SillyTavern routing, a supported provider, a Custom OpenAI-compatible connection, or Full Manual Configuration. |
 | **Use this connection profile** | For **Custom OpenAI-Compatible API**, uses either the active SillyTavern Custom connection or one named Custom connection. Its saved URL and secret are used while the STMB **Model** remains the model override. |
 | **Skip structured output and use plain-text completion** | Stops sending a structured-output schema when a provider rejects it. The selected prompt must still make the model return STMB's required valid JSON. |
-| **Use ST's ChatCompletionService** | Routes supported requests through SillyTavern's built-in Chat Completion request helper. It is unavailable to Full Manual profiles. |
-| **Chat Completion Preset** | Optionally applies a SillyTavern Chat Completion preset through ChatCompletionService. |
+| **Use ST's ChatCompletionService** | Uses the selected ST Connection Manager profile with STMB model and temperature overrides. Without a selected connection profile, uses the existing ChatCompletionService route. Unavailable to Full Manual profiles. |
+| **Chat Completion Preset** | Optionally applies a SillyTavern Chat Completion preset when no ST Connection Manager profile is selected. Otherwise, the connection profile supplies the preset. |
 | **Model** | Supplies the exact model ID for this profile. **Current SillyTavern Settings** instead reads the model active in SillyTavern. |
 | **Temperature** | Sets generation randomness for this profile. **Current SillyTavern Settings** instead reads SillyTavern's active temperature. |
 | **Use reverse proxy** | Passes SillyTavern's configured reverse-proxy details for supported providers; in Full Manual Configuration the secret field is labeled as a proxy password. |
@@ -2289,9 +2363,9 @@ Manual Mode:
 
 Real multi-book group:
 
-- STLO must be available;
 - every required member needs a valid assignment;
-- the group book cannot be reused as a character book.
+- the group book may be reused as a character book;
+- if STLO is installed, verify its optional activation and ordering rules.
 
 Narrator Mode:
 
@@ -2599,3 +2673,12 @@ The system works best when:
 - consolidation reduces old detail without erasing continuity;
 - users verify retrieval rather than assuming saved means sent;
 - advanced multi-book routing is used only when its precision is worth the complexity.
+### Side Prompt version history
+
+Enable **Enable sideprompt versioning** in **Trackers & Side Prompts**, then enable **Save all versions** on each ordinary Side Prompt that should retain history. Both settings default to off. The template setting is retained by editing, duplication, import, and export; Memory Assistance does not support version history.
+
+Each successful run is kept in its target lorebook as `Title-001 (STMB SidePrompt)`, then `002` and later versions. Existing unnumbered output is adopted as `001` when history is first enabled. Older versions are disabled and the newest is enabled. Versions share a sanitized Side Prompt/chat inclusion group; changing a display name updates that group on a later successful save. Streams are separated by template, chat, resolved title override, and target lorebook.
+
+If either setting is disabled, STMB updates the newest output in place and keeps the retained history. Regeneration updates its selected entry rather than appending a version. Rollback uses its existing snapshots and enables the newest surviving version after a successful restoration. Ambiguous legacy output is not changed. Failed, blank, canceled, or rejected runs do not create history.
+
+STMB serializes its participating lorebook writes in one browser tab. SillyTavern's existing concurrent-save limitation still applies to other clients and direct editor saves.

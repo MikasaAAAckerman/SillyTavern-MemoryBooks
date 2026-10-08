@@ -62,6 +62,8 @@ function getTriggersSummary(tpl) {
             ? translate('Automatic', 'STMemoryBooks_ClipReview_ModeAutomatic')
             : mode === 'update_and_suggest'
                 ? translate('Update and Suggest', 'STMemoryBooks_ClipReview_ModeUpdateAndSuggest')
+                : mode === 'suggest'
+                    ? translate('Suggest', 'STMemoryBooks_ClipReview_ModeSuggest')
                 : mode === 'update'
                     ? translate('Update', 'STMemoryBooks_ClipReview_ModeUpdate')
                     : translate('Off', 'STMemoryBooks_ClipReview_ModeOff');
@@ -479,6 +481,7 @@ function renderTemplatesTable(templates) {
         special: t.specialKind === 'clipReview',
         modeOff: t.specialKind === 'clipReview' && getMemoryAssistanceMode() === 'off',
         modeUpdate: t.specialKind === 'clipReview' && getMemoryAssistanceMode() === 'update',
+        modeSuggest: t.specialKind === 'clipReview' && getMemoryAssistanceMode() === 'suggest',
         modeUpdateAndSuggest: t.specialKind === 'clipReview' && getMemoryAssistanceMode() === 'update_and_suggest',
         modeAutomatic: t.specialKind === 'clipReview' && getMemoryAssistanceMode() === 'automatic',
         badges: getTriggersSummary(t),
@@ -495,12 +498,12 @@ async function openEditClipReviewTemplate(parentPopup, tpl) {
     const profileOptions = profiles.map((profile, index) => `<option value="${index}" ${index === profileIndex ? 'selected' : ''}>${escapeHtml(profile?.name || `Profile ${index + 1}`)}</option>`).join('');
     const popup = new Popup(DOMPurify.sanitize(`
         <h3>${escapeHtml(translate('Edit Memory Assistance', 'STMemoryBooks_ClipReview_EditTitle'))}</h3>
-        <label class="world_entry_form_control"><h4>${escapeHtml(translate('Mode', 'STMemoryBooks_ClipReview_Mode'))}</h4><select id="stmb-clip-review-mode" class="text_pole"><option value="off" ${mode === 'off' ? 'selected' : ''}>${escapeHtml(translate('Off', 'STMemoryBooks_ClipReview_ModeOff'))}</option><option value="update" ${mode === 'update' ? 'selected' : ''}>${escapeHtml(translate('Update', 'STMemoryBooks_ClipReview_ModeUpdate'))}</option><option value="update_and_suggest" ${mode === 'update_and_suggest' ? 'selected' : ''}>${escapeHtml(translate('Update and Suggest', 'STMemoryBooks_ClipReview_ModeUpdateAndSuggest'))}</option><option value="automatic" ${mode === 'automatic' ? 'selected' : ''}>${escapeHtml(translate('Automatic', 'STMemoryBooks_ClipReview_ModeAutomatic'))}</option></select></label>
+        <label class="world_entry_form_control"><h4>${escapeHtml(translate('Mode', 'STMemoryBooks_ClipReview_Mode'))}</h4><select id="stmb-clip-review-mode" class="text_pole"><option value="off" ${mode === 'off' ? 'selected' : ''}>${escapeHtml(translate('Off', 'STMemoryBooks_ClipReview_ModeOff'))}</option><option value="update" ${mode === 'update' ? 'selected' : ''}>${escapeHtml(translate('Update', 'STMemoryBooks_ClipReview_ModeUpdate'))}</option><option value="suggest" ${mode === 'suggest' ? 'selected' : ''}>${escapeHtml(translate('Suggest', 'STMemoryBooks_ClipReview_ModeSuggest'))}</option><option value="update_and_suggest" ${mode === 'update_and_suggest' ? 'selected' : ''}>${escapeHtml(translate('Update and Suggest', 'STMemoryBooks_ClipReview_ModeUpdateAndSuggest'))}</option><option value="automatic" ${mode === 'automatic' ? 'selected' : ''}>${escapeHtml(translate('Automatic', 'STMemoryBooks_ClipReview_ModeAutomatic'))}</option></select></label>
         <label class="world_entry_form_control"><h4>${escapeHtml(translate('Update Prompt', 'STMemoryBooks_ClipReview_UpdatePrompt'))}</h4><textarea id="stmb-clip-review-prompt" class="text_pole textarea_compact" rows="16">${escapeHtml(tpl.prompt || '')}</textarea></label>
         <label class="world_entry_form_control"><h4>${escapeHtml(translate('Topic Suggestions Prompt', 'STMemoryBooks_ClipSuggestions_Prompt'))}</h4><textarea id="stmb-clip-suggestions-prompt" class="text_pole textarea_compact" rows="16">${escapeHtml(tpl.settings?.suggestionsPrompt || '')}</textarea></label>
         <label class="checkbox_label"><input id="stmb-clip-review-override" type="checkbox" ${overrideEnabled ? 'checked' : ''}><span>${escapeHtml(translate('Use a connection profile override', 'STMemoryBooks_ClipReview_ProfileOverride'))}</span></label>
         <div id="stmb-clip-review-profile-row" class="world_entry_form_control" ${overrideEnabled ? '' : 'hidden'}><select id="stmb-clip-review-profile" class="text_pole">${profileOptions}</select></div>
-        <div class="info_block">${escapeHtml(translate('Update saves existing-Clip changes for approval. Update and Suggest first discovers new Topical Clip topics, then performs the same update review. Automatic directly applies ordinary Clip additions and leaves Topical Clip replacements for approval. Both response contracts remain fixed for safe validation.', 'STMemoryBooks_ClipReview_FixedContractHelp'))}</div>
+        <div class="info_block">${escapeHtml(translate('Update saves existing-Clip changes for approval. Update and Suggest first discovers new Topical Clip topics, then performs the same update review. Automatic directly applies ordinary Clip additions and leaves Topical Clip replacements for approval. Both response contracts remain fixed for safe validation.', 'STMemoryBooks_ClipReview_FixedContractHelp'))} ${escapeHtml(translate('Suggest discovers new Topical Clip topics without updating existing Clips.', 'STMemoryBooks_ClipReview_SuggestHelp'))}</div>
     `), POPUP_TYPE.TEXT, '', withGoBackButton({ wide: true, large: true, allowVerticalScrolling: true, okButton: translate('Save', 'STMemoryBooks_Save'), cancelButton: translate('Cancel', 'STMemoryBooks_Cancel') }));
     const showPromise = popup.show();
     popup.dlg?.querySelector('#stmb-clip-review-override')?.addEventListener('change', event => {
@@ -906,6 +909,10 @@ async function openEditTemplate(parentPopup, key) {
                 </label>
             </div>
             <div class="world_entry_form_control">
+                <label class="checkbox_label"><input type="checkbox" id="stmb-sp-edit-save-all-versions" ${s.saveAllVersions === true ? 'checked' : ''}> <span>${escapeHtml(translate('Save all versions', 'STMemoryBooks_SaveAllSidePromptVersions'))}</span></label>
+                <small class="opacity70p">${escapeHtml(translate('Requires Enable sideprompt versioning in the Side Prompt Manager. Older versions are kept disabled.', 'STMemoryBooks_SidePromptVersioningTemplateHelp'))}</small>
+            </div>
+            <div class="world_entry_form_control">
                 <h4>${escapeHtml(translate('Triggers:', 'STMemoryBooks_Triggers'))}</h4>
                 <label class="checkbox_label">
                     <input type="checkbox" id="stmb-sp-edit-trg-interval" ${intervalEnabled ? 'checked' : ''}>
@@ -1144,6 +1151,7 @@ async function openEditTemplate(parentPopup, key) {
 
             // Overrides in settings
             const settings = { ...(tpl.settings || {}) };
+            settings.saveAllVersions = !!dlg.querySelector('#stmb-sp-edit-save-all-versions')?.checked;
             const overrideEnabled2 = !!dlg.querySelector('#stmb-sp-edit-override-enabled')?.checked;
             settings.overrideProfileEnabled = overrideEnabled2;
             if (overrideEnabled2) {
@@ -1247,6 +1255,10 @@ async function openNewTemplate(parentPopup) {
                 <input type="checkbox" id="stmb-sp-new-enabled">
                 <span>${escapeHtml(translate('Enabled', 'STMemoryBooks_Enabled'))}</span>
             </label>
+        </div>
+        <div class="world_entry_form_control">
+            <label class="checkbox_label"><input type="checkbox" id="stmb-sp-new-save-all-versions"> <span>${escapeHtml(translate('Save all versions', 'STMemoryBooks_SaveAllSidePromptVersions'))}</span></label>
+            <small class="opacity70p">${escapeHtml(translate('Requires Enable sideprompt versioning in the Side Prompt Manager. Older versions are kept disabled.', 'STMemoryBooks_SidePromptVersioningTemplateHelp'))}</small>
         </div>
         <div class="world_entry_form_control">
             <h4>${escapeHtml(translate('Triggers:', 'STMemoryBooks_Triggers'))}</h4>
@@ -1488,6 +1500,7 @@ async function openNewTemplate(parentPopup) {
 
         // Settings - overrides
         const settings = {};
+        settings.saveAllVersions = !!dlg.querySelector('#stmb-sp-new-save-all-versions')?.checked;
         const overrideEnabled = !!dlg.querySelector('#stmb-sp-new-override-enabled')?.checked;
         settings.overrideProfileEnabled = overrideEnabled;
         if (overrideEnabled) {
@@ -1613,6 +1626,8 @@ export async function showSidePromptsPopup() {
 
         content += '<div id="stmb-sp-set-controls"></div>';
 
+        content += `<div class="world_entry_form_control"><label class="checkbox_label"><input type="checkbox" id="stmb-sp-versioning-enabled" ${extension_settings?.STMemoryBooks?.moduleSettings?.sidePromptVersioningEnabled === true ? 'checked' : ''}> <span>${escapeHtml(translate('Enable sideprompt versioning', 'STMemoryBooks_EnableSidePromptVersioning'))}</span></label><small class="opacity70p">${escapeHtml(translate('Check this box to enable individual sideprompt versioning settings. If this box is unchecked, no new versions will be created; existing version history is retained and the latest output is updated.', 'STMemoryBooks_SidePromptVersioningHelp'))}</small></div>`;
+
         // Search/filter box
         content += '<div class="world_entry_form_control">';
         content += '<input type="text" id="stmb-sp-search" class="text_pole" data-i18n="[placeholder]STMemoryBooks_SearchSidePrompts;[aria-label]STMemoryBooks_SearchSidePrompts" placeholder="Search side prompts..." aria-label="Search side prompts" />';
@@ -1655,6 +1670,12 @@ export async function showSidePromptsPopup() {
 
             // Max concurrent control
             const spMaxInput = dlg.querySelector('#stmb-sp-max-concurrent');
+            dlg.querySelector('#stmb-sp-versioning-enabled')?.addEventListener('change', (event) => {
+                if (!extension_settings.STMemoryBooks) extension_settings.STMemoryBooks = { moduleSettings: {} };
+                if (!extension_settings.STMemoryBooks.moduleSettings) extension_settings.STMemoryBooks.moduleSettings = {};
+                extension_settings.STMemoryBooks.moduleSettings.sidePromptVersioningEnabled = event.target.checked;
+                saveSettingsDebounced();
+            });
             if (spMaxInput) {
                 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
                 const current = clamp(Number(extension_settings?.STMemoryBooks?.moduleSettings?.sidePromptsMaxConcurrent ?? 2), 1, 10);

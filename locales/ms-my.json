@@ -1,8 +1,35 @@
 {
+  "STMemoryBooks_Progress_Explanation": "Penanda mesej terakhir diproses merekodkan mesej yang sudah diliputi oleh memori yang disimpan, supaya memori seterusnya bermula di tempat yang betul dan ambang automatik mengira mesej baharu. Kemas kini tertangguh yang selamat digunakan secara automatik apabila sembangnya dibuka dan tiada pemprosesan sedang berjalan. Memori yang disimpan kekal utuh semasa kemas kini tertangguh.",
+  "STMemoryBooks_Progress_Reopen": "Buka semula sembang dan kemas kini penanda",
+  "STMemoryBooks_Progress_ReopenInfo": "Buka semula sembang ini untuk mengemas kini penandanya hingga mesej {{target}}. Ini akan menukar sembang aktif.",
+  "STMemoryBooks_CombineClips_Open": "Gabungkan klip",
+  "STMemoryBooks_CombineClips_Select": "Pilih dua atau lebih Klip Topikal",
+  "STMemoryBooks_CombineClips_NewTitle": "Tajuk Klip Topikal baharu",
+  "STMemoryBooks_CombineClips_Disable": "Nyahaktifkan klip asal selepas menyimpan",
+  "STMemoryBooks_CombineClips_Disabled": "dinyahaktifkan",
+  "STMemoryBooks_CombineClips_None": "Tiada Klip Topikal ditemui dalam Buku Memori ini.",
+  "STMemoryBooks_CombineClips_Minimum": "Pilih sekurang-kurangnya dua Klip Topikal.",
+  "STMemoryBooks_CombineClips_SourcesChanged": "Klip yang dipilih telah berubah. Jana semula draf.",
+  "STMemoryBooks_Extract_HiddenOnly": "Mesej tersembunyi sahaja",
+  "STMemoryBooks_Extract_Hidden": "Tersembunyi",
+  "STMemoryBooks_Extract_OutsideCount": "Di luar hasil yang dipaparkan: {{count}}",
+  "STMemoryBooks_Extract_UnfinishedEdit": "Selesaikan atau batalkan suntingan mesej, kemudian muat semula hasil.",
+  "STMemoryBooks_Extract_Stale": "Sembang atau mesej yang dipilih telah berubah. Muat semula hasil untuk mengosongkan pilihan dan mencari semula.",
+  "STMemoryBooks_Extract_SelectMessage": "Pilih mesej",
+  "STMemoryBooks_Extract_Previous": "Mesej sebelumnya",
+  "STMemoryBooks_Extract_Next": "Mesej seterusnya",
+  "STMemoryBooks_Extract_LoadedCount": "Mesej yang dipaparkan: {{count}} · Mesej yang sepadan: {{total}}",
+  "STMemoryBooks_Extract_SearchButton": "Cari",
+  "STMemoryBooks_Extract_LoadMore": "Muat lagi",
+  "STMemoryBooks_Extract_SelectLoaded": "Pilih hasil yang dimuatkan",
+  "STMemoryBooks_Extract_ClearSelection": "Kosongkan pilihan",
+  "STMemoryBooks_Extract_Refresh": "Muat semula hasil",
+  "STMemoryBooks_Extract_FullChat": "Mencari dalam seluruh sembang semasa, termasuk mesej tersembunyi. Pilihan dikekalkan antara carian.",
+  "STMemoryBooks_SidePromptHistoryConflict": "Sejarah side prompt tidak jelas. Tiada perubahan disimpan.",
   "STMemoryBooks_Progress_Title": "Kemas kini kemajuan tertangguh ({{count}})",
   "STMemoryBooks_Progress_Blocked": "Gunakan atau buang kemas kini kemajuan tertangguh untuk sembang ini sebelum mencipta memori lain.",
   "STMemoryBooks_Progress_PersistenceError": "Memori disimpan, tetapi kemas kini kemajuan tertangguhnya tidak dapat disimpan dalam tetapan. Cuba semula sebelum memuat semula halaman atau kemas kini mungkin hilang.",
-  "STMemoryBooks_Progress_Deferred": "Memori disimpan. Buka semula “{{chat}}” untuk melengkapkan kemas kini penanda mesej terakhir diproses.",
+  "STMemoryBooks_Progress_Deferred": "Memori disimpan. Kemajuan untuk “{{chat}}” masih tertangguh. Kemas kini yang selamat digunakan apabila sembang dibuka dan tiada pemprosesan sedang berjalan. Klik untuk menyemak kemas kini tertangguh.",
   "STMemoryBooks_Progress_Later": "Kemudian",
   "STMemoryBooks_Progress_Processing": "Sedang memproses…",
   "STMemoryBooks_Progress_Done": "Selesai.",
@@ -1267,9 +1294,11 @@
   "STMemoryBooks_Jobs_TopInfoBarInstall": "Pasang Chat Top Bar",
   "STMemoryBooks_Jobs_TopInfoBarMissingDismiss": "Sembunyikan dan jangan tunjukkan pemberitahuan ini lagi.",
   "STMemoryBooks_UseChatCompletionService": "Gunakan ChatCompletionService ST",
-  "STMemoryBooks_UseChatCompletionServiceDesc": "Menghalakan profil ini melalui pembantu permintaan pelengkapan chat terbina dalam SillyTavern. Profil Konfigurasi Manual Penuh tidak terjejas.",
+  "STMemoryBooks_UseChatCompletionServiceDesc": "Menggunakan profil yang dipilih dalam pengurus sambungan SillyTavern, dengan model dan suhu daripada STMB. Jika tiada profil sambungan dipilih, pembantu permintaan sedia ada digunakan. Profil Konfigurasi Manual Penuh tidak terjejas.",
   "STMemoryBooks_ChatCompletionPreset": "Preset pelengkapan chat:",
-  "STMemoryBooks_ChatCompletionPresetDesc": "Pilihan. Menggunakan preset pelengkapan chat SillyTavern melalui ChatCompletionService.processRequest.",
+  "STMemoryBooks_ChatCompletionPresetDesc": "Pilihan. Hanya digunakan apabila tiada profil dipilih dalam pengurus sambungan SillyTavern. Jika ada, preset profil sambungan digunakan.",
+  "STMemoryBooks_ConnectionProfileRequiresChatCompletion": "Profil sambungan SillyTavern yang dipilih mesti menggunakan pelengkapan chat.",
+  "STMemoryBooks_ConnectionManagerUnavailable": "Permintaan melalui profil sambungan SillyTavern tidak tersedia. Kemas kini SillyTavern atau nyahpilih profil sambungan.",
   "STMemoryBooks_NoChatCompletionPreset": "Tiada preset pelengkapan chat",
   "STMemoryBooks_ContextSettings_Title": "Tetapan konteks",
   "STMemoryBooks_ContextSettings_Singular": "Tetapan konteks",
@@ -1408,6 +1437,8 @@
   ,"STMemoryBooks_ClipReview_ModeOff": "Mati"
   ,"STMemoryBooks_ClipReview_ModeUpdate": "Kemas kini"
   ,"STMemoryBooks_ClipReview_ModeUpdateAndSuggest": "Kemas kini dan Cadangkan"
+  ,"STMemoryBooks_ClipReview_ModeSuggest": "Cadangkan"
+  ,"STMemoryBooks_ClipReview_SuggestHelp": "Cadangkan mencari topik Klip Topikal baharu tanpa mengemas kini Klip sedia ada."
   ,"STMemoryBooks_ClipReview_Name": "Bantuan Ingatan"
   ,"STMemoryBooks_ClipReview_NoSuggestions": "Tiada cadangan Bantuan Memori semasa."
   ,"STMemoryBooks_ClipReview_OpenFailed": "Gagal membuka Cadangan Bantuan Memori"
@@ -1445,6 +1476,8 @@
   ,"STMemoryBooks_ClipReview_NewTopicOne": "1 topik baharu"
   ,"STMemoryBooks_ClipReview_NewTopicMany": "{{count}} topik baharu"
   ,"STMemoryBooks_ClipReview_FoundUpdatesAndTopics": "Bantuan Ingatan menemui {{updateMessage}} dan {{topicMessage}}."
+  ,"STMemoryBooks_ClipReview_FoundTopics": "Bantuan Ingatan menemui {{topicMessage}}."
+  ,"STMemoryBooks_Consolidation_RetryNeedsReview": "Penyatuan ini tiada rekod pengesahan simpanan. Semak ringkasan yang disimpan dalam Buku Memori sebelum memulakan penyatuan baharu."
   ,"STMemoryBooks_ClipReview_FoundUpdates": "Bantuan Ingatan menemui {{updateMessage}}."
   ,"STMemoryBooks_ClipReview_ResetPrompt": "Tetapkan Semula Prompt"
   ,"STMemoryBooks_ClipReview_ResetWarning": "Ini hanya akan menetapkan semula Bantuan Ingatan kepada prompt dan tetapan terbina dalamnya. Mod semasa tidak akan berubah. Tindakan ini tidak boleh dibuat asal."
@@ -1460,6 +1493,10 @@
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1 kemas kini Klip Topikal menunggu kelulusan."
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}} kemas kini Klip Topikal menunggu kelulusan."
   ,"STMemoryBooks_AutoRollbackEnabled": "Rollback automatik selepas pemadaman mesej"
+  ,"STMemoryBooks_AutoRollbackBranches": "Gunakan rollback automatik pada cabang/checkpoint juga"
+  ,"STMemoryBooks_AutoRollbackBranchesDesc": "Apabila cabang atau checkpoint dibuka, Memory selepas mesej yang dikekalkan akan di-rollback. Salinan Memory Book yang berasingan diperlukan."
+  ,"STMemoryBooks_AutoRollbackBranchCopyDisabled": "Rollback automatik untuk cabang atau checkpoint ini dilangkau kerana penyalinan Memory Book dimatikan."
+  ,"STMemoryBooks_AutoRollbackBranchIsolation": "Rollback automatik cabang/checkpoint dilangkau kerana salinan berasingan bagi semua Memory Book aktif tidak dapat disahkan."
   ,"STMemoryBooks_AutoRollbackDesc": "Apabila mesej yang dipadam membatalkan Memory yang telah diproses, gunakan tindakan rollback yang dipilih. Pemadaman Memory atau penggabungan tidak boleh dibuat asal."
   ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "Kemas kini ID mesej terakhir yang diproses"
   ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "Padam Memory terakhir"
@@ -1495,4 +1532,38 @@
   ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "Gunakan lalai prom sampingan kumpulan untuk pelaksanaan automatik. Jika dinyahtanda, warisi lalai solo. Pilihan khusus bagi setiap sembang masih digunakan. Tidak bergantung pada memori mengikut watak."
   ,"STMemoryBooks_CharacterAwareDisabled": "Dilumpuhkan dan tidak digunakan kerana “Memori mengikut watak” dinyahtanda dalam Tetapan Umum."
   ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "Dilumpuhkan dan tidak digunakan kerana “Gunakan prom sampingan kumpulan berasingan” dinyahtanda dalam Tetapan Umum."
+  ,"STMemoryBooks_EnableSidePromptVersioning": "Dayakan pemversian gesaan sampingan"
+  ,"STMemoryBooks_SaveAllSidePromptVersions": "Simpan semua versi"
+  ,"STMemoryBooks_SidePromptVersioningHelp": "Tandakan kotak ini untuk mendayakan tetapan versi gesaan sampingan individu. Jika tidak ditandakan, versi baharu tidak dicipta; sejarah sedia ada dikekalkan dan output terkini dikemas kini."
+  ,"STMemoryBooks_SidePromptVersioningTemplateHelp": "Memerlukan pemversian gesaan sampingan didayakan dalam pengurus. Versi lama kekal dinyahdayakan."
+  ,"STMemoryBooks_Extract_Search": "Cari mesej sembang"
+  ,"STMemoryBooks_Extract_CurrentChat": "Mencari dalam sembang yang sedang dibuka. Pilih mesej sebagai sumber Klip Topikal."
+  ,"STMemoryBooks_Extract_UseSelected": "Gunakan mesej yang dipilih"
+  ,"STMemoryBooks_Extract_NoMatches": "Tiada mesej yang sepadan."
+  ,"STMemoryBooks_Extract_Changed": "Sembang atau mesej yang dipilih telah berubah. Pilih semula."
+  ,"STMemoryBooks_Extract_Action": "Ekstrak"
+  ,"STMemoryBooks_Extract_Open": "Ekstrak…"
+  ,"STMemoryBooks_Extract_Selected": "Mesej yang dipilih"
+  ,"STMemoryBooks_Extract_Edit": "Edit pilihan"
+  ,"STMemoryBooks_Extract_SelectedCount": "Mesej yang dipilih: {{count}}"
+  ,"STMemoryBooks_TopicalClip_MessageRange": "Julat mesej"
+  ,"STMemoryBooks_Consolidation_NoPending": "Tiada simpanan penyatuan yang tertunda."
+  ,"STMemoryBooks_Consolidation_RecoveryHint": "Semak ringkasan yang disimpan sebelum menyambung."
+  ,"STMemoryBooks_Consolidation_Resume": "Sambung"
+  ,"STMemoryBooks_Consolidation_RecoveryTitle": "Pemulihan penyatuan"
+  ,"STMemoryBooks_Consolidation_Confirmed": "Simpanan penyatuan disahkan."
+  ,"STMemoryBooks_Consolidation_Pending": "Tertunda"
+  ,"STMemoryBooks_Consolidation_ReviewRequired": "Keadaan penyatuan yang disimpan tidak dapat disahkan. Semak Buku Memori sebelum bermula semula."
+  ,"STMemoryBooks_Consolidation_ReviewAction": "Semak butiran"
+  ,"STMemoryBooks_Consolidation_DismissAction": "Tutup selepas semakan"
+  ,"STMemoryBooks_Consolidation_RecoveryPartial": "Ringkasan yang disimpan telah dipulihkan. Mulakan penyatuan baharu untuk sumber yang berbaki."
+  ,"STMemoryBooks_Reminder_AutomaticEnabled": "Hidupkan peringatan untuk memori automatik"
+  ,"STMemoryBooks_Reminder_AutomaticInterval": "Selang peringatan automatik (mesej)"
+  ,"STMemoryBooks_Reminder_AutomaticHelp": "Apabila penciptaan automatik dihidupkan, peringatan pertama muncul selepas selang mesej ditambah penimbal dan bilangan mesej ini, kemudian berulang selepas setiap bilangan mesej tambahan yang sama. Sentiasa mengira mesej sembang, walaupun penjanaan dicetuskan oleh token."
+  ,"STMemoryBooks_Reminder_ManualEnabled": "Hidupkan peringatan untuk mencipta memori secara manual"
+  ,"STMemoryBooks_Reminder_ManualInterval": "Selang peringatan manual (mesej)"
+  ,"STMemoryBooks_Reminder_ManualHelp": "Apabila penciptaan automatik dimatikan, beri peringatan selepas bilangan mesej sembang yang belum diproses ini, kemudian ulang selepas setiap bilangan mesej tambahan yang sama."
+  ,"STMemoryBooks_Reminder_CommonHelp": "Peringatan kekal kelihatan sehingga ditutup dan berfungsi secara berasingan daripada Tunjukkan pemberitahuan."
+  ,"STMemoryBooks_Reminder_AutomaticToast": "Ringkasan memori automatik tertangguh: {{count}} mesej belum diproses. Semak tetapan memori automatik anda atau cipta memori."
+  ,"STMemoryBooks_Reminder_ManualToast": "Terdapat {{count}} mesej sejak ringkasan memori terakhir anda. Pertimbangkan untuk mencipta memori."
 }

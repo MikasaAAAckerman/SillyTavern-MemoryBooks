@@ -1,8 +1,35 @@
 {
+  "STMemoryBooks_Progress_Explanation": "最後に処理されたメッセージのマーカーは、保存済みメモリに含まれるメッセージを記録します。これにより、次のメモリを適切な位置から作成し、自動処理のしきい値には新しいメッセージを数えます。保留中の更新は、対象のチャットが開かれていて処理中でなく、安全に適用できる場合に自動で適用されます。更新が保留中でも、保存済みメモリは保持されます。",
+  "STMemoryBooks_Progress_Reopen": "チャットを再度開いてマーカーを更新",
+  "STMemoryBooks_Progress_ReopenInfo": "このチャットを再度開き、メッセージ {{target}} までマーカーを更新します。アクティブなチャットが切り替わります。",
+  "STMemoryBooks_CombineClips_Open": "クリップを統合",
+  "STMemoryBooks_CombineClips_Select": "トピッククリップを2つ以上選択",
+  "STMemoryBooks_CombineClips_NewTitle": "新しいトピッククリップのタイトル",
+  "STMemoryBooks_CombineClips_Disable": "保存後に元のクリップを無効にする",
+  "STMemoryBooks_CombineClips_Disabled": "無効",
+  "STMemoryBooks_CombineClips_None": "このメモリーブックにトピッククリップはありません。",
+  "STMemoryBooks_CombineClips_Minimum": "トピッククリップを2つ以上選択してください。",
+  "STMemoryBooks_CombineClips_SourcesChanged": "選択したクリップが変更されました。下書きを再生成してください。",
+  "STMemoryBooks_Extract_HiddenOnly": "非表示のメッセージのみ",
+  "STMemoryBooks_Extract_Hidden": "非表示",
+  "STMemoryBooks_Extract_OutsideCount": "表示中の結果に含まれない選択: {{count}}",
+  "STMemoryBooks_Extract_UnfinishedEdit": "メッセージの編集を完了またはキャンセルしてから、結果を更新してください。",
+  "STMemoryBooks_Extract_Stale": "チャットまたは選択したメッセージが変更されました。結果を更新して選択を解除し、再検索してください。",
+  "STMemoryBooks_Extract_SelectMessage": "メッセージを選択",
+  "STMemoryBooks_Extract_Previous": "前のメッセージ",
+  "STMemoryBooks_Extract_Next": "次のメッセージ",
+  "STMemoryBooks_Extract_LoadedCount": "表示中のメッセージ: {{count}} · 一致するメッセージ: {{total}}",
+  "STMemoryBooks_Extract_SearchButton": "検索",
+  "STMemoryBooks_Extract_LoadMore": "さらに読み込む",
+  "STMemoryBooks_Extract_SelectLoaded": "読み込み済みの結果を選択",
+  "STMemoryBooks_Extract_ClearSelection": "選択を解除",
+  "STMemoryBooks_Extract_Refresh": "結果を更新",
+  "STMemoryBooks_Extract_FullChat": "非表示のメッセージを含む現在のチャット全体を検索します。検索を変えても選択は保持されます。",
+  "STMemoryBooks_SidePromptHistoryConflict": "サイドプロンプトの履歴が曖昧です。変更は保存されませんでした。",
   "STMemoryBooks_Progress_Title": "保留中の進捗更新（{{count}}）",
   "STMemoryBooks_Progress_Blocked": "別のメモリを作成する前に、このチャットの保留中の進捗更新を適用するか破棄してください。",
   "STMemoryBooks_Progress_PersistenceError": "メモリは保存されましたが、保留中の進捗更新を設定に保存できませんでした。ページを再読み込みする前に再試行してください。更新が失われる可能性があります。",
-  "STMemoryBooks_Progress_Deferred": "メモリは保存されました。「{{chat}}」をもう一度開き、最後に処理されたメッセージのマーカー更新を完了してください。",
+  "STMemoryBooks_Progress_Deferred": "メモリは保存されました。「{{chat}}」の進捗更新は保留中です。チャットが開かれていて処理中でなければ、安全な更新は自動で適用されます。クリックして保留中の更新を確認してください。",
   "STMemoryBooks_Progress_Later": "後で",
   "STMemoryBooks_Progress_Processing": "処理中…",
   "STMemoryBooks_Progress_Done": "完了。",
@@ -1267,9 +1294,11 @@
   "STMemoryBooks_Jobs_TopInfoBarInstall": "Chat Top Bar をインストール",
   "STMemoryBooks_Jobs_TopInfoBarMissingDismiss": "非表示にして、この通知を今後表示しない。",
   "STMemoryBooks_UseChatCompletionService": "STのChatCompletionServiceを使用",
-  "STMemoryBooks_UseChatCompletionServiceDesc": "このプロファイルをSillyTavern内蔵のチャット補完リクエストヘルパー経由で送信します。完全手動設定のプロファイルには影響しません。",
+  "STMemoryBooks_UseChatCompletionServiceDesc": "SillyTavernの接続マネージャーで選択中のプロファイルを使用し、モデルと温度はSTMBの値で上書きします。接続プロファイルが選択されていない場合は、従来のリクエストヘルパーを使用します。完全手動設定のプロファイルには影響しません。",
   "STMemoryBooks_ChatCompletionPreset": "チャット補完プリセット:",
-  "STMemoryBooks_ChatCompletionPresetDesc": "任意。ChatCompletionService.processRequest 経由で SillyTavern のチャット補完プリセットを適用します。",
+  "STMemoryBooks_ChatCompletionPresetDesc": "任意。SillyTavernの接続マネージャーでプロファイルが選択されていない場合のみ適用されます。選択されている場合は、接続プロファイルのプリセットを使用します。",
+  "STMemoryBooks_ConnectionProfileRequiresChatCompletion": "選択したSillyTavern接続プロファイルはチャット補完を使用する必要があります。",
+  "STMemoryBooks_ConnectionManagerUnavailable": "SillyTavern接続プロファイル経由のリクエストは利用できません。SillyTavernを更新するか、接続プロファイルの選択を解除してください。",
   "STMemoryBooks_NoChatCompletionPreset": "チャット補完プリセットなし",
   "STMemoryBooks_ContextSettings_Title": "コンテキスト設定",
   "STMemoryBooks_ContextSettings_Singular": "コンテキスト設定",
@@ -1408,6 +1437,8 @@
   ,"STMemoryBooks_ClipReview_ModeOff": "オフ"
   ,"STMemoryBooks_ClipReview_ModeUpdate": "アップデート"
   ,"STMemoryBooks_ClipReview_ModeUpdateAndSuggest": "更新と提案"
+  ,"STMemoryBooks_ClipReview_ModeSuggest": "提案"
+  ,"STMemoryBooks_ClipReview_SuggestHelp": "提案は既存のクリップを更新せずに、新しいトピカルクリップの話題を見つけます。"
   ,"STMemoryBooks_ClipReview_Name": "記憶補助"
   ,"STMemoryBooks_ClipReview_NoSuggestions": "現在、メモリーアシスタントに関する提案はありません。"
   ,"STMemoryBooks_ClipReview_OpenFailed": "記憶支援の提案を開けませんでした"
@@ -1445,6 +1476,8 @@
   ,"STMemoryBooks_ClipReview_NewTopicOne": "1件の新しいトピック"
   ,"STMemoryBooks_ClipReview_NewTopicMany": "{{count}}件の新しいトピック"
   ,"STMemoryBooks_ClipReview_FoundUpdatesAndTopics": "記憶補助が{{updateMessage}}と{{topicMessage}}を見つけました。"
+  ,"STMemoryBooks_ClipReview_FoundTopics": "記憶補助が{{topicMessage}}を見つけました。"
+  ,"STMemoryBooks_Consolidation_RetryNeedsReview": "この統合には保存の記録がありません。新しい統合を始める前に、メモリーブックに保存された要約を確認してください。"
   ,"STMemoryBooks_ClipReview_FoundUpdates": "記憶補助が{{updateMessage}}を見つけました。"
   ,"STMemoryBooks_ClipReview_ResetPrompt": "プロンプトをリセット"
   ,"STMemoryBooks_ClipReview_ResetWarning": "記憶補助だけを組み込みのプロンプトと設定にリセットします。現在のモードは変更されません。この操作は元に戻せません。"
@@ -1460,6 +1493,10 @@
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewOne": "1件のトピッククリップ更新が承認待ちです。"
   ,"STMemoryBooks_ClipReview_TopicalAwaitingReviewMany": "{{count}}件のトピッククリップ更新が承認待ちです。"
   ,"STMemoryBooks_AutoRollbackEnabled": "メッセージ削除後に自動ロールバック"
+  ,"STMemoryBooks_AutoRollbackBranches": "ブランチ／チェックポイントにも自動ロールバックを適用"
+  ,"STMemoryBooks_AutoRollbackBranchesDesc": "ブランチまたはチェックポイントを開くと、保持されたメッセージ以降のメモリをロールバックします。独立したMemory Bookのコピーが必要です。"
+  ,"STMemoryBooks_AutoRollbackBranchCopyDisabled": "Memory Bookのコピーが無効なため、このブランチまたはチェックポイントの自動ロールバックをスキップしました。"
+  ,"STMemoryBooks_AutoRollbackBranchIsolation": "有効なすべてのMemory Bookの独立したコピーを確認できなかったため、ブランチ／チェックポイントの自動ロールバックをスキップしました。"
   ,"STMemoryBooks_AutoRollbackDesc": "削除したメッセージによって処理済みメモリが無効になった場合、選択したロールバック操作を適用します。メモリや統合の削除は元に戻せません。"
   ,"STMemoryBooks_AutoRollbackUpdateLastProcessed": "最後に処理したメッセージIDを更新"
   ,"STMemoryBooks_AutoRollbackDeleteLastMemory": "最後のメモリを削除"
@@ -1495,4 +1532,38 @@
   ,"STMemoryBooks_SeparateGroupSidePromptsTooltip": "自動実行時にグループ用サイドプロンプトのデフォルトを使用します。オフの場合はソロ用のデフォルトを継承します。チャットごとの明示的な選択は引き続き適用されます。キャラクター別メモリとは独立した設定です。"
   ,"STMemoryBooks_CharacterAwareDisabled": "一般設定の「キャラクター別メモリ」がオフのため、無効になっており適用されません。"
   ,"STMemoryBooks_SeparateGroupSidePromptsDisabled": "一般設定の「グループ用サイドプロンプトを分ける」がオフのため、無効になっており適用されません。"
+  ,"STMemoryBooks_EnableSidePromptVersioning": "サイドプロンプトのバージョン管理を有効にする"
+  ,"STMemoryBooks_SaveAllSidePromptVersions": "すべてのバージョンを保存"
+  ,"STMemoryBooks_SidePromptVersioningHelp": "このチェックボックスをオンにすると、サイドプロンプトごとのバージョン管理設定が有効になります。オフの場合、新しいバージョンは作成されず、既存の履歴が保持されて最新の出力が更新されます。"
+  ,"STMemoryBooks_SidePromptVersioningTemplateHelp": "サイドプロンプトマネージャーでバージョン管理を有効にする必要があります。古いバージョンは無効のまま保持されます。"
+  ,"STMemoryBooks_Extract_Search": "チャットメッセージを検索"
+  ,"STMemoryBooks_Extract_CurrentChat": "現在開いているチャットを検索します。トピカルクリップの情報源にするメッセージを選択してください。"
+  ,"STMemoryBooks_Extract_UseSelected": "選択したメッセージを使用"
+  ,"STMemoryBooks_Extract_NoMatches": "一致するメッセージはありません。"
+  ,"STMemoryBooks_Extract_Changed": "チャットまたは選択したメッセージが変更されました。選択し直してください。"
+  ,"STMemoryBooks_Extract_Action": "抽出"
+  ,"STMemoryBooks_Extract_Open": "抽出…"
+  ,"STMemoryBooks_Extract_Selected": "選択したメッセージ"
+  ,"STMemoryBooks_Extract_Edit": "選択を編集"
+  ,"STMemoryBooks_Extract_SelectedCount": "選択したメッセージ: {{count}}"
+  ,"STMemoryBooks_TopicalClip_MessageRange": "メッセージ範囲"
+  ,"STMemoryBooks_Consolidation_NoPending": "保留中の統合保存はありません。"
+  ,"STMemoryBooks_Consolidation_RecoveryHint": "再開する前に保存済みの要約を確認してください。"
+  ,"STMemoryBooks_Consolidation_Resume": "再開"
+  ,"STMemoryBooks_Consolidation_RecoveryTitle": "統合の復旧"
+  ,"STMemoryBooks_Consolidation_Confirmed": "統合の保存を確認しました。"
+  ,"STMemoryBooks_Consolidation_Pending": "保留中"
+  ,"STMemoryBooks_Consolidation_ReviewRequired": "保存された統合の状態を確認できませんでした。やり直す前にメモリーブックを確認してください。"
+  ,"STMemoryBooks_Consolidation_ReviewAction": "詳細を確認"
+  ,"STMemoryBooks_Consolidation_DismissAction": "確認後に閉じる"
+  ,"STMemoryBooks_Consolidation_RecoveryPartial": "保存済みの要約を復旧しました。残りの情報源は新しい統合を開始してください。"
+  ,"STMemoryBooks_Reminder_AutomaticEnabled": "自動メモリのリマインダーを有効にする"
+  ,"STMemoryBooks_Reminder_AutomaticInterval": "自動メモリのリマインダー間隔（メッセージ数）"
+  ,"STMemoryBooks_Reminder_AutomaticHelp": "自動作成が有効な場合、メッセージ間隔＋バッファ＋このメッセージ数で最初のリマインダーを表示し、その後は同じ数のメッセージが増えるたびに繰り返します。トークン数で生成を開始する場合も、チャットのメッセージ数を数えます。"
+  ,"STMemoryBooks_Reminder_ManualEnabled": "手動でメモリを作成するリマインダーを有効にする"
+  ,"STMemoryBooks_Reminder_ManualInterval": "手動メモリのリマインダー間隔（メッセージ数）"
+  ,"STMemoryBooks_Reminder_ManualHelp": "自動作成が無効な場合、未処理のチャットメッセージがこの数に達すると通知し、その後は同じ数のメッセージが増えるたびに繰り返します。"
+  ,"STMemoryBooks_Reminder_CommonHelp": "リマインダーは閉じるまで表示され、「通知を表示」とは独立して動作します。"
+  ,"STMemoryBooks_Reminder_AutomaticToast": "自動メモリサマリーの作成が遅れています。未処理のメッセージが{{count}}件あります。自動メモリの設定を確認するか、メモリを作成してください。"
+  ,"STMemoryBooks_Reminder_ManualToast": "前回のメモリサマリー以降、{{count}}件のメッセージがあります。メモリの作成をご検討ください。"
 }
