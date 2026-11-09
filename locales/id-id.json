@@ -1,4 +1,18 @@
 {
+  "STMemoryBooks_TopicalClip_IncludeHiddenMessages": "Gunakan juga pesan tersembunyi",
+  "STMemoryBooks_Clip_FormatRequired": "Format harus memuat {{CONTENT}} tepat satu kali.",
+  "STMemoryBooks_CombineClips_PromptRequired": "Prompt Gabungkan Clip harus memuat {{SOURCE_CLIPS}} tepat satu kali.",
+  "STMemoryBooks_Clip_OutletNameRequired": "Masukkan Nama Outlet.",
+  "STMemoryBooks_CombineClips_EditPrompt": "Edit Prompt Gabungkan Clip",
+  "STMemoryBooks_CombineClips_EditFormat": "Edit Format Gabungan",
+  "STMemoryBooks_CombineClips_PromptHelp": "Gunakan {{SOURCE_CLIPS}} tepat satu kali. {{TITLE}} opsional.",
+  "STMemoryBooks_Clip_FormatHelp": "Gunakan {{CONTENT}} tepat satu kali. {{TITLE}} opsional.",
+  "STMemoryBooks_Clip_FormatPreview": "Pratinjau",
+  "STMemoryBooks_TopicalClip_EditFormat": "Edit Format Topikal",
+  "STMemoryBooks_Clip_ShowDisabled": "Tampilkan Clip yang dinonaktifkan",
+  "STMemoryBooks_TopicalClip_DisabledTargetHelp": "Menyimpan akan mengaktifkan Clip yang dinonaktifkan.",
+  "STMemoryBooks_ClipReview_TargetDisabled": "Clip ini dinonaktifkan. Aktifkan lalu jalankan Memory Assistance lagi.",
+  "STMemoryBooks_Clip_SaveTemplate": "Simpan",
   "STMemoryBooks_Progress_Explanation": "Penanda pesan terakhir yang diproses mencatat pesan mana yang sudah tercakup dalam memori tersimpan, agar memori berikutnya dimulai di tempat yang tepat dan ambang otomatis menghitung pesan baru. Pembaruan tertunda yang aman diterapkan otomatis saat obrolannya terbuka dan tidak sedang memproses. Memori tersimpan tetap utuh selama pembaruan tertunda.",
   "STMemoryBooks_Progress_Reopen": "Buka kembali obrolan dan perbarui penanda",
   "STMemoryBooks_Progress_ReopenInfo": "Buka kembali obrolan ini untuk memperbarui penandanya hingga pesan {{target}}. Ini akan mengganti obrolan aktif.",
@@ -1565,5 +1579,12 @@
   ,"STMemoryBooks_Reminder_ManualHelp": "Saat pembuatan otomatis nonaktif, ingatkan setelah jumlah pesan obrolan yang belum diproses ini, lalu ulangi setiap jumlah pesan tambahan yang sama."
   ,"STMemoryBooks_Reminder_CommonHelp": "Pengingat tetap terlihat hingga ditutup dan bekerja terlepas dari Tampilkan notifikasi."
   ,"STMemoryBooks_Reminder_AutomaticToast": "Ringkasan memori otomatis terlambat: {{count}} pesan belum diproses. Periksa pengaturan memori otomatis atau buat memori."
-  ,"STMemoryBooks_Reminder_ManualToast": "Ada {{count}} pesan sejak ringkasan memori terakhir Anda. Pertimbangkan untuk membuat memori."
+  ,"STMemoryBooks_Reminder_ManualToast": "Ada {{count}} pesan sejak ringkasan memori terakhir Anda. Pertimbangkan untuk membuat memori.",
+  "STMemoryBooks_MemoryAssist_NoScene": "Tidak ada adegan saat ini. Tentukan rentang pesan: /memory-assist X-Y.",
+  "STMemoryBooks_SortAscending": "menaik",
+  "STMemoryBooks_SortDescending": "menurun",
+  "STMemoryBooks_SortUnsorted": "tidak diurutkan",
+  "STMemoryBooks_Jobs_SortTitle": "Judul tugas",
+  "STMemoryBooks_Jobs_SortStatus": "Status",
+  "STMemoryBooks_AutoRollback_UnhideUnsafe": "Pesan berubah sejak rollback Memori. Pesan tersembunyi tidak dapat ditampilkan kembali dengan aman. Periksa chat yang tersisa sebelum menampilkannya secara manual."
 }

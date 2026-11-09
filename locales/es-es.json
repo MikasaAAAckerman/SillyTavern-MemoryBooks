@@ -1,4 +1,18 @@
 {
+  "STMemoryBooks_TopicalClip_IncludeHiddenMessages": "Usar también mensajes ocultos",
+  "STMemoryBooks_Clip_FormatRequired": "El formato debe contener {{CONTENT}} exactamente una vez.",
+  "STMemoryBooks_CombineClips_PromptRequired": "El prompt para combinar clips debe contener {{SOURCE_CLIPS}} exactamente una vez.",
+  "STMemoryBooks_Clip_OutletNameRequired": "Introduce un nombre de Outlet.",
+  "STMemoryBooks_CombineClips_EditPrompt": "Editar prompt para combinar clips",
+  "STMemoryBooks_CombineClips_EditFormat": "Editar formato combinado",
+  "STMemoryBooks_CombineClips_PromptHelp": "Usa {{SOURCE_CLIPS}} exactamente una vez. {{TITLE}} es opcional.",
+  "STMemoryBooks_Clip_FormatHelp": "Usa {{CONTENT}} exactamente una vez. {{TITLE}} es opcional.",
+  "STMemoryBooks_Clip_FormatPreview": "Vista previa",
+  "STMemoryBooks_TopicalClip_EditFormat": "Editar formato temático",
+  "STMemoryBooks_Clip_ShowDisabled": "Mostrar clips desactivados",
+  "STMemoryBooks_TopicalClip_DisabledTargetHelp": "Al guardar, se activará el clip desactivado.",
+  "STMemoryBooks_ClipReview_TargetDisabled": "Este clip está desactivado. Actívalo y vuelve a ejecutar Memory Assistance.",
+  "STMemoryBooks_Clip_SaveTemplate": "Guardar",
   "STMemoryBooks_Progress_Explanation": "El marcador del último mensaje procesado registra qué mensajes ya están cubiertos por las memorias guardadas, para que la siguiente memoria empiece en el lugar correcto y los umbrales automáticos cuenten los mensajes nuevos. Las actualizaciones pendientes seguras se aplican automáticamente cuando su chat está abierto e inactivo. Las memorias guardadas permanecen intactas mientras haya una actualización pendiente.",
   "STMemoryBooks_Progress_Reopen": "Volver a abrir el chat y actualizar el marcador",
   "STMemoryBooks_Progress_ReopenInfo": "Vuelve a abrir este chat para actualizar su marcador hasta el mensaje {{target}}. Esto cambia el chat activo.",
@@ -1565,5 +1579,12 @@
   ,"STMemoryBooks_Reminder_ManualHelp": "Con la creación automática desactivada, avisa tras esta cantidad de mensajes del chat sin procesar y se repite cada vez que llegan otros tantos mensajes."
   ,"STMemoryBooks_Reminder_CommonHelp": "Los recordatorios permanecen visibles hasta cerrarlos y funcionan independientemente de Mostrar notificaciones."
   ,"STMemoryBooks_Reminder_AutomaticToast": "Los resúmenes de memoria automáticos están atrasados: {{count}} mensajes sin procesar. Revisa los ajustes de memorias automáticas o crea una memoria."
-  ,"STMemoryBooks_Reminder_ManualToast": "Hay {{count}} mensajes desde tu último resumen de memoria. Considera crear una memoria."
+  ,"STMemoryBooks_Reminder_ManualToast": "Hay {{count}} mensajes desde tu último resumen de memoria. Considera crear una memoria.",
+  "STMemoryBooks_MemoryAssist_NoScene": "No hay una escena actual. Indica un intervalo de mensajes: /memory-assist X-Y.",
+  "STMemoryBooks_SortAscending": "ascendente",
+  "STMemoryBooks_SortDescending": "descendente",
+  "STMemoryBooks_SortUnsorted": "sin ordenar",
+  "STMemoryBooks_Jobs_SortTitle": "Título del trabajo",
+  "STMemoryBooks_Jobs_SortStatus": "Estado",
+  "STMemoryBooks_AutoRollback_UnhideUnsafe": "Los mensajes cambiaron desde la reversión de Memoria. No se pudieron volver a mostrar los mensajes ocultos de forma segura. Revisa el chat restante antes de mostrarlos manualmente."
 }

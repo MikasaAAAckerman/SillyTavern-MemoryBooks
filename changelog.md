@@ -7,6 +7,30 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ← [Back to README](readme.md)
 
+## v9.4.0 (November 4, 2026)
+- Added configurable timeout to constants.js.
+
+## v9.3.13 (November 1, 2026)
+- Rollback protection tweaks.
+
+## v9.3.12 (October 31, 2026)
+- Added sorting to prompt manager lists.
+
+## v9.3.11 (October 29, 2026)
+- Additional regex processing added to Topical Clips creation and/or updates manually and/or with Memory Assistance.
+
+## v9.3.10 (October 28, 2026)
+- Memory Assist now uses regex.
+
+## v9.3.9 (October 23, 2026)
+- Memory Assist manual trigger added: `/memory-assist x-y` (defaults to current scene if x-y is not specified)
+
+## v9.3.8 (October 16, 2026)
+- Topical Clips: hidden message checkbox, start/end auto-populate. 
+
+## v9.3.7 (October 12, 2026)
+- Combine Clip enhancements including format edits.
+
 ## v9.3.6 (October 7, 2026)
 - Refactor pending actions popup.
 - Fix narrator cast stamping bug.

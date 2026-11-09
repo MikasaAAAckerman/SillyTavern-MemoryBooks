@@ -1,4 +1,18 @@
 {
+  "STMemoryBooks_TopicalClip_IncludeHiddenMessages": "Gunakan juga mesej tersembunyi",
+  "STMemoryBooks_Clip_FormatRequired": "Format mesti mengandungi {{CONTENT}} tepat sekali.",
+  "STMemoryBooks_CombineClips_PromptRequired": "Prompt Gabung Klip mesti mengandungi {{SOURCE_CLIPS}} tepat sekali.",
+  "STMemoryBooks_Clip_OutletNameRequired": "Masukkan Nama Outlet.",
+  "STMemoryBooks_CombineClips_EditPrompt": "Edit Prompt Gabung Klip",
+  "STMemoryBooks_CombineClips_EditFormat": "Edit Format Gabungan",
+  "STMemoryBooks_CombineClips_PromptHelp": "Gunakan {{SOURCE_CLIPS}} tepat sekali. {{TITLE}} adalah pilihan.",
+  "STMemoryBooks_Clip_FormatHelp": "Gunakan {{CONTENT}} tepat sekali. {{TITLE}} adalah pilihan.",
+  "STMemoryBooks_Clip_FormatPreview": "Pratonton",
+  "STMemoryBooks_TopicalClip_EditFormat": "Edit Format Topikal",
+  "STMemoryBooks_Clip_ShowDisabled": "Tunjukkan klip yang dinyahdayakan",
+  "STMemoryBooks_TopicalClip_DisabledTargetHelp": "Menyimpan akan mendayakan klip yang dinyahdayakan.",
+  "STMemoryBooks_ClipReview_TargetDisabled": "Klip ini dinyahdayakan. Dayakan dan jalankan semula Memory Assistance.",
+  "STMemoryBooks_Clip_SaveTemplate": "Simpan",
   "STMemoryBooks_Progress_Explanation": "Penanda mesej terakhir diproses merekodkan mesej yang sudah diliputi oleh memori yang disimpan, supaya memori seterusnya bermula di tempat yang betul dan ambang automatik mengira mesej baharu. Kemas kini tertangguh yang selamat digunakan secara automatik apabila sembangnya dibuka dan tiada pemprosesan sedang berjalan. Memori yang disimpan kekal utuh semasa kemas kini tertangguh.",
   "STMemoryBooks_Progress_Reopen": "Buka semula sembang dan kemas kini penanda",
   "STMemoryBooks_Progress_ReopenInfo": "Buka semula sembang ini untuk mengemas kini penandanya hingga mesej {{target}}. Ini akan menukar sembang aktif.",
@@ -1565,5 +1579,12 @@
   ,"STMemoryBooks_Reminder_ManualHelp": "Apabila penciptaan automatik dimatikan, beri peringatan selepas bilangan mesej sembang yang belum diproses ini, kemudian ulang selepas setiap bilangan mesej tambahan yang sama."
   ,"STMemoryBooks_Reminder_CommonHelp": "Peringatan kekal kelihatan sehingga ditutup dan berfungsi secara berasingan daripada Tunjukkan pemberitahuan."
   ,"STMemoryBooks_Reminder_AutomaticToast": "Ringkasan memori automatik tertangguh: {{count}} mesej belum diproses. Semak tetapan memori automatik anda atau cipta memori."
-  ,"STMemoryBooks_Reminder_ManualToast": "Terdapat {{count}} mesej sejak ringkasan memori terakhir anda. Pertimbangkan untuk mencipta memori."
+  ,"STMemoryBooks_Reminder_ManualToast": "Terdapat {{count}} mesej sejak ringkasan memori terakhir anda. Pertimbangkan untuk mencipta memori.",
+  "STMemoryBooks_MemoryAssist_NoScene": "Tiada babak semasa. Nyatakan julat mesej: /memory-assist X-Y.",
+  "STMemoryBooks_SortAscending": "menaik",
+  "STMemoryBooks_SortDescending": "menurun",
+  "STMemoryBooks_SortUnsorted": "tidak diisih",
+  "STMemoryBooks_Jobs_SortTitle": "Tajuk tugas",
+  "STMemoryBooks_Jobs_SortStatus": "Status",
+  "STMemoryBooks_AutoRollback_UnhideUnsafe": "Mesej telah berubah sejak rollback Memori. Mesej tersembunyi tidak dapat dinyahsembunyikan dengan selamat. Semak chat yang tinggal sebelum menyahsembunyikannya secara manual."
 }

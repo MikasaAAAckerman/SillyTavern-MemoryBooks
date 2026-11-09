@@ -1076,9 +1076,11 @@ Topical Clip is organized by subject, not by the chronology of every source Memo
 Topical Clip uses:
 
 - confirmed STMB Memory entries from the selected source book, including eligible consolidated summaries.
-- visible messages from an explicitly selected inclusive `X-Y` range in the current chat.
+- messages from an explicitly selected inclusive `X-Y` range in the current chat. Hidden messages are included only when **Also use hidden messages** is checked.
 
-The **Include saved Memories** and **Include chat messages** controls can be used separately or together. Message ranges follow the global unhide-before-memory setting and restore previously hidden messages after compilation.
+The **Include saved Memories** and **Include chat messages** controls can be used separately or together. **Also use hidden messages**, directly below **Include chat messages**, controls whether message ranges and Extract selections include hidden messages. It defaults to unchecked and is saved globally, with the same setting available in General Settings directly below **Unhide hidden messages for memory generation**. Topical Clip reads hidden messages without changing their visibility and independently of the unhide-before-memory setting.
+
+When the Topical Clip window opens, **Start message ID** defaults to the selected scene-start, otherwise the highest processed Memory message ID (the value returned by `/stmb-highest`), otherwise `0`. **End message ID** defaults to the selected scene-end, otherwise the current last message ID; it stays blank in an empty chat. Message IDs are zero-based, and the highest processed ID is used directly without adding one. These defaults are set once when the window opens. You can edit them, and changing modes, targets, or Memory Books preserves your edits. Invalid or reversed ranges must be corrected before generating.
 
 It does not use:
 
@@ -1096,7 +1098,7 @@ It does not use:
 5. Enter activation keywords, or leave them blank to use the topic.
 6. Choose a new entry or an existing `[STMB Clip]` update target.
 7. Choose saved Memories, chat messages, or both as sources.
-8. Optionally select only specific source Memories. For chat messages, enter an exact range or click **Extract…** to search the full current chat and select individual messages, including noncontiguous and hidden messages.
+8. Optionally select only specific source Memories. For chat messages, enter an exact range or click **Extract…** to search the full current chat and select individual messages, including noncontiguous messages. Check **Also use hidden messages** to include selected hidden messages.
 9. Choose the generation profile.
 10. Generate the draft.
 11. Review and edit it.
@@ -1104,17 +1106,23 @@ It does not use:
 
 The generated draft is never saved automatically.
 
+**Edit Topical Format** controls the saved entry's outer text. Its default uses the existing `=== title ===` and `=== END title ===` borders. The format must contain `{{CONTENT}}` exactly once; `{{TITLE}}` is optional. For example, `## {{TITLE}}` followed by `{{CONTENT}}` saves a Markdown heading, while `{{CONTENT}}` alone saves the body without borders. The preview shows the result. Reset restores the built-in format. A new preference affects subsequent saves, not existing entries. Ordinary Clip appends preserve the format recorded on an entry; Topical Clip updates use the current preference for that clip type.
+
+The insertion override lets you select a position and order for this save. Selecting **Outlet** requires an **Outlet Name**. An update target or ordinary Clip target that is disabled is hidden by default; **Show disabled clips** reveals it. Saving an update to a disabled Topical Clip enables it.
+
 ### Combine existing Topical Clips
 
-In the **Topical Clip** window, click **Combine Clips**. Select a Memory Book, choose at least two Topical Clips (including disabled clips if needed), and enter the new clip's title. Only Topical Clips created by STMB appear; ordinary Clips are excluded. The new clip's activation keywords are the union of the selected clips' primary keywords, without duplicates. Secondary keyword conditions are not copied.
+In the **Topical Clip** window, click **Combine Clips**. Select a Memory Book, choose at least two Topical Clips (use **Show disabled clips** to include disabled clips), and enter the new clip's title. Only Topical Clips created by STMB appear; ordinary Clips are excluded. The new clip's activation keywords are the union of the selected clips' primary keywords, without duplicates. Secondary keyword conditions are not copied.
 
 Choose a generation profile and click **Generate Draft**. The AI receives each selected clip's title and full content and is asked to consolidate supported facts, remove repetition, and retain unresolved conflicts. Review and edit the draft before saving. Changing the selected sources, title, or Memory Book clears the draft. If a source changes before saving, generate a fresh draft.
+
+**Edit Combine Clips Prompt** changes the AI consolidation instructions. Its template requires `{{SOURCE_CLIPS}}` exactly once and can use `{{TITLE}}`. **Edit Combined Format** independently controls how the saved result is wrapped, using the same `{{CONTENT}}` and optional `{{TITLE}}` placeholders as Topical Format. Both editors offer Reset to Default. The insertion override includes position, Outlet Name when Outlet is chosen, and order.
 
 **Disable original clips after saving** is checked by default. Uncheck it to preserve their current activation states. Saving creates the new enabled Topical Clip and, when checked, disables the originals in the same Memory Book update. The originals are never deleted. The combined clip records its source IDs separately from normal Topical Clip Memory-source history.
 
 When text is highlighted in the chat, the floating control offers **Clip** and **Extract**. Extract opens the same message picker with the highlighted text as its search query. It searches the full history of the current chat, including messages that are not rendered onscreen. An empty search lists all messages. Search matches literal text or speaker names, ignoring case; **Hidden only** restricts matches to hidden messages.
 
-Results appear in batches of 50. Use **Load more** to display more matches, expand a result to read its complete text with highlighted matches, or use **Previous message** and **Next message** to reveal surrounding context. Context messages are not selected automatically and can appear even when they do not match the search or Hidden only filter. Hidden messages are labeled; selecting one includes its text in the Topical Clip source without unhiding it in the chat.
+Results appear in batches of 50. Use **Load more** to display more matches, expand a result to read its complete text with highlighted matches, or use **Previous message** and **Next message** to reveal surrounding context. Context messages are not selected automatically and can appear even when they do not match the search or Hidden only filter. Hidden messages are labeled; selected hidden messages are included in the Topical Clip source only when **Also use hidden messages** is checked, without unhiding them in the chat.
 
 Selections are retained across searches and filter changes. The selection count includes messages outside the displayed results. **Select loaded results** selects every displayed result, including any revealed context messages; **Clear selection** removes all selections. Choose **Topical Clip** from standalone Extract or **Use selected messages** when returning to an existing editor. The query supplies the initial topic and keywords, which remain editable.
 
@@ -1122,7 +1130,7 @@ STMB records source fingerprints when messages enter the picker and checks selec
 
 ### 15.4 Updating an existing Topical Clip
 
-After a successful run, STMB records which source Memories were used and, when applicable, the source chat, message range, message IDs, and hashes. A later Memory-based update normally sends only new or changed source Memories together with the existing Clip content. Message ranges are always chosen explicitly.
+After a successful run, STMB records which source Memories were used and, when applicable, the source chat, message range, message IDs, and hashes. A later Memory-based update normally sends only new or changed source Memories together with the existing Clip content. Review the pre-populated message range or enter a different range for each run.
 
 Use **Rebuild from all source memories** when:
 
@@ -1240,7 +1248,7 @@ A selected set replaces individually enabled automatic prompts for that chat. It
 
 **Memory Assistance** is a reserved Side Prompt with five independent modes. It runs after successfully saved Memories regardless of ordinary Side Prompt enablement or the selected Side Prompt Set. It does not run during Memory regeneration.
 
-Memory Assistance compares the raw processed scene with ordinary and Topical Clips in each Memory Book that received the Memory. It sends each reviewed Clip's title/topic, keywords, current content, stable ID, and type to the AI.
+Memory Assistance compares the raw processed scene with enabled ordinary and Topical Clips in each Memory Book that received the Memory. It sends each reviewed Clip's title/topic, keywords, current content, stable ID, and type to the AI. Disabled Clips are excluded from queries and hidden from pending suggestions without deleting saved reports.
 
 When the job queue is available, each target Memory Book receives a separate **Memory Assistance** job after the Memory is saved. A request, response-validation, report-save, or automatic-application error marks that job **Failed** and exposes the error in the queue. The saved Memory remains **Completed**, and retrying Memory Assistance does not regenerate the Memory.
 
@@ -1265,7 +1273,11 @@ Suggested topics are saved in the Memory Assistance report. In **Memory Assistan
 
 When reviewable suggestions are ready, STMB opens a completion popup for the updated Memory Book. **Dismiss** closes the notice, while **Go to Suggestions** opens **Memory Assistance Suggestions** with that Memory Book already selected. Opening **Memory Assistance Suggestions** from the extension menu selects the current chat's effective Memory Book first (the chat-bound book in Automatic Mode or the resolved manual book in Manual Mode).
 
-The Update and Topic Suggestions prompts and connection-profile override are independently editable, but both structured response contracts are fixed. Memory Assistance cannot be deleted, duplicated, placed in a Side Prompt Set, or run manually.
+The Update and Topic Suggestions prompts and connection-profile override are independently editable, but both structured response contracts are fixed. Memory Assistance cannot be deleted, duplicated, or placed in a Side Prompt Set.
+
+Memory Assistance honors **Use regex (advanced)** and the configured outgoing and incoming scripts. Outgoing scripts run on the complete prompt for all Clip update batches (ordinary, topical, or mixed) and topic suggestions. They also run on Topical Clip generation prompts that include chat messages, whether selected individually or by range. A failing outgoing script stops the request before it is sent. Incoming scripts run on all responses before JSON parsing and validation. Ordinary Clip additions must still match an excerpt from an original scene message, so outgoing or incoming transformations that rewrite those excerpts can cause suggestions to be rejected. Regex scripts must preserve the required JSON response structure.
+
+Run `/memory-assist` to run Memory Assistance independently, without creating a Memory or running other Side Prompts. It follows the selected Memory Assistance mode; when the setting is **Off**, this manual run uses **Update** without changing the saved setting. It targets the current chat's effective Memory Book (chat-bound in Automatic Mode, resolved manual book in Manual Mode). With no arguments, it reviews the current scene between its start and end markers. If there is no complete current scene, it reports an error asking for a message range. Use `/memory-assist X-Y` to review an inclusive message-ID range, for example `/memory-assist 10-30`. It uses the existing Memory Assistance connection override and suggestion approval behavior. When the job queue is enabled, it creates a standalone Memory Assistance job that can be retried independently.
 
 ### 16.6 Automatic visible-message intervals
 
@@ -1874,6 +1886,8 @@ Return-format correctness comes before style.
 
 ## 22. Summary Prompt Manager and Consolidation Prompt Manager
 
+In manager tables and browsing lists, click a sortable heading or its sort button once for ascending order, again for descending order, and a third time to restore the list's usual order. The selected sort remains while the view is open, including after list refreshes. Sorting only changes what you see; it does not change the order used to save or process entries. Action columns, dropdowns, chat messages, and explicitly ordered editing lists have no sort control.
+
 ### Summary Prompt Manager
 
 Can create, edit, duplicate, delete, import, and export ordinary Memory prompt presets. Assign a preset through a Memory Books profile.
@@ -1922,6 +1936,8 @@ STMB integrates with SillyTavern’s Regex extension at two stages:
 Enable **Use regex (advanced)**, then open **Configure regex** and select one or more scripts for each direction.
 
 Important: STMB’s own selection controls execution. A script selected by STMB can run even when that script is disabled in the Regex extension’s normal interface.
+
+If a selected outgoing script throws an error or is unavailable, STMB stops generation before sending the prompt. This applies to memories, Side Prompts, and Memory Assistance. Incoming script errors retain the existing best-effort behavior.
 
 Use Regex only when the transformation is understood. A bad outgoing rule can corrupt required schema instructions; a bad incoming rule can corrupt otherwise valid JSON.
 
@@ -2006,7 +2022,7 @@ For the active chat, **Apply** remains an explicit manual override: it displays 
 
 Each pending record contains a chat reference, operation/job identity, target message index, original marker state/revision, chat integrity identifier, and SHA-256 fingerprint of the source message text and identity fields. Attachment fields are not read or fingerprinted. It does not persist conversation text. Appended messages and hide/unhide changes are allowed; edits, deletions, changed identity, manual marker changes, or rollback can make an update unsafe. Those checks apply to automatic marker updates. Explicit Apply uses the slash command even if the original fingerprint or marker revision no longer matches; Later preserves the pending update and Discard removes it. Explicit chat/character rename events remap pending references; missing or unrecognized references remain available for review and discard.
 
-Pending records are saved using ST's settings API and verified by reading settings back, with a ten-second confirmation limit. A settings failure leaves the update in memory. Use Apply in the affected chat to run the marker command, or Discard pending update to remove the pending record. There is no separate settings-save retry button. There is no browser recovery backup: refreshing before a successful settings save can lose an unpersisted update. If settings cleanup fails after Apply, the pending record remains available; clicking Apply again reruns the command and retries cleanup without generating another Memory. Explicit Apply relies on the command’s normal save behavior; automatic updates still verify the saved marker.
+Pending records are saved using ST's settings API and verified by reading settings back, with a shared confirmation limit of 60 seconds by default. A settings failure leaves the update in memory. Use Apply in the affected chat to run the marker command, or Discard pending update to remove the pending record. There is no separate settings-save retry button. There is no browser recovery backup: refreshing before a successful settings save can lose an unpersisted update. If settings cleanup fails after Apply, the pending record remains available; clicking Apply again reruns the command and retries cleanup without generating another Memory. Explicit Apply relies on the command’s normal save behavior; automatic updates still verify the saved marker.
 
 This removes STMB's separate inactive-chat replacement write. ST's normal current-chat save still writes a complete chat, and concurrent settings saves from other tabs/devices are not transactional. The change does not identify the cause of previously reported chat loss or guarantee protection from all core/other-extension save races.
 
@@ -2100,6 +2116,10 @@ Open **Settings → General Settings** in the main panel.
 
 When branch/checkpoint rollback deletes a Memory, it also unhides the retained messages in that Memory's source range after the Memory Books save successfully. For example, branching at message 36 with a Memory covering 33–44 deletes that Memory from the copy and unhides messages 33–36. This does not depend on the unhide-before-generation preference. Already completed child rollbacks are not automatically repeated after an upgrade; use `/unhide 33-36` to repair that example in an existing branch.
 
+When ordinary message deletion automatically removes a Memory, STMB also unhides the surviving messages from that Memory's original source range after saving the Memory Books. For example, if a Memory covers messages 31–60 and messages 50–60 are deleted, messages 31–49 are unhidden. For a middle deletion, retained messages after the deleted interval are mapped to their new indices. **Affected only** restores surviving source messages from the removed overlapping Memories; **Full rollback** also restores surviving source messages from the newer Memories it removes. Dependent consolidations do not extend these unhide ranges. This requires **Delete last Memory** and does not depend on the unhide-before-generation preference. Manual lorebook-entry deletion does not trigger this restoration.
+
+Pending ordinary-deletion unhide ranges are saved with the Memory Book changes and retried when that chat is reopened or before its next rollback. STMB checks a fingerprint of the surviving chat prefix before retrying. Appended messages and hide/unhide changes do not block recovery, but changed or shifted source messages do. In that case, STMB warns that manual review is needed and discards the unsafe pending record without unhiding its messages, allowing later rollbacks to proceed. Valid pending records in other Memory Books remain eligible for recovery. If saving the cleanup fails, STMB reports the failure and retains the record for another attempt. Conversation text is not stored in the record. Memories removed before this behavior was added cannot be reconstructed automatically.
+
 Pending unhide ranges are saved in the same Memory Book writes as the deletions. If switching chats or an error interrupts unhiding, reopening the child with branch/checkpoint auto-rollback enabled retries those saved ranges, even though the deleted Memories no longer exist. Retrying may repeat already completed unhide commands; the recovery records are removed only after every range completes in the intended chat.
 
 Branch/checkpoint rollback requires isolated copies of every active Memory Book. When **Copy Memory Books when branching** is disabled or a shared/locked book cannot be isolated, STMB skips rollback and reports the reason to avoid changing the parent chat's data. Copy or rollback failures and canceled consolidation confirmations remain eligible for a later opening.
@@ -2129,6 +2149,7 @@ These controls are lower in the same **General Settings** popup under **Token Sa
 | **Auto-hide messages after adding memory** | Global | Chooses no automatic hiding, all processed messages through the latest Memory, or only the range used by the latest Memory. Hiding is reversible and does not delete messages. |
 | **Messages to leave unhidden** | Global | Keeps this many recent messages visible when auto-hiding, preserving overlap near the Memory boundary. `0` hides through the applicable scene end. |
 | **Unhide hidden messages for memory generation** | Global | Runs the equivalent of `/unhide X-Y` for the source range before STMB compiles it. The selected auto-hide mode determines what is hidden again after a successful save. |
+| **Also use hidden messages** | Global; also available in Topical Clip | Includes hidden messages in Topical Clip ranges and Extract selections without unhiding them. Defaults to unchecked; independent of unhide-before-memory. |
 
 ### 27.3 Automatic Memories and consolidation reminders
 
@@ -2240,6 +2261,9 @@ Open **Settings → Topical Clip** or **Settings → Compaction** in the main pa
 |---|---|---|---|
 | **Generation Profile / Compaction Profile** | **Topical Clip → Generation Profile**, or **Compaction → Compaction Profile** | Global shared default | Selects the STMB profile used for Topical Clip generation and Compaction. Changing it in either interface changes the shared selection used by both workflows. |
 | **Topical Clip Prompt** | **Topical Clip → Edit Topical Clip Prompt** | Global | Saves a custom prompt template for Topical Clip generation. **Reset to Default** returns to the current built-in prompt. Required source macros are validated before save or generation. |
+| **Topical Format** | **Topical Clip → Edit Topical Format** | Global | Formats newly saved Topical Clips and later updates. Requires `{{CONTENT}}`; `{{TITLE}}` is optional. |
+| **Combined Format** | **Combine Clips → Edit Combined Format** | Global | Formats newly saved combined clips and later updates, separately from Topical Format. |
+| **Combine Clips Prompt** | **Combine Clips → Edit Combine Clips Prompt** | Global | Defines combination instructions. Requires `{{SOURCE_CLIPS}}`; `{{TITLE}}` is optional. |
 | **Compaction Prompt** | **Compaction → Edit Compaction Prompt** | Global | Saves a custom prompt template for shortening existing Memory, Clip, and Side Prompt entries. **Reset to Default** returns to the current built-in prompt. `{{ENTRY_CONTENT}}` is required. |
 
 The Memory Book, topic, keywords, source inclusion, source selection, message range, draft, and entry selected for Compaction are per-run workflow choices, not persistent settings.
@@ -2586,6 +2610,8 @@ Side Prompt import is additive. Existing prompts are preserved; imported key con
 ## 32. Developer and License Notes
 
 Memory Books uses Bun for bundling/minification.
+
+Progress operations use `PROGRESS_TIMEOUT_MS` in `constants.js`, measured in milliseconds and set to `60_000` (60 seconds) by default. It limits settings save confirmation and read-back together, chat reads, chat metadata saves, and Apply's wait for an idle chat. Edit the constant and rebuild to change it; this is a source configuration, not a settings control.
 
 ```sh
 bun run build

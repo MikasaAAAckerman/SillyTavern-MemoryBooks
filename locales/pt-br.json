@@ -1,4 +1,18 @@
 {
+  "STMemoryBooks_TopicalClip_IncludeHiddenMessages": "Usar também mensagens ocultas",
+  "STMemoryBooks_Clip_FormatRequired": "O formato deve conter {{CONTENT}} exatamente uma vez.",
+  "STMemoryBooks_CombineClips_PromptRequired": "O prompt de combinação deve conter {{SOURCE_CLIPS}} exatamente uma vez.",
+  "STMemoryBooks_Clip_OutletNameRequired": "Digite um nome de Outlet.",
+  "STMemoryBooks_CombineClips_EditPrompt": "Editar prompt de combinação de Clips",
+  "STMemoryBooks_CombineClips_EditFormat": "Editar formato combinado",
+  "STMemoryBooks_CombineClips_PromptHelp": "Use {{SOURCE_CLIPS}} exatamente uma vez. {{TITLE}} é opcional.",
+  "STMemoryBooks_Clip_FormatHelp": "Use {{CONTENT}} exatamente uma vez. {{TITLE}} é opcional.",
+  "STMemoryBooks_Clip_FormatPreview": "Prévia",
+  "STMemoryBooks_TopicalClip_EditFormat": "Editar formato do Clip Temático",
+  "STMemoryBooks_Clip_ShowDisabled": "Mostrar Clips desativados",
+  "STMemoryBooks_TopicalClip_DisabledTargetHelp": "Salvar ativará o Clip desativado.",
+  "STMemoryBooks_ClipReview_TargetDisabled": "Este Clip está desativado. Ative-o e execute Memory Assistance novamente.",
+  "STMemoryBooks_Clip_SaveTemplate": "Salvar",
   "STMemoryBooks_Progress_Explanation": "O marcador da última mensagem processada registra quais mensagens já estão cobertas pelas memórias salvas, para que a próxima memória comece no lugar certo e os limites automáticos contem as novas mensagens. Atualizações pendentes seguras são aplicadas automaticamente quando o chat correspondente está aberto e ocioso. As memórias salvas permanecem intactas enquanto uma atualização estiver pendente.",
   "STMemoryBooks_Progress_Reopen": "Reabrir chat e atualizar marcador",
   "STMemoryBooks_Progress_ReopenInfo": "Reabra este chat para atualizar seu marcador até a mensagem {{target}}. Isso muda o chat ativo.",
@@ -1562,5 +1576,12 @@
   ,"STMemoryBooks_Reminder_ManualHelp": "Com a criação automática desativada, lembra após esta quantidade de mensagens do chat não processadas e repete-se a cada nova quantidade igual de mensagens."
   ,"STMemoryBooks_Reminder_CommonHelp": "Os lembretes ficam visíveis até serem fechados e funcionam independentemente de Mostrar notificações."
   ,"STMemoryBooks_Reminder_AutomaticToast": "Os resumos de memória automáticos estão atrasados: {{count}} mensagens não processadas. Verifique as configurações de memórias automáticas ou crie uma memória."
-  ,"STMemoryBooks_Reminder_ManualToast": "Há {{count}} mensagens desde seu último resumo de memória. Considere criar uma memória."
+  ,"STMemoryBooks_Reminder_ManualToast": "Há {{count}} mensagens desde seu último resumo de memória. Considere criar uma memória.",
+  "STMemoryBooks_MemoryAssist_NoScene": "Não há cena atual. Informe um intervalo de mensagens: /memory-assist X-Y.",
+  "STMemoryBooks_SortAscending": "crescente",
+  "STMemoryBooks_SortDescending": "decrescente",
+  "STMemoryBooks_SortUnsorted": "sem ordenação",
+  "STMemoryBooks_Jobs_SortTitle": "Título da tarefa",
+  "STMemoryBooks_Jobs_SortStatus": "Status",
+  "STMemoryBooks_AutoRollback_UnhideUnsafe": "As mensagens mudaram desde a reversão da Memória. Não foi possível reexibir as mensagens ocultas com segurança. Confira o chat restante antes de reexibi-las manualmente."
 }

@@ -1,4 +1,18 @@
 {
+  "STMemoryBooks_TopicalClip_IncludeHiddenMessages": "也使用隱藏的訊息",
+  "STMemoryBooks_Clip_FormatRequired": "格式必須恰好包含一次 {{CONTENT}}。",
+  "STMemoryBooks_CombineClips_PromptRequired": "合併 Clip 提示詞必須恰好包含一次 {{SOURCE_CLIPS}}。",
+  "STMemoryBooks_Clip_OutletNameRequired": "請輸入 Outlet 名稱。",
+  "STMemoryBooks_CombineClips_EditPrompt": "編輯合併 Clip 提示詞",
+  "STMemoryBooks_CombineClips_EditFormat": "編輯合併 Clip 格式",
+  "STMemoryBooks_CombineClips_PromptHelp": "請恰好使用一次 {{SOURCE_CLIPS}}。{{TITLE}} 可選。",
+  "STMemoryBooks_Clip_FormatHelp": "請恰好使用一次 {{CONTENT}}。{{TITLE}} 可選。",
+  "STMemoryBooks_Clip_FormatPreview": "預覽",
+  "STMemoryBooks_TopicalClip_EditFormat": "編輯 Topical Clip 格式",
+  "STMemoryBooks_Clip_ShowDisabled": "顯示已停用的 Clips",
+  "STMemoryBooks_TopicalClip_DisabledTargetHelp": "儲存時會啟用已停用的 Clip。",
+  "STMemoryBooks_ClipReview_TargetDisabled": "此 Clip 已停用。啟用後重新執行 Memory Assistance。",
+  "STMemoryBooks_Clip_SaveTemplate": "儲存",
   "STMemoryBooks_Progress_Explanation": "最後處理訊息標記記錄了哪些訊息已包含在儲存的記憶中，讓下一則記憶從正確的位置開始，並讓自動門檻只計算新訊息。當對應聊天已開啟且閒置時，可安全套用的待處理更新會自動套用。更新待處理期間，已儲存的記憶保持不變。",
   "STMemoryBooks_Progress_Reopen": "重新開啟聊天並更新標記",
   "STMemoryBooks_Progress_ReopenInfo": "重新開啟此聊天，將其標記更新至訊息 {{target}}。這會切換目前的聊天。",
@@ -1565,5 +1579,12 @@
   ,"STMemoryBooks_Reminder_ManualHelp": "關閉自動建立時，未處理的聊天訊息達到此數量後提醒，此後每增加相同數量的訊息就再次提醒。"
   ,"STMemoryBooks_Reminder_CommonHelp": "提醒會一直顯示，直到手動關閉，且不受「顯示通知」設定影響。"
   ,"STMemoryBooks_Reminder_AutomaticToast": "自動記憶摘要已逾期：有 {{count}} 則未處理的訊息。請檢查自動記憶設定或建立記憶。"
-  ,"STMemoryBooks_Reminder_ManualToast": "自上次記憶摘要以來已有 {{count}} 則訊息。請考慮建立記憶。"
+  ,"STMemoryBooks_Reminder_ManualToast": "自上次記憶摘要以來已有 {{count}} 則訊息。請考慮建立記憶。",
+  "STMemoryBooks_MemoryAssist_NoScene": "沒有目前場景。請指定訊息範圍：/memory-assist X-Y。",
+  "STMemoryBooks_SortAscending": "遞增",
+  "STMemoryBooks_SortDescending": "遞減",
+  "STMemoryBooks_SortUnsorted": "未排序",
+  "STMemoryBooks_Jobs_SortTitle": "工作標題",
+  "STMemoryBooks_Jobs_SortStatus": "狀態",
+  "STMemoryBooks_AutoRollback_UnhideUnsafe": "記憶回滾後訊息已發生變更，無法安全地取消隱藏訊息。手動取消隱藏前，請先檢查剩餘聊天。"
 }

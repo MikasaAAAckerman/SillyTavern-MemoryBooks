@@ -1,4 +1,18 @@
 {
+  "STMemoryBooks_TopicalClip_IncludeHiddenMessages": "Также использовать скрытые сообщения",
+  "STMemoryBooks_Clip_FormatRequired": "Формат должен содержать {{CONTENT}} ровно один раз.",
+  "STMemoryBooks_CombineClips_PromptRequired": "Запрос объединения должен содержать {{SOURCE_CLIPS}} ровно один раз.",
+  "STMemoryBooks_Clip_OutletNameRequired": "Укажите имя Outlet.",
+  "STMemoryBooks_CombineClips_EditPrompt": "Редактировать запрос объединения клипов",
+  "STMemoryBooks_CombineClips_EditFormat": "Редактировать формат объединённого клипа",
+  "STMemoryBooks_CombineClips_PromptHelp": "Используйте {{SOURCE_CLIPS}} ровно один раз. {{TITLE}} необязателен.",
+  "STMemoryBooks_Clip_FormatHelp": "Используйте {{CONTENT}} ровно один раз. {{TITLE}} необязателен.",
+  "STMemoryBooks_Clip_FormatPreview": "Предпросмотр",
+  "STMemoryBooks_TopicalClip_EditFormat": "Редактировать формат тематического клипа",
+  "STMemoryBooks_Clip_ShowDisabled": "Показать отключённые клипы",
+  "STMemoryBooks_TopicalClip_DisabledTargetHelp": "При сохранении отключённый клип будет включён.",
+  "STMemoryBooks_ClipReview_TargetDisabled": "Этот клип отключён. Включите его и снова запустите Memory Assistance.",
+  "STMemoryBooks_Clip_SaveTemplate": "Сохранить",
   "STMemoryBooks_Progress_Explanation": "Отметка последнего обработанного сообщения указывает, какие сообщения уже охвачены сохранёнными воспоминаниями, чтобы следующее воспоминание начиналось с нужного места, а автоматические пороги учитывали новые сообщения. Безопасные ожидающие обновления применяются автоматически, когда соответствующий чат открыт и не занят обработкой. Пока обновление ожидает применения, сохранённые воспоминания остаются нетронутыми.",
   "STMemoryBooks_Progress_Reopen": "Снова открыть чат и обновить отметку",
   "STMemoryBooks_Progress_ReopenInfo": "Снова откройте этот чат, чтобы обновить его отметку до сообщения {{target}}. Это переключит активный чат.",
@@ -1565,5 +1579,12 @@
   ,"STMemoryBooks_Reminder_ManualHelp": "При выключенном автосоздании напоминание появится после указанного числа необработанных сообщений чата, затем будет повторяться через такое же число новых сообщений."
   ,"STMemoryBooks_Reminder_CommonHelp": "Напоминания остаются видимыми до закрытия и работают независимо от настройки «Показывать уведомления»."
   ,"STMemoryBooks_Reminder_AutomaticToast": "Автоматическое создание сводок памяти задерживается: необработанных сообщений — {{count}}. Проверьте настройки автоматической памяти или создайте сводку памяти."
-  ,"STMemoryBooks_Reminder_ManualToast": "Сообщений с момента последней сводки памяти: {{count}}. Подумайте о создании сводки памяти."
+  ,"STMemoryBooks_Reminder_ManualToast": "Сообщений с момента последней сводки памяти: {{count}}. Подумайте о создании сводки памяти.",
+  "STMemoryBooks_MemoryAssist_NoScene": "Нет текущей сцены. Укажите диапазон сообщений: /memory-assist X-Y.",
+  "STMemoryBooks_SortAscending": "по возрастанию",
+  "STMemoryBooks_SortDescending": "по убыванию",
+  "STMemoryBooks_SortUnsorted": "без сортировки",
+  "STMemoryBooks_Jobs_SortTitle": "Название задачи",
+  "STMemoryBooks_Jobs_SortStatus": "Статус",
+  "STMemoryBooks_AutoRollback_UnhideUnsafe": "Сообщения изменились после отката воспоминания. Не удалось безопасно показать скрытые сообщения. Проверьте оставшийся чат, прежде чем показывать их вручную."
 }

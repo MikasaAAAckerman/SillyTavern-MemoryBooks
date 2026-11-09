@@ -4,19 +4,22 @@
 import { Popup, POPUP_RESULT, POPUP_TYPE } from '../../../popup.js';
 import { DOMPurify } from '../../../../lib.js';
 import { extension_settings } from '../../../extensions.js';
-import { chat_metadata } from '../../../../script.js';
+import { chat, chat_metadata } from '../../../../script.js';
+import { compileMessageRange } from './messageRange.js';
+import { getSceneMarkers } from './sceneManager.js';
 import { loadWorldInfo, METADATA_KEY, world_names } from '../../../world-info.js';
 import { translate } from '../../../i18n.js';
 import { escapeHtml } from '../../../utils.js';
+import { getPopupSort, mountListSort } from './viewSort.js';
 import { oai_settings } from '../../../openai.js';
-import { requestCompletion } from './stmemory.js';
+import { applySelectedRegex, requestCompletion } from './stmemory.js';
 import { toReadableText } from './chatcompile.js';
 import { getTemplate } from './sidePromptsManager.js';
 import { resolveSidePromptConnection } from './sidePrompts.js';
 import { getEntryByTitle, upsertLorebookEntryByTitle } from './addlore.js';
 import { applyClipReviewSuggestion, isClipEntryTitle, showTopicalClipPopup } from './clipManager.js';
-import { getCurrentManualLorebookResolution, markStmbPopup, withGoBackButton } from './utils.js';
-import { withStmbWriteLane } from './stmbJobs.js';
+import { createStmbInFlightTask, isStmbStopError, getCurrentManualLorebookResolution, markStmbPopup, withGoBackButton } from './utils.js';
+import { areStmbJobsEnabled, enqueueStmbJob, withStmbWriteLane } from './stmbJobs.js';
 import {
     CLIP_REVIEW_ENTRY_TITLE,
     CLIP_REVIEW_METADATA_KEY,
@@ -24,6 +27,7 @@ import {
     LEGACY_CLIP_REVIEW_ENTRY_TITLE,
     MEMORY_ASSISTANCE_MODE_AUTOMATIC,
     MEMORY_ASSISTANCE_MODE_OFF,
+    MEMORY_ASSISTANCE_MODE_UPDATE,
     MEMORY_ASSISTANCE_MODE_SUGGEST,
     MEMORY_ASSISTANCE_MODE_UPDATE_AND_SUGGEST,
     getMemoryAssistanceFailure,
@@ -53,7 +57,7 @@ function tr(key, fallback, params = null) {
 
 function getClipEntries(lorebookData) {
     return Object.values(lorebookData?.entries || {})
-        .filter(entry => isClipEntryTitle(entry?.comment || ''))
+        .filter(entry => isClipEntryTitle(entry?.comment || '') && !entry.disable)
         .sort((a, b) => String(a.comment || '').localeCompare(String(b.comment || '')));
 }
 
@@ -81,6 +85,9 @@ async function chooseClipRecords(records, lorebookName) {
             { text: tr('STMemoryBooks_ClipReview_QueryAll', 'Query All'), result: POPUP_RESULT.CUSTOM2, appendAtEnd: true },
         ],
     });
+    const choiceList = popup.dlg?.querySelector('.stmb-clip-review-choice')?.closest('div');
+    mountListSort(choiceList, getPopupSort(popup), { title: tr('STMemoryBooks_Entry', 'Entry') },
+        { title: row => row.querySelector('strong')?.textContent.trim() }, ':scope > label');
     markStmbPopup(popup);
     const result = await popup.show();
     if (result === POPUP_RESULT.CUSTOM2) return { status: 'selected', records };
@@ -144,6 +151,16 @@ async function requestMemoryAssistanceCompletion(template, profile, prompt, temp
     const maxTokens = Number(extension_settings?.STMemoryBooks?.moduleSettings?.maxTokens);
     if (Number.isFinite(maxTokens) && maxTokens > 0) extra.max_tokens = maxTokens;
     else if (oai_settings?.openai_max_tokens) extra.max_tokens = oai_settings.openai_max_tokens;
+    try {
+        const settings = extension_settings?.STMemoryBooks?.moduleSettings;
+        const selectedKeys = settings?.selectedRegexOutgoing;
+        if (settings?.useRegex && Array.isArray(selectedKeys) && selectedKeys.length > 0) {
+            prompt = applySelectedRegex(prompt, selectedKeys, { throwOnError: true });
+        }
+    } catch (e) {
+        console.warn('STMemoryBooks: Memory Assistance outgoing regex application failed', e);
+        throw e;
+    }
     const { text } = await requestCompletion({
         api: conn.api,
         model: conn.model || '',
@@ -158,6 +175,15 @@ async function requestMemoryAssistanceCompletion(template, profile, prompt, temp
         chatCompletionPreset: conn.chatCompletionPreset || '',
         signal,
     });
+    try {
+        const settings = extension_settings?.STMemoryBooks?.moduleSettings;
+        const selectedKeys = settings?.selectedRegexIncoming;
+        if (settings?.useRegex && Array.isArray(selectedKeys) && selectedKeys.length > 0) {
+            return applySelectedRegex(text || '', selectedKeys);
+        }
+    } catch (e) {
+        console.warn('STMemoryBooks: Memory Assistance incoming regex application failed', e);
+    }
     return text;
 }
 
@@ -443,6 +469,56 @@ export async function runClipReviewAfterMemory(compiledScene, profile = null, op
     return results;
 }
 
+export async function runMemoryAssistanceCommand(args = '') {
+    const task = createStmbInFlightTask('MemoryAssistance:manual');
+    try {
+        const settings = extension_settings?.STMemoryBooks || {};
+        const selectedMode = normalizeMemoryAssistanceMode(settings.moduleSettings?.memoryAssistanceMode,
+            settings.moduleSettings?.clipReviewAlwaysAfterMemory === true);
+        const mode = selectedMode === MEMORY_ASSISTANCE_MODE_OFF ? MEMORY_ASSISTANCE_MODE_UPDATE : selectedMode;
+        const raw = String(args || '').trim();
+        const match = raw.match(/^(\d+)\s*[-–—]\s*(\d+)$/);
+        if (raw && !match) throw new Error(tr('STMemoryBooks_Toast_InvalidRangeFormat', 'Invalid range format. Use X-Y'));
+        if (!chat.length) throw new Error(tr('STMemoryBooks_Toast_NoMessagesAvailable', 'No messages available.'));
+        const markers = match ? null : getSceneMarkers();
+        if (!match && (markers?.sceneStart == null || markers?.sceneEnd == null)) {
+            throw new Error(tr('STMemoryBooks_MemoryAssist_NoScene', 'No current scene. Specify a message range: /memory-assist X-Y.'));
+        }
+        const start = match ? Number(match[1]) : markers.sceneStart;
+        const end = match ? Number(match[2]) : markers.sceneEnd;
+        if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || end >= chat.length) {
+            throw new Error(tr('STMemoryBooks_Toast_InvalidRangeFormat', 'Invalid range format. Use X-Y'));
+        }
+        const lorebookName = getDefaultReviewLorebookName();
+        if (!lorebookName) throw new Error(tr('STMemoryBooks_Compaction_NoLorebooks', 'No Memory Books were found.'));
+        const compiledScene = await compileMessageRange(start, end);
+        if (task.signal.aborted) return '';
+        if (areStmbJobsEnabled()) {
+            const jobs = buildQueuedMemoryAssistanceJobs({
+                lorebookNames: [lorebookName], compiledScene,
+                settings: { moduleSettings: { memoryAssistanceMode: mode } },
+            });
+            for (const job of jobs) {
+                job.payload.trigger = 'manual';
+                enqueueStmbJob(job);
+            }
+        } else {
+            const results = await runClipReviewAfterMemory(compiledScene, null, {
+                lorebookName, mode, signal: task.signal, requireLorebook: true,
+            });
+            for (const result of results) {
+                const failure = getMemoryAssistanceFailure(result);
+                if (failure) throw new Error(failure.message);
+            }
+        }
+    } catch (error) {
+        if (!isStmbStopError(error)) toastr.error(error.message, 'STMemoryBooks');
+    } finally {
+        task.finish();
+    }
+    return '';
+}
+
 export function buildQueuedMemoryAssistanceJobs({ lorebookNames = [], compiledScene, profile = null, settings = null } = {}) {
     const moduleSettings = settings?.moduleSettings
         || extension_settings?.STMemoryBooks?.moduleSettings
@@ -569,7 +645,9 @@ function collectTopicSuggestionRows(container, existingRecords) {
         .filter(Boolean));
     const accepted = new Set();
     const selected = [];
-    for (const [index, row] of Array.from(container?.querySelectorAll('.stmb-clip-topic-row') || []).entries()) {
+    const canonicalRows = Array.from(container?.querySelectorAll('.stmb-clip-topic-row') || [])
+        .sort((a, b) => Number(a.dataset.originalIndex) - Number(b.dataset.originalIndex));
+    for (const [index, row] of canonicalRows.entries()) {
         if (!row.querySelector('.stmb-clip-topic-selected')?.checked) continue;
         const topic = String(row.querySelector('.stmb-clip-topic-name')?.value || '').replace(/\s+/g, ' ').trim();
         const normalizedTopic = topic.toLocaleLowerCase();
@@ -606,6 +684,9 @@ async function showClipTopicSuggestionsPopup(lorebookName, options = {}) {
     markStmbPopup(popup);
     const showPromise = popup.show();
     const rows = popup.dlg?.querySelector('#stmb-clip-topic-rows');
+    rows?.querySelectorAll('.stmb-clip-topic-row').forEach((row, index) => { row.dataset.originalIndex = String(index); });
+    mountListSort(rows, getPopupSort(popup), { topic: tr('STMemoryBooks_TopicalClip_Topic', 'Topic') },
+        { topic: row => row.querySelector('.stmb-clip-topic-name')?.value.trim() }, ':scope > .stmb-clip-topic-row');
     let addedRowCount = 0;
     popup.dlg?.querySelector('#stmb-clip-topic-add')?.addEventListener('click', () => {
         addedRowCount++;
@@ -614,7 +695,11 @@ async function showClipTopicSuggestionsPopup(lorebookName, options = {}) {
             topic: '',
             keywords: [],
         }])));
-        rows?.querySelector('.stmb-clip-topic-row:last-child .stmb-clip-topic-name')?.focus();
+        const addedRow = rows?.querySelector('.stmb-clip-topic-row:last-child');
+        if (addedRow) addedRow.dataset.originalIndex = String(metadata.topicSuggestions.length + addedRowCount - 1);
+        mountListSort(rows, getPopupSort(popup), { topic: tr('STMemoryBooks_TopicalClip_Topic', 'Topic') },
+            { topic: row => row.querySelector('.stmb-clip-topic-name')?.value.trim() }, ':scope > .stmb-clip-topic-row');
+        addedRow?.querySelector('.stmb-clip-topic-name')?.focus();
     });
     if (await showPromise !== POPUP_RESULT.AFFIRMATIVE) return;
 
@@ -659,7 +744,7 @@ export async function showClipReviewSuggestionsPopup(options = {}) {
     const render = () => {
         const container = popup.dlg?.querySelector('#stmb-clip-review-suggestions');
         if (!container) return;
-        const candidates = metadata?.candidates || [];
+        const candidates = (metadata?.candidates || []).filter(candidate => Object.values(lorebookData?.entries || {}).some(entry => String(entry?.uid ?? entry?.id ?? '') === String(candidate.uid) && !entry.disable));
         const candidateHtml = candidates.length ? candidates.map(candidate => {
             const currentEntry = Object.values(lorebookData?.entries || {}).find(entry => String(entry?.uid ?? entry?.id ?? '') === String(candidate.uid));
             return `
@@ -686,6 +771,8 @@ export async function showClipReviewSuggestionsPopup(options = {}) {
         container.innerHTML = (candidateHtml || topicHtml)
             ? `${topicHtml}${candidateHtml}`
             : `<div class="opacity70p">${escapeHtml(tr('STMemoryBooks_ClipReview_NoSuggestions', 'There are no current Memory Assistance suggestions.'))}</div>`;
+        mountListSort(container, getPopupSort(popup), { title: tr('STMemoryBooks_Entry', 'Entry') },
+            { title: row => row.querySelector('h4')?.textContent.trim() }, ':scope > section[data-clip-review-uid]');
     };
     const saveRemaining = async () => {
         await persistClipReviewMetadata(lorebookName, metadata);

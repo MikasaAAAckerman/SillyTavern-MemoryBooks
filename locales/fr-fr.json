@@ -1,4 +1,18 @@
 {
+  "STMemoryBooks_TopicalClip_IncludeHiddenMessages": "Utiliser aussi les messages cachés",
+  "STMemoryBooks_Clip_FormatRequired": "Le format doit contenir {{CONTENT}} une seule fois.",
+  "STMemoryBooks_CombineClips_PromptRequired": "Le prompt de combinaison doit contenir {{SOURCE_CLIPS}} une seule fois.",
+  "STMemoryBooks_Clip_OutletNameRequired": "Saisissez un nom d’Outlet.",
+  "STMemoryBooks_CombineClips_EditPrompt": "Modifier le prompt de combinaison",
+  "STMemoryBooks_CombineClips_EditFormat": "Modifier le format combiné",
+  "STMemoryBooks_CombineClips_PromptHelp": "Utilisez {{SOURCE_CLIPS}} une seule fois. {{TITLE}} est facultatif.",
+  "STMemoryBooks_Clip_FormatHelp": "Utilisez {{CONTENT}} une seule fois. {{TITLE}} est facultatif.",
+  "STMemoryBooks_Clip_FormatPreview": "Aperçu",
+  "STMemoryBooks_TopicalClip_EditFormat": "Modifier le format thématique",
+  "STMemoryBooks_Clip_ShowDisabled": "Afficher les clips désactivés",
+  "STMemoryBooks_TopicalClip_DisabledTargetHelp": "L’enregistrement activera le clip désactivé.",
+  "STMemoryBooks_ClipReview_TargetDisabled": "Ce clip est désactivé. Activez-le puis relancez Memory Assistance.",
+  "STMemoryBooks_Clip_SaveTemplate": "Enregistrer",
   "STMemoryBooks_Progress_Explanation": "Le repère du dernier message traité indique quels messages sont déjà couverts par les mémoires enregistrées, pour que la prochaine mémoire commence au bon endroit et que les seuils automatiques comptent les nouveaux messages. Les mises à jour en attente sans conflit sont appliquées automatiquement lorsque leur chat est ouvert et qu’aucun traitement n’est en cours. Les mémoires enregistrées restent intactes pendant ce temps.",
   "STMemoryBooks_Progress_Reopen": "Rouvrir le chat et mettre à jour le repère",
   "STMemoryBooks_Progress_ReopenInfo": "Rouvrez ce chat pour mettre à jour son repère jusqu’au message {{target}}. Cela change le chat actif.",
@@ -1565,5 +1579,12 @@
   ,"STMemoryBooks_Reminder_ManualHelp": "Lorsque la création automatique est désactivée, affiche un rappel après ce nombre de messages du chat non traités, puis après chaque nouveau groupe de ce nombre de messages."
   ,"STMemoryBooks_Reminder_CommonHelp": "Les rappels restent visibles jusqu’à leur fermeture et fonctionnent indépendamment de l’option Afficher les notifications."
   ,"STMemoryBooks_Reminder_AutomaticToast": "Les résumés de mémoire automatiques sont en retard : {{count}} messages non traités. Vérifiez les réglages des mémoires automatiques ou créez une mémoire."
-  ,"STMemoryBooks_Reminder_ManualToast": "Il y a {{count}} messages depuis votre dernier résumé de mémoire. Pensez à créer une mémoire."
+  ,"STMemoryBooks_Reminder_ManualToast": "Il y a {{count}} messages depuis votre dernier résumé de mémoire. Pensez à créer une mémoire.",
+  "STMemoryBooks_MemoryAssist_NoScene": "Aucune scène en cours. Indiquez une plage de messages : /memory-assist X-Y.",
+  "STMemoryBooks_SortAscending": "croissant",
+  "STMemoryBooks_SortDescending": "décroissant",
+  "STMemoryBooks_SortUnsorted": "non trié",
+  "STMemoryBooks_Jobs_SortTitle": "Titre de la tâche",
+  "STMemoryBooks_Jobs_SortStatus": "Statut",
+  "STMemoryBooks_AutoRollback_UnhideUnsafe": "Les messages ont changé depuis l'annulation de la mémoire. Les messages masqués n'ont pas pu être réaffichés en toute sécurité. Vérifiez le chat restant avant de les réafficher manuellement."
 }

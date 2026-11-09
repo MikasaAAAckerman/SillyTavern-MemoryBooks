@@ -1,4 +1,18 @@
 {
+  "STMemoryBooks_TopicalClip_IncludeHiddenMessages": "Auch versteckte Nachrichten verwenden",
+  "STMemoryBooks_Clip_FormatRequired": "Das Format muss {{CONTENT}} genau einmal enthalten.",
+  "STMemoryBooks_CombineClips_PromptRequired": "Der Prompt zum Zusammenführen muss {{SOURCE_CLIPS}} genau einmal enthalten.",
+  "STMemoryBooks_Clip_OutletNameRequired": "Outlet-Namen eingeben.",
+  "STMemoryBooks_CombineClips_EditPrompt": "Prompt zum Zusammenführen bearbeiten",
+  "STMemoryBooks_CombineClips_EditFormat": "Format für zusammengeführte Clips bearbeiten",
+  "STMemoryBooks_CombineClips_PromptHelp": "{{SOURCE_CLIPS}} genau einmal verwenden. {{TITLE}} ist optional.",
+  "STMemoryBooks_Clip_FormatHelp": "{{CONTENT}} genau einmal verwenden. {{TITLE}} ist optional.",
+  "STMemoryBooks_Clip_FormatPreview": "Vorschau",
+  "STMemoryBooks_TopicalClip_EditFormat": "Themen-Clip-Format bearbeiten",
+  "STMemoryBooks_Clip_ShowDisabled": "Deaktivierte Clips anzeigen",
+  "STMemoryBooks_TopicalClip_DisabledTargetHelp": "Beim Speichern wird ein deaktivierter Clip aktiviert.",
+  "STMemoryBooks_ClipReview_TargetDisabled": "Dieser Clip ist deaktiviert. Aktiviere ihn und starte Memory Assistance erneut.",
+  "STMemoryBooks_Clip_SaveTemplate": "Speichern",
   "STMemoryBooks_Progress_Explanation": "Die Markierung der zuletzt verarbeiteten Nachricht hält fest, welche Nachrichten bereits durch gespeicherte Erinnerungen abgedeckt sind. So beginnt die nächste Erinnerung an der richtigen Stelle und automatische Schwellenwerte zählen neue Nachrichten. Sichere ausstehende Aktualisierungen werden automatisch angewendet, sobald der zugehörige Chat geöffnet ist und keine Verarbeitung läuft. Gespeicherte Erinnerungen bleiben währenddessen erhalten.",
   "STMemoryBooks_Progress_Reopen": "Chat erneut öffnen und Markierung aktualisieren",
   "STMemoryBooks_Progress_ReopenInfo": "Öffne diesen Chat erneut, um seine Markierung bis Nachricht {{target}} zu aktualisieren. Dadurch wechselst du den aktiven Chat.",
@@ -1565,5 +1579,12 @@
   ,"STMemoryBooks_Reminder_ManualHelp": "Bei deaktivierter automatischer Erstellung erfolgt die Erinnerung nach dieser Anzahl unverarbeiteter Chatnachrichten, danach jeweils nach ebenso vielen weiteren Nachrichten."
   ,"STMemoryBooks_Reminder_CommonHelp": "Erinnerungen bleiben sichtbar, bis sie geschlossen werden, und funktionieren unabhängig von „Benachrichtigungen anzeigen“."
   ,"STMemoryBooks_Reminder_AutomaticToast": "Automatische Erinnerungs-Zusammenfassungen sind überfällig: {{count}} unverarbeitete Nachrichten. Prüfe die Einstellungen für automatische Erinnerungen oder erstelle eine Erinnerung."
-  ,"STMemoryBooks_Reminder_ManualToast": "Seit deiner letzten Erinnerungs-Zusammenfassung sind {{count}} Nachrichten hinzugekommen. Erwäge, eine Erinnerung zu erstellen."
+  ,"STMemoryBooks_Reminder_ManualToast": "Seit deiner letzten Erinnerungs-Zusammenfassung sind {{count}} Nachrichten hinzugekommen. Erwäge, eine Erinnerung zu erstellen.",
+  "STMemoryBooks_MemoryAssist_NoScene": "Keine aktuelle Szene. Nachrichtenbereich angeben: /memory-assist X-Y.",
+  "STMemoryBooks_SortAscending": "aufsteigend",
+  "STMemoryBooks_SortDescending": "absteigend",
+  "STMemoryBooks_SortUnsorted": "unsortiert",
+  "STMemoryBooks_Jobs_SortTitle": "Auftragstitel",
+  "STMemoryBooks_Jobs_SortStatus": "Status",
+  "STMemoryBooks_AutoRollback_UnhideUnsafe": "Die Nachrichten haben sich seit dem Memory-Rollback geändert. Verborgene Nachrichten konnten nicht sicher wieder eingeblendet werden. Prüfe den verbleibenden Chat, bevor du sie manuell einblendest."
 }
